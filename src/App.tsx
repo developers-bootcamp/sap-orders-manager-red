@@ -10,11 +10,11 @@ import Login from "./pages/login/login";
 function App() {
   return (
     <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<Login />} />
-              </ Routes>
-            </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+      </ Routes>
+    </BrowserRouter>
     // <div className="App">
 
     //   <SignUpComp></SignUpComp>

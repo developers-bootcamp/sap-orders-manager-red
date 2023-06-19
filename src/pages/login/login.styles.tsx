@@ -12,19 +12,19 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
   }),
-);
+); 
 
-export default function LoginComp() {
+ const LoginComp = ()=> {
   const classes = useStyles();
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="email" label="email" variant="email" />
-      <TextField id="password" label="password" variant="password" />
+      {/* <TextField id="email" label="email" variant="outlined" />
+      <TextField id="password" label="password" variant="outlined" />
       <Button variant="contained" color="primary" disableElevation>
       Login
-     </Button>
+     </Button> */}
     </form>
   );
 }
 
-
+export default LoginComp;
