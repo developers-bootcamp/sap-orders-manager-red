@@ -14,7 +14,7 @@ const schema = Yup.object().shape({
   password: Yup.string()
     .required("Password is a required field")
     .min(8, "Password must be at least 8 characters"),
-  emailAddress: Yup.string()
+  email: Yup.string()
     .required("Email is a required field")
     .email("Invalid email format"),
 });
@@ -46,7 +46,7 @@ function SignUpComp() {
       {/* Wrapping form inside formik tag and passing our schema to validationSchema prop */}
       <Formik
         validationSchema={schema}
-        initialValues={{fullName:"", companyName: "",  password: "", emailAddress: ""}}
+        initialValues={{fullName:"", companyName: "",  password: "", email: ""}}
         onSubmit={(values) => {
           // Alert the input values of the form that we filled
           alert(JSON.stringify(values));
@@ -98,14 +98,14 @@ function SignUpComp() {
                   name="email"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.emailAddress}
+                  value={values.email}
                   placeholder="Enter email id / username"
                   className="form-control inp_text"
                   id="email"
                 />
                 {/* If validation is not passed show errors */}
                 <p className="error">
-                  {errors.emailAddress && touched.emailAddress && errors.emailAddress}
+                  {errors.email && touched.email && errors.email}
                 </p>
                  {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                 <input
