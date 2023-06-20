@@ -1,4 +1,4 @@
-import LoginComp from "./login.styles"
+import LoginComp from "../components/login.styles"
 
 const Login = () => {
     return (

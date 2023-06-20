@@ -1,5 +1,5 @@
 import React from "react";
-import "./signup.css";
+import "../styles/signup.css";
 import { Formik } from "formik";
 import * as Yup from "yup";
 // import axios from "axios";
