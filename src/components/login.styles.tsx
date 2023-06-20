@@ -2,8 +2,8 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useNavigate } from "react-router-dom";
-
+import SignUpComp from "./signup";
+// import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
  const LoginComp = ()=> {
   const classes = useStyles();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <TextField id="email" label="email" variant="outlined" />
@@ -25,9 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
        <Button variant="contained" color="primary" disableElevation>
        Login
       </Button>
-      <Button variant="contained" color="primary" onClick={()=>{navigate("/signUp")}} disableElevation>
+      <SignUpComp></SignUpComp>
+      {/* <Button variant="contained" color="primary" onClick={()=>{navigate("/signUp")}} disableElevation>
        signUp
-      </Button>
+      </Button> */}
     </form>
   );
 }
