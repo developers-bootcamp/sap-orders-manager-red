@@ -1,4 +1,4 @@
-// import { Action } from "redux";
+import { Reducer, Action } from "redux";
 
 const initialState = {
   orders: [],
@@ -6,7 +6,7 @@ const initialState = {
   shouldDisplayErrorMessage: false,
 };
 
-export const ordersReducer = (state = initialState, action: Action) => {
+const ordersReducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case "ADD_ORDER":
       return {
@@ -16,7 +16,7 @@ export const ordersReducer = (state = initialState, action: Action) => {
     case "REMOVE_ORDER":
       return {
         ...state,
-        orders: state.orders.filter((order) => order !== action.payload),
+        orders: state.orders.filter((order) => order.id !== action.payload),
       };
     case "SET_ERROR_MESSAGE":
       return {
@@ -34,3 +34,20 @@ export const ordersReducer = (state = initialState, action: Action) => {
       return state;
   }
 };
+
+export default ordersReducer;
+// const initialState = {
+//   orders: [],
+//   errorMessage: "",
+//   shouldDisplayErrorMessage: false
+//   };
+  
+//   const ordersReducer = (state = initialState, action: any) => {
+//   switch (action.type) {
+//   // handle different actions here
+//   default:
+//   return state;
+//   }
+//   };
+  
+//   export default ordersReducer;
