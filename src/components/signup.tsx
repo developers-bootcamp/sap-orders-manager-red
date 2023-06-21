@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import User from "../interface/user";
+import imgToLoud from "../img/ggg.png";
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field'),
   companyName: Yup.string().required('Company name is a required field'),
@@ -51,7 +52,7 @@ const SignUpComp: React.FC = () => {
     // formData.append("email", values.email);
     // formData.append("password", values.password);
 
-    const user:User = ({fullName:values.fullName, password:values.password, email:values.email});
+    const user: User = ({ fullName: values.fullName, password: values.password, email: values.email });
 
     console.log(values);
 
@@ -72,64 +73,71 @@ const SignUpComp: React.FC = () => {
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogContent>
-          <Formik
-            validationSchema={schema}
-            initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
-            onSubmit={signUpFetch}
-          >
-            {({ isValid }) => (
-              <Form>
-                <Field type="text" name="fullName" placeholder="Enter your name" as={TextField} />
-                <ErrorMessage name="fullName" component="div" />
+          <div>
+            <div style={{ display: 'inline-block' }}>
+              <Formik
+                validationSchema={schema}
+                initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
+                onSubmit={signUpFetch}
+              >
+                {({ isValid }) => (
+                  <Form>
+                    <Field type="text" name="fullName" placeholder="Enter your name" as={TextField} />
+                    <ErrorMessage name="fullName" component="div" />
 
-                <Field type="text" name="companyName" placeholder="Enter company name" as={TextField} />
-                <ErrorMessage name="companyName" component="div" />
+                    <Field type="text" name="companyName" placeholder="Enter company name" as={TextField} />
+                    <ErrorMessage name="companyName" component="div" />
 
-                <Field type="email" name="email" placeholder="Enter email id / username" as={TextField} />
-                <ErrorMessage name="email" component="div" />
+                    <Field type="email" name="email" placeholder="Enter email id / username" as={TextField} />
+                    <ErrorMessage name="email" component="div" />
 
-                <Field name="password">
-                  {({ field }: any) => (
-                    <OutlinedInput
-                      {...field} type={showPassword ? 'text' : "password"}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
+                    <Field name="password">
+                      {({ field }: any) => (
+                        <OutlinedInput
+                          {...field} type={showPassword ? 'text' : "password"}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
 
-                      }
-                      label="Password" placeholder="Enter password"
-                    />
-                  )}
-                </Field>
-                <ErrorMessage name="password" component="div" />
-                <Field name="agree">
-                  {({ field }: any) => (
-                    <FormControlLabel
-                      {...field} type={showPassword ? 'text' : "password"}
-                      control={<Checkbox />}
-                      label="I agree to the Terms of Service and Privacy Policy"
-                    />
-                  )}
-                </Field>
-                <ErrorMessage name="agree" component="div" />
+                          }
+                          label="Password" placeholder="Enter password"
+                        />
+                      )}
+                    </Field>
+                    <ErrorMessage name="password" component="div" />
+                    <Field name="agree">
+                      {({ field }: any) => (
+                        <FormControlLabel
+                          {...field} type={showPassword ? 'text' : "password"}
+                          control={<Checkbox />}
+                          label="I agree to the Terms of Service and Privacy Policy"
+                        />
+                      )}
+                    </Field>
+                    <ErrorMessage name="agree" component="div" />
 
-                <Button type="submit" disabled={!isValid} >
-                  signUp
-                </Button>
-              </Form>
-            )}
-          </Formik>        
-          {error && <TextField value={error} InputProps={{ style: { color: "red" } }} />}
-
-        </DialogContent>    
+                    <Button type="submit" disabled={!isValid} >
+                      signUp
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+              {error && <TextField value={error} InputProps={{ style: { color: "red" } }} />}
+            </div>
+            <div style={{ display: 'inline-block' }}>
+              <img src={imgToLoud} alt=""/>
+            </div>
+          </div>   
+   
+        </DialogContent>
       </Dialog>
     </div>
   );
