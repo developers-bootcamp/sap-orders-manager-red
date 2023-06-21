@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import {AnyAction} from 'redux';
-import {Order} from "../reducer/orderReducer"
+import { AnyAction } from 'redux';
+import { Order } from "../reducer/orderReducer"
 import { GET_ALL_ORDERS_URL } from "../../config/config";
 ///לבדוק מה הקשר של redux לכאן
 // Action types
