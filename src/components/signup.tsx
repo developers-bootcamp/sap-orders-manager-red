@@ -9,7 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-
+import User from "../interface/user";
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field'),
   companyName: Yup.string().required('Company name is a required field'),
@@ -45,15 +45,17 @@ const SignUpComp: React.FC = () => {
   const navigate = useNavigate();
 
   const signUpFetch = async (values: any) => {
-    const formData = new FormData();
-    formData.append("fullName", values.fullName);
-    formData.append("companyName", values.companyName);
-    formData.append("email", values.email);
-    formData.append("password", values.password);
+    // const formData = new FormData();
+    // formData.append("fullName", values.fullName);
+    // formData.append("companyName", values.companyName);
+    // formData.append("email", values.email);
+    // formData.append("password", values.password);
+
+    const user:User = ({fullName:values.fullName, password:values.password, email:values.email});
 
     console.log(values);
 
-    axios.post("http://localhost:3600/api/signUp", { formData }).then(res => {
+    axios.post("http://localhost:3600/api/signUp", { user }).then(res => {
       console.log(res);
       navigate("/");
     }
