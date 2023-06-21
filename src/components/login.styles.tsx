@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useNavigate } from "react-router-dom";
+import SignUpComp from './signup';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
        <Button variant="contained" color="primary" disableElevation>
        Login
       </Button>
-      <Button variant="contained" color="primary" onClick={()=>{navigate("/signUp")}} disableElevation>
-       signUp
-      </Button>
+      {/* <Button variant="contained" color="primary" onClick={()=>{navigate("/signUp")}} disableElevation> */}
+      <SignUpComp></SignUpComp>
+
     </form>
   );
 }
