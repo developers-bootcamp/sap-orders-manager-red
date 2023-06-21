@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 import SignUpComp from "./signup";
 import { useState } from 'react';
 import { logIn } from '../axios/userAxios';
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -21,13 +22,15 @@ const LoginComp = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const navigate = useNavigate()
+
   const logInAndSetToken = () => {
     debugger
     console.log("login", email, password)
     if (email || password) {
       logIn(email, password).then(res => {
-        debugger
         window.localStorage.setItem("userToken", res.data)
+        navigate("/")
       })
     }
   }
