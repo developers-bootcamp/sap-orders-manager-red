@@ -52,7 +52,7 @@ const SignUpComp: React.FC = () => {
     // formData.append("email", values.email);
     // formData.append("password", values.password);
 
-    const user:User = ({fullName:values.fullName, password:values.password, email:values.email});
+    const user: User = ({ fullName: values.fullName, password: values.password, email: values.email });
 
     console.log(values);
 
@@ -127,10 +127,10 @@ const SignUpComp: React.FC = () => {
                 </Button>
               </Form>
             )}
-          </Formik>        
+          </Formik>
           {error && <TextField value={error} InputProps={{ style: { color: "red" } }} />}
 
-        </DialogContent>    
+        </DialogContent>
       </Dialog>
     </div>
   );
