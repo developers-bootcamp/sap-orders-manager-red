@@ -39,6 +39,7 @@ const SignUpComp: React.FC = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
   const handleSignUp = (values: any) => {
     // Handle form submission or API call here
     console.log(values);
