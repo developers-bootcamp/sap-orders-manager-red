@@ -28,6 +28,8 @@ export const fetchAllOrders = () => {
     dispatch(fetchAllOrdersRequest());
 
     // Make the API call to fetch all orders
+    
+    //change to axios request
     fetch(GET_ALL_ORDERS_URL)
       .then((response) => response.json())
       .then((data) => {
