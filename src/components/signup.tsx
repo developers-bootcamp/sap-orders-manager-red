@@ -7,8 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import useStyles from './signUp.styles'
-import giftsImg from "../img/gifts.png"
+import useStyles from './signUp.styles';
+// import giftsImg from '../img/gifts.png';
 
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
@@ -117,7 +117,7 @@ const SignUpComp: React.FC = () => {
               </Formik>
             </div>
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
-              <img className={classes.giftImg} src={giftsImg} alt='giftImg'/>
+              {/* <img className={classes.giftImg} src={giftsImg} alt='giftImg'/> */}
               <div className={classes.txtSide}>
                 Fill in your details so you can login later</div>               
             </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -26,10 +26,10 @@ const LoginComp = () => {
     debugger
     console.log("login", email, password)
     if (email || password) {
-      logIn(email, password).then(res => {
-        window.localStorage.setItem("userToken", res.data)
-        navigate("/")
-      })
+      // logIn(email, password).then(res => {
+      //   window.localStorage.setItem("userToken", res.data)
+      //   navigate("/")
+      // })
     }
   }
 
