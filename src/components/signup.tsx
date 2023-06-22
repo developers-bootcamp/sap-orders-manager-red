@@ -30,6 +30,7 @@ const SignUpComp: React.FC = () => {
     setOpen(true);
   };
 
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -69,7 +70,6 @@ const SignUpComp: React.FC = () => {
                     <FormHelperText>Company Name</FormHelperText>
                     <Field className={classes.txtField} type="text" name="companyName" as={TextField} />
                     <ErrorMessage className={classes.msdError} name="companyName" component="div" />
-
 
                     <FormHelperText >Password</FormHelperText>
                     <Field name="password">
@@ -121,17 +121,13 @@ const SignUpComp: React.FC = () => {
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
               <img className={classes.giftImg} src={giftsImg} alt='giftImg'/>
               <div className={classes.txtSide}>
-                Fill in your details so you can login later</div>
-                
+                Fill in your details so you can login later</div>               
             </div>
           </div>
-
         </DialogContent>
       </Dialog>
     </div>
   );
 };
-
-
 
 export default SignUpComp;
