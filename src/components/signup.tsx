@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import User from "../interface/user";
+
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field'),
   companyName: Yup.string().required('Company name is a required field'),
