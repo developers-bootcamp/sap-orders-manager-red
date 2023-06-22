@@ -5,6 +5,7 @@ const Login = () => {
         <>
             <p>login component here</p>
             <LoginComp></LoginComp>
+
         </>
     )
 }
