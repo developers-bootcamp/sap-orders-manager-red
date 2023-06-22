@@ -10,8 +10,6 @@ import { FormHelperText } from '@mui/material';
 import useStyles from './signUp.styles'
 import giftsImg from "../img/gifts.png"
 
-
-// Creating schema
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
   companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
