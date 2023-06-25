@@ -45,7 +45,7 @@ interface TabPanelProps {
   }
   
 
-  const componentArray = [CatalogManager, Dashboard, PendingOrders,UserManagements];  
+  const componentArray = [PendingOrders, Dashboard, CatalogManager,UserManagements];  
 
 const LandingPage = () => {
  
