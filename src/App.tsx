@@ -12,7 +12,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+
         <Route path="/login" element={<LogIn />} />
+
+        {/* <Route path="/catalogManager" element={<CatalogManager />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/pendingOrders" element={<PendingOrders />} />
+        <Route path="/usersManagement" element={<UserManagements />} /> */}
+        {/* <Route path="/signUp" element={<SignUpComp />} /> */}
+
       </ Routes>
     </BrowserRouter>
   );
