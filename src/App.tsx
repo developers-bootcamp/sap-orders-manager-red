@@ -2,8 +2,10 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
-import LandingPage from "./pages/landing";
-import { LogIn } from './pages/login';
+
+import LandingPage from "./pages/landingPage";
+import Login from "./pages/login";
+
 
 function App() {
   return (
