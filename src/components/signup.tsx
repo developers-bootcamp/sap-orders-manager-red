@@ -9,6 +9,7 @@ import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, Input
 import { FormHelperText } from '@mui/material';
 import useStyles from './signUp.styles'
 import giftsImg from "../img/gifts.png"
+import SingUpForm from './SignUpForm';
 
 const schema = Yup.object().shape({
   fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
@@ -50,76 +51,16 @@ const SignUpComp: React.FC = () => {
         Sign Up
       </Link>
       <Dialog className={classes.dialog} open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogContent  className={classes.dialogContent} >
+        <DialogContent className={classes.dialogContent} >
           <div >
             <div className={classes.detailsDiv} style={{ display: 'inline-block' }}>
               <DialogTitle>Set up your account</DialogTitle>
-              <Formik
-                validationSchema={schema}
-                initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
-                onSubmit={handleSignUp}
-              >
-                {({ isValid }) => (
-                  <Form>
-                    <FormHelperText>Full name</FormHelperText>
-                    <Field className={classes.txtField} type="text" name="fullName" as={TextField} />
-                    <ErrorMessage className={classes.msdError} name="fullName" component="div" />
-
-                    <FormHelperText>Company Name</FormHelperText>
-                    <Field className={classes.txtField} type="text" name="companyName" as={TextField} />
-                    <ErrorMessage className={classes.msdError} name="companyName" component="div" />
-
-                    <FormHelperText >Password</FormHelperText>
-                    <Field name="password">
-                      {({ field }: any) => (
-                        <OutlinedInput className={classes.txtField}
-                          {...field} type={showPassword ? 'text' : "password"}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                              >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
-                            </InputAdornment>
-                          }
-                          label="Password"
-                        />
-                      )}
-                    </Field>
-                    <ErrorMessage className={classes.msdError} name="password" component="div" />
-
-                    <FormHelperText>Email address</FormHelperText>
-                    <Field className={classes.txtField} type="email" name="email" as={TextField} />
-                    <ErrorMessage className={classes.msdError} name="email" component="div" />
-
-
-                    <Field name="agree" >
-                      {({ field }: any) => (
-                        <FormControlLabel
-                          {...field} type={showPassword ? 'text' : "password"}
-                          control={<Checkbox />}
-                          label={`I agree to the  Terms of Service and Privacy Policy`}
-
-                        />
-                      )}
-                    </Field>
-                    <ErrorMessage className={classes.msdError} name="agree" component="div" />
-                    <br />
-                    <Button className={classes.btnSignUp} type="submit" disabled={!isValid}>
-                      sign Up
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
+              <SingUpForm></SingUpForm>
             </div>
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
-              <img className={classes.giftImg} src={giftsImg} alt='giftImg'/>
+              <img className={classes.giftImg} src={giftsImg} alt='giftImg' />
               <div className={classes.txtSide}>
-                Fill in your details so you can login later</div>               
+                Fill in your details so you can login later</div>
             </div>
           </div>
         </DialogContent>
