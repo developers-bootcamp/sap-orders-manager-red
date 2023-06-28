@@ -1,5 +1,4 @@
 import React from 'react';
-import Landing from '../components/landing';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -46,7 +45,7 @@ interface TabPanelProps {
   }
   
 
-  const componentArray = [CatalogManager, Dashboard, PendingOrders,UserManagements];  
+  const componentArray = [PendingOrders, Dashboard, CatalogManager,UserManagements];  
 
 const LandingPage = () => {
  
@@ -59,12 +58,6 @@ const LandingPage = () => {
     const SelectedComponent = componentArray[value];
   
     return (
-        <>
-            <p>landingPage component here</p>
-            <Landing></Landing>
-        </>
-    )
-}
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
