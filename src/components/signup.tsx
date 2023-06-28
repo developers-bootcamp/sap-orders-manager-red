@@ -8,8 +8,18 @@ import { FormHelperText } from '@mui/material';
 import useStyles from './signUp.styles'
 import giftsImg from "../img/gifts.png"
 import SingUpForm from './SignUpForm';
-import useStyles from './signUp.styles';
-import giftsImg from '../img/gifts.png';
+const SignUpComp: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
 
   return (
