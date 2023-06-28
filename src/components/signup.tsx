@@ -1,12 +1,6 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import { Label, Visibility, VisibilityOff } from '@mui/icons-material';
-import DialogContent from '@mui/material/DialogContent';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
-import { FormHelperText } from '@mui/material';
+import {  DialogContent, DialogTitle, Link } from '@mui/material';
 import useStyles from './signUp.styles';
 import SingUpForm from './SignUpForm';
 
