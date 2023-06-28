@@ -2,10 +2,8 @@ import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import {  DialogContent, DialogTitle, Link } from '@mui/material';
 import useStyles from './signUp.styles';
-import SingUpForm from './SignUpForm';
 
-
-const SignUpComp = (props:any) => {
+const GlobalModel = (props:any) => {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const handleClickOpen = () => {
@@ -28,7 +26,7 @@ const SignUpComp = (props:any) => {
           <div >
             <div className={classes.detailsDiv} style={{ display: 'inline-block' }}>
               <DialogTitle> {props.title}</DialogTitle>
-             <SingUpForm></SingUpForm>
+              {props.children}
             </div>
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
               <img className={classes.giftImg} src={props.img} alt='giftImg'/>
@@ -42,4 +40,4 @@ const SignUpComp = (props:any) => {
   );
 };
 
-export default SignUpComp;
+export default GlobalModel;
