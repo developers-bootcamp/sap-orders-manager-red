@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import {  DialogContent, DialogTitle, Link } from '@mui/material';
-import useStyles from './signUp.styles';
+import useStyles from '../styles/signUp.styles';
 
 const GlobalModel = (props:any) => {
   const [open, setOpen] = React.useState(false);

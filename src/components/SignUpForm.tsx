@@ -8,7 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import useStyles from './signUp.styles';
+import useStyles from '../styles/signUp.styles';
 
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),

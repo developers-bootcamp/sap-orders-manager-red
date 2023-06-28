@@ -7,7 +7,7 @@ const PendingOrders: React.FC = () => {
   
   return <>
    <p>pendingOrders component</p>
-    <GlobalModel btnOpen={"Sign Up"} title={"Set up your account"} img={giftsImg} txtSide={" Fill in your details so you can login later"}>
+    <GlobalModel btnOpen={"Sign Up"} title={"new order"} img={giftsImg} txtSide={" we are almost done"}>
       <NewOrderForm></NewOrderForm>
     </GlobalModel>
   </>

@@ -9,20 +9,25 @@ import * as Yup from 'yup';
 import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import useStyles from './signUp.styles';
+import useStylesForOrders from '../styles/orders.style';
+import Divider from '@mui/material/Divider';
 
 const schema = Yup.object().shape({
-    fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    password: Yup.string()
-        .required('Password is a required field')
-        .min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
-    email: Yup.string().required('Email is a required field').matches(/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-        , 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
-    agree: Yup.boolean().required("Required field").oneOf([true], "Required field")
+    // fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
+    // companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
+    // password: Yup.string()
+    //     .required('Password is a required field')
+    //     .min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
+    // email: Yup.string().required('Email is a required field').matches(/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
+    //     , 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
+    customer: Yup.string().required('customer is a required field'),
+    product: Yup.string().required('customer is a required field'),
+    // "Credit card number": Yup.string().required('cre is a required field')
+
+    // agree: Yup.boolean().required("Required field").oneOf([true], "Required field")
 });
 const NewOrderForm: React.FC = () => {
-    const classes = useStyles();
+    const classes = useStylesForOrders();
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,15 +38,28 @@ const NewOrderForm: React.FC = () => {
         // Handle form submission or API call here
         console.log(values);
     };
+
+    //*just for now!*\\
+    const optionsForSelect=[ { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 }];
+    //*\\
+
     return (
         <>
+           <div style={{ display: 'inline-block' }}>product list:<br></br>
+                 collage       <br></br>
+                 photo albom
+            </div>
 
+            <div style={{ display: 'inline-block' }}>
             <Formik
                 validationSchema={schema}
                 initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
                 onSubmit={handleSignUp}
             >
                 {({ isValid }) => (
+                  
                     <Form>
                         {/* <FormHelperText>Full name</FormHelperText>
                         <Field className={classes.txtField} type="text" name="fullName" as={TextField} />
@@ -52,65 +70,55 @@ const NewOrderForm: React.FC = () => {
                             component={Autocomplete}
                             disablePortal
                             id="combo-box-demo"
-                            options={[ { label: 'The Shawshank Redemption', year: 1994 },
-                            { label: 'The Godfather', year: 1972 },
-                            { label: 'The Godfather: Part II', year: 1974 }]}
+                            options={optionsForSelect}
                             sx={{ width: 300 }}
-                            renderInput={(params:any) => <TextField {...params} label="Movie" />}
+                            renderInput={(params:any) => <TextField {...params} placeholder={optionsForSelect[0].label}/>}
                         />
-
-{/* 
-                        <FormHelperText>Company Name</FormHelperText>
-                        <Field className={classes.txtField} type="text" name="companyName" as={TextField} />
-                        <ErrorMessage className={classes.msdError} name="companyName" component="div" />
+                        <ErrorMessage className={classes.msdError} name="customeer" component="div" />
                         
-                        <FormHelperText >Password</FormHelperText>
-                        <Field name="password">
-                            {({ field }: any) => (
-                                <OutlinedInput className={classes.txtField}
-                                    {...field} type={showPassword ? 'text' : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            )}
-                        </Field>
-                        <ErrorMessage className={classes.msdError} name="password" component="div" />
+                        <div style={{ }}>
+                             <FormHelperText>product</FormHelperText>
+                        <Field
+                            component={Autocomplete}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={optionsForSelect}
+                            sx={{ width: 300 }}
+                            renderInput={(params:any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
+                        />
+                        <ErrorMessage className={classes.msdError} name="product" component="div" />
+                        </div>
+                       
+                        <br></br>
+                        <Button className={classes.btnAdd} type="submit" disabled={!isValid}>
+                            Add
+                        </Button>
+                        <Divider />
+                    {/* /???????? */}
 
-                        <FormHelperText>Email address</FormHelperText>
-                        <Field className={classes.txtField} type="email" name="email" as={TextField} />
-                        <ErrorMessage className={classes.msdError} name="email" component="div" />
+                        <FormHelperText>Credit card number</FormHelperText>
+                        <Field className={classes.txtField} type="number" name="creditCard" as={TextField} />
+                        {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
 
-                        <Field name="agree" >
-                            {({ field }: any) => (
-                                <FormControlLabel
-                                    {...field} type={showPassword ? 'text' : "password"}
-                                    control={<Checkbox />}
-                                    label={`I agree to the  Terms of Service and Privacy Policy`}
-                                />
-                            )}
-                        </Field> */}
-                        <ErrorMessage className={classes.msdError} name="agree" component="div" />
+                        <FormHelperText>Expire on</FormHelperText>
+                        <Field className={classes.spalltxtField} type="number" name="expireOn" as={TextField} />
+                        {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
+
+                        <FormHelperText>Cvc</FormHelperText>
+                        <Field className={classes.spalltxtField} type="number" name="Cvc" as={TextField} />
+                        {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
+
                         <br />
 
-                        <Button className={classes.btnSignUp} type="submit" disabled={!isValid}>
-                            sign Up
+                        <Button className={classes.btnBuyNow} type="submit" disabled={!isValid}>
+                            Buy Now
                         </Button>
                     </Form>
+                   
                 )}
             </Formik>
+            </div>
         </>
-
     );
 };
 export default NewOrderForm;
