@@ -3,25 +3,14 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import { Label, Visibility, VisibilityOff } from '@mui/icons-material';
 import DialogContent from '@mui/material/DialogContent';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
+import {  DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import useStyles from './signUp.styles'
 import giftsImg from "../img/gifts.png"
 import SingUpForm from './SignUpForm';
+import useStyles from './signUp.styles';
+import giftsImg from '../img/gifts.png';
 
-const SignUpComp: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  const classes = useStyles();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div>
