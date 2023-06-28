@@ -33,17 +33,6 @@ const SignUpComp: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-  const handleSignUp = (values: any) => {
-    // Handle form submission or API call here
-    console.log(values);
-  };
 
   return (
     <div>
