@@ -44,14 +44,16 @@ const NewOrderForm: React.FC = () => {
     { label: 'The Godfather', year: 1972 },
     { label: 'The Godfather: Part II', year: 1974 }];
     //*\\
-
+   
     return (
-        <>
-           <div style={{ display: 'inline-block' }}>product list:<br></br>
-                 collage       <br></br>
-                 photo albom
+        <div style={{ display: 'flex' , flexDirection:"row-reverse"}}>
+            <div>
+            price :<h5>34.00 $</h5>
+            <div className={classes.productList}>product list:<br></br>
+                    collage       <br></br>
+                    photo albom
+                </div>
             </div>
-
             <div style={{ display: 'inline-block' }}>
             <Formik
                 validationSchema={schema}
@@ -99,15 +101,17 @@ const NewOrderForm: React.FC = () => {
                         <FormHelperText>Credit card number</FormHelperText>
                         <Field className={classes.txtField} type="number" name="creditCard" as={TextField} />
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-
+                        
                         <FormHelperText>Expire on</FormHelperText>
+                        <div className={classes.fieldContainer}>
                         <Field className={classes.spalltxtField} type="number" name="expireOn" as={TextField} />
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
 
-                        <FormHelperText>Cvc</FormHelperText>
-                        <Field className={classes.spalltxtField} type="number" name="Cvc" as={TextField} />
+                        
+                        <Field className={`${classes.spalltxtField} ${classes.cvcField}`} type="number" name="Cvc" as={TextField} />
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-
+                        </div>
+                        <FormHelperText className={classes.helperText}>Cvc</FormHelperText>
                         <br />
 
                         <Button className={classes.btnBuyNow} type="submit" disabled={!isValid}>
@@ -118,7 +122,7 @@ const NewOrderForm: React.FC = () => {
                 )}
             </Formik>
             </div>
-        </>
+        </div>
     );
 };
 export default NewOrderForm;

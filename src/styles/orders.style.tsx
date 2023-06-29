@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStylesForOrders = makeStyles({
+const useStylesForOrders = makeStyles((theme) => ({
     btnAdd: {
         background: '#4a91e2 !important',
         width: '100%',
@@ -53,13 +53,26 @@ const useStylesForOrders = makeStyles({
         fontWeight: "bold",
         textAlign: "center",
     },
+    fieldContainer: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      cvcField: {
+        marginLeft: '8px',
+      },
+      helperText: {
+        marginLeft: '8px',
+      },
     btnBuyNow: {
         background: '#FAE282 !important',
         width: '30%',
         color: '#FFFFFF !important',
-        left: "sssss",
+        left: "80%",
         position: "absolute"
     },
-
-});
+    //???
+    productList:{
+        top:'50%'
+    }
+}));
 export default useStylesForOrders;
