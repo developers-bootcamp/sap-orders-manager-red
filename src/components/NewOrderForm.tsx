@@ -13,18 +13,10 @@ import useStylesForOrders from '../styles/orders.style';
 import Divider from '@mui/material/Divider';
 
 const schema = Yup.object().shape({
-    // fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    // companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    // password: Yup.string()
-    //     .required('Password is a required field')
-    //     .min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
-    // email: Yup.string().required('Email is a required field').matches(/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-    //     , 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
+   
     customer: Yup.string().required('customer is a required field'),
     product: Yup.string().required('customer is a required field'),
-    // "Credit card number": Yup.string().required('cre is a required field')
-
-    // agree: Yup.boolean().required("Required field").oneOf([true], "Required field")
+   
 });
 const NewOrderForm: React.FC = () => {
     const classes = useStylesForOrders();
@@ -34,31 +26,43 @@ const NewOrderForm: React.FC = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-    const handleSignUp = (values: any) => {
-        // Handle form submission or API call here
+    const handleNewOrder = (values: any) => {
+        //  API call of new order here
         console.log(values);
     };
 
-    //*just for now!*\\
+    //*just for now! should be from the server*\\
     const optionsForSelect=[ { label: 'The Shawshank Redemption', year: 1994 },
     { label: 'The Godfather', year: 1972 },
     { label: 'The Godfather: Part II', year: 1974 }];
+
+    const productList = [
+        { name: 'collage', price: '$10', quantity: 'x 2' },
+        { name: 'photo albom', price: '$20', quantity: 'x 3' }
+        // ... more items
+        ];
+    
     //*\\
    
     return (
         <div style={{ display: 'flex' , flexDirection:"row-reverse"}}>
-            <div>
-            price :<h5>34.00 $</h5>
-            <div className={classes.productList}>product list:<br></br>
-                    collage       <br></br>
-                    photo albom
+            <div style={{width:"200px", padding:"10px"}}>
+             price :<h5>34.00 $</h5>
+                <div>-
+                    {productList.map((item, index) => (
+                        <div key={index}>
+                            <p>{item.name}</p>
+                            <p>{item.price}</p>
+                            <p>{item.quantity}</p>
+                        </div>
+                        ))}
                 </div>
             </div>
             <div style={{ display: 'inline-block' }}>
             <Formik
                 validationSchema={schema}
                 initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
-                onSubmit={handleSignUp}
+                onSubmit={handleNewOrder}
             >
                 {({ isValid }) => (
                   
@@ -71,19 +75,22 @@ const NewOrderForm: React.FC = () => {
                         <Field
                             component={Autocomplete}
                             disablePortal
-                            id="combo-box-demo"
+                            id="autoCompleteCustomer"
                             options={optionsForSelect}
                             sx={{ width: 300 }}
                             renderInput={(params:any) => <TextField {...params} placeholder={optionsForSelect[0].label}/>}
+                            classes={{
+                                clearIndicator: classes.arrowIcon,
+                              }}
                         />
-                        <ErrorMessage className={classes.msdError} name="customeer" component="div" />
+                        <ErrorMessage className={classes.msdError} name="customer" component="div" />
                         
                         <div style={{ }}>
                              <FormHelperText>product</FormHelperText>
                         <Field
                             component={Autocomplete}
                             disablePortal
-                            id="combo-box-demo"
+                            id="autoCompleteProduct"
                             options={optionsForSelect}
                             sx={{ width: 300 }}
                             renderInput={(params:any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
@@ -102,22 +109,27 @@ const NewOrderForm: React.FC = () => {
                         <Field className={classes.txtField} type="number" name="creditCard" as={TextField} />
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
                         
-                        <FormHelperText>Expire on</FormHelperText>
+                       
                         <div className={classes.fieldContainer}>
-                        <Field className={classes.spalltxtField} type="number" name="expireOn" as={TextField} />
+                            <div>
+                         <FormHelperText>Expire on:</FormHelperText>
+                        <Field className={`${classes.spalltxtField} ${classes.halfField}`} type="number" name="expireOn" as={TextField} />
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-
-                        
-                        <Field className={`${classes.spalltxtField} ${classes.cvcField}`} type="number" name="Cvc" as={TextField} />
-                        {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
+</div>
+                        <div> 
+                                <FormHelperText className={classes.helperText}>Cvc:</FormHelperText>
+                                <Field className={`${classes.spalltxtField} ${classes.halfField}`} type="number" name="Cvc" as={TextField} />
                         </div>
-                        <FormHelperText className={classes.helperText}>Cvc</FormHelperText>
+                        </div>
+                        
                         <br />
 
                         <Button className={classes.btnBuyNow} type="submit" disabled={!isValid}>
                             Buy Now
                         </Button>
-                    </Form>
+
+                    </Form>                   
+
                 )}
             </Formik>
             </div>
