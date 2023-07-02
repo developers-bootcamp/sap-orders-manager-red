@@ -13,7 +13,7 @@ import { logIn } from '../axios/userAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import SignUpComp from '../components/signup';
 import { PALLETE } from '../config/config';
-import giftsImg from '../img/gifts.png';
+
 const defaultTheme = createTheme();
 
 export const LogIn: React.FC = () => {
@@ -152,7 +152,7 @@ export const LogIn: React.FC = () => {
                                     <Typography sx={{ mr: 1 }}>
                                         Don't have an account yet?
                                     </Typography>
-                                    <SignUpComp btnOpen={"Sign Up"} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}></SignUpComp>
+                                    <SignUpComp></SignUpComp>
                                 </Grid>
                             </Box>
                         </Box>
