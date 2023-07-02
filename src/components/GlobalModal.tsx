@@ -38,15 +38,10 @@ const GlobalModel = (props:any) => {
               <DialogTitle> {props.title}</DialogTitle>
               {props.children}
 
-<<<<<<< Updated upstream
 
-=======
-              <DialogTitle>Set up your account</DialogTitle>
-        
->>>>>>> Stashed changes
             </div>
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
-           
+                <img className={classes.giftImg} src={props.img} alt='giftImg'/>
           </div>
         </DialogContent>
       </Dialog>
