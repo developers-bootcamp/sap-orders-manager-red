@@ -1,12 +1,10 @@
 
 import React from 'react';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import { Label, Visibility, VisibilityOff } from '@mui/icons-material';
-import DialogContent from '@mui/material/DialogContent';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Checkbox, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, IconButton, InputAdornment, OutlinedInput, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import useStyles from '../styles/signUp.styles';
 
@@ -20,6 +18,7 @@ const schema = Yup.object().shape({
         , 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
     agree: Yup.boolean().required("Required field").oneOf([true], "Required field")
 });
+
 const SingUpForm: React.FC = () => {
     const classes = useStyles();
 
@@ -33,8 +32,7 @@ const SingUpForm: React.FC = () => {
         console.log(values);
     };
     return (
-        <>
-
+        <div>
             <Formik
                 validationSchema={schema}
                 initialValues={{ fullName: '', companyName: '', password: '', email: '', agree: false }}
@@ -90,8 +88,7 @@ const SingUpForm: React.FC = () => {
                     </Form>
                 )}
             </Formik>
-        </>
-
+        </div>
     );
 };
 export default SingUpForm;

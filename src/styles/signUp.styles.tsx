@@ -1,10 +1,11 @@
 import { makeStyles } from '@mui/styles';
+import { PALLETE } from '../config/config';
 
 const useStyles = makeStyles({
     btnSignUp: {
-        background: '#FAE282 !important',
+        background: `${PALLETE.YELLOW} !important`,
         width: '30%',
-        color: '#FFFFFF !important',
+        color: `${PALLETE.WHITE} !important`,
         left: "sssss",
         position: "absolute"
     },
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
         width: '90% !important'
     },
     msdError: {
-        color: '#EE696A !important ',
+        color: `${PALLETE.RED} !important `,
         fontSize: "10px"
     },
     dialog: {
@@ -37,14 +38,14 @@ const useStyles = makeStyles({
         cursor: "pointer !important"
     },
     sideBackImg: {
-        background: "#DDDAE0",
-        height: "96% !important",
+        background: `${PALLETE.GRAY}`,
+        height: "100% !important",
         width: "30% !important",
         position: "absolute"
     },
     giftImg: {
         width: "100% ",
-        marginBottom: "50%",
+        marginBottom: "25%",
         marginTop: "70%"
     },
 
