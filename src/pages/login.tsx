@@ -11,8 +11,10 @@ import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput, TextFi
 import { useNavigate } from 'react-router';
 import { logIn } from '../axios/userAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import SignUpComp from '../components/signup';
+import GlobalModel from '../components/GlobalModal';
+import SingUpForm from '../components/SignUpForm'
 import { PALLETE } from '../config/config';
+import giftsImg from "../img/gifts.png"
 
 const defaultTheme = createTheme();
 
@@ -152,7 +154,12 @@ export const LogIn: React.FC = () => {
                                     <Typography sx={{ mr: 1 }}>
                                         Don't have an account yet?
                                     </Typography>
-                                    <SignUpComp></SignUpComp>
+
+                                    <GlobalModel btnOpen={"Sign Up"} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}>
+                                        <SingUpForm></SingUpForm>
+                                    </GlobalModel>
+
+
                                 </Grid>
                             </Box>
                         </Box>
