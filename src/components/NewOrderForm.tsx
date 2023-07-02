@@ -118,7 +118,6 @@ const NewOrderForm: React.FC = () => {
                             Buy Now
                         </Button>
                     </Form>
-                   
                 )}
             </Formik>
             </div>
