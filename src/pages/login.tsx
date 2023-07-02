@@ -7,19 +7,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput, TextField } from '@mui/material';
+import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { logIn } from '../axios/userAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import GlobalModel from '../components/GlobalModal';
 import SingUpForm from '../components/SignUpForm'
 import { PALLETE } from '../config/config';
-
-
-
-
 import giftsImg from "../img/gifts.png"
-
 
 const defaultTheme = createTheme();
 
@@ -36,7 +31,7 @@ export const LogIn: React.FC = () => {
 
     const [isShowError, setIsShowError] = React.useState<boolean>(false)
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    const login = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const data: FormData = new FormData(event.currentTarget)
         const email: string = data.get('email')?.toString() || ""
@@ -65,7 +60,6 @@ export const LogIn: React.FC = () => {
                 elevation={0}
                 sx={{
                     position: 'relative',
-                    borderBottom: (t) => `1px solid ${t.palette.divider}`,
                 }}
             >
                 <Toolbar>
@@ -93,19 +87,21 @@ export const LogIn: React.FC = () => {
                         <Typography component="h2" variant="h5" sx={{ mt: 1 }}>
                             Enter your email address and password
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, alignItems: 'center' }}>
+                        <Box component="form" onSubmit={login} noValidate sx={{ mt: 1, alignItems: 'center' }}>
                             <Container maxWidth="xs">
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
+                                <OutlinedInput
+                                    sx={{ mt: 2 }}
                                     autoFocus
+                                    autoComplete="email"
+                                    name="email"
+                                    fullWidth
+                                    required
+                                    id="email"
+                                    type={'email'}
+                                    placeholder='Email Address'
                                 />
                                 <OutlinedInput
+                                    sx={{ mt: 2 }}
                                     name="password"
                                     fullWidth
                                     required
@@ -132,19 +128,19 @@ export const LogIn: React.FC = () => {
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{ mt: 2, mb: 2, backgroundColor: PALLETE.YELLOW }}
+                                    sx={{ mt: 2, mb: 5, backgroundColor: PALLETE.YELLOW }}
                                 >
                                     Log in
                                 </Button>
                             </Container>
                             <Divider> Or Sign in with </Divider>
                             <Box sx={{
-                                marginTop: 3,
+                                marginTop: 5,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
                             }}>
-                                <Button variant="outlined" sx={{textTransform: "none"}}>
+                                <Button variant="outlined" sx={{ textTransform: "none" }}>
                                     <svg aria-hidden="true" className="native svg-icon iconGoogle" width="23" height="23" viewBox="0 0 18 18">
                                         <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18Z"></path>
                                         <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17Z"></path>
@@ -160,13 +156,9 @@ export const LogIn: React.FC = () => {
                                         Don't have an account yet?
                                     </Typography>
 
-                                    <GlobalModel btnOpen={"Sign Up"} isButton={false} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}>
+                                    <GlobalModel btnOpen={"Sign Up"} isButton={false} title={"Set up your account"} img={giftsImg} txtSide={" Fill in your details so you can login later"}>
                                         <SingUpForm></SingUpForm>
                                     </GlobalModel>
-
-
-
-
                                 </Grid>
                             </Box>
                         </Box>
