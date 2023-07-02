@@ -8,6 +8,13 @@ const useStyles = makeStyles({
         left: "sssss",
         position: "absolute"
     },
+    btnGlobalModel: {
+        background: '#dd8b5c !important',
+        width: '10%',
+        color: '#FFFFFF !important',
+        left: "sssss",
+        position: "absolute"
+    },
     txtField: {
         width: '90% !important'
     },
@@ -16,8 +23,8 @@ const useStyles = makeStyles({
         fontSize: "10px"
     },
     dialog: {
-        maxHeight: '100% !important',
-        maxWidth: '100% !important',
+        maxHeight: '3000px !important',
+        maxWidth: '3000px !important',
         borderRadius: '30%  !important',
         height: "100% !important",
         width: "100% !important",

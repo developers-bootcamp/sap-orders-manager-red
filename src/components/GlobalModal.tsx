@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
-import {  DialogContent, DialogTitle, Link } from '@mui/material';
+import {  DialogContent, DialogTitle, Link ,Button} from '@mui/material';
 import useStyles from '../styles/signUp.styles';
 
 const GlobalModel = (props:any) => {
@@ -18,9 +18,10 @@ const GlobalModel = (props:any) => {
 
   return (
     <div>
-      <Link className={classes.openSignUp} onClick={handleClickOpen} underline="hover" >
+      {props.isButton?<Button className={classes.btnGlobalModel} onClick={handleClickOpen}>{props.btnOpen}  </Button>:<Link className={classes.openSignUp} onClick={handleClickOpen} underline="hover" >
        {props.btnOpen}
-      </Link>
+      </Link>}
+      
       <Dialog className={classes.dialog} open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogContent  className={classes.dialogContent} >
           <div >

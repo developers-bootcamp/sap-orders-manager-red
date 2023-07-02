@@ -153,7 +153,7 @@ export const LogIn: React.FC = () => {
                                     <Typography sx={{ mr: 1 }}>
                                         Don't have an account yet?
                                     </Typography>
-                                    <GlobalModel btnOpen={"Sign Up"} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}>
+                                    <GlobalModel btnOpen={"Sign Up"} isButton={false} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}>
                                         <SingUpForm></SingUpForm>
                                     </GlobalModel>
                                 </Grid>

@@ -19,17 +19,10 @@ const useStylesForOrders = makeStyles((theme) => ({
         color: '#EE696A !important ',
         fontSize: "10px"
     },
-    dialog: {
-        maxHeight: '100% !important',
-        maxWidth: '100% !important',
-        borderRadius: '30%  !important',
-        height: "100% !important",
-        width: "100% !important",
-        position: "absolute"
-    },
-    dialogContent: {
-        padding: "{none}",
-    },
+
+   arrowIcon: {
+    color: 'red !important', 
+  },
     openSignUp: {
         cursor: "pointer !important"
     },
@@ -57,8 +50,14 @@ const useStylesForOrders = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
       },
-      cvcField: {
+    //   cvcContainer:{
+    //    // display: 'flex',
+    //     // flexDirection: 'column',
+    //     // alignItems: 'center',
+    //   },
+      halfField: {
         marginLeft: '8px',
+        width:'80% !important'
       },
       helperText: {
         marginLeft: '8px',
@@ -67,7 +66,7 @@ const useStylesForOrders = makeStyles((theme) => ({
         background: '#FAE282 !important',
         width: '30%',
         color: '#FFFFFF !important',
-        left: "80%",
+        left: "90%",
         position: "absolute"
     },
     //???
