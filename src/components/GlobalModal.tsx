@@ -41,7 +41,11 @@ const GlobalModel = (props:any) => {
 
             </div>
             <div className={classes.sideBackImg} style={{ display: 'inline-block' }}>
+<<<<<<< HEAD
                 <img className={classes.giftImg} src={props.img} alt='giftImg'/>
+=======
+               <img className={classes.giftImg} src={props.img} alt='giftImg'/>
+>>>>>>> 7d8f4c57ce4d8e0c5ff3777306e74f83fe829c79
           </div>
         </DialogContent>
       </Dialog>
