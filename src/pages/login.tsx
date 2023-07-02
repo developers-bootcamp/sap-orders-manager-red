@@ -14,11 +14,15 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import GlobalModel from '../components/GlobalModal';
 import SingUpForm from '../components/SignUpForm'
 import { PALLETE } from '../config/config';
+<<<<<<< Updated upstream
 
 
 
 import giftsImg from "../img/gifts.png"
 
+=======
+import giftsImg from '../img/gifts.png'
+>>>>>>> Stashed changes
 
 const defaultTheme = createTheme();
 
