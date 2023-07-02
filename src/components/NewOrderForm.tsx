@@ -127,8 +127,7 @@ const NewOrderForm: React.FC = () => {
                         <Button className={classes.btnBuyNow} type="submit" disabled={!isValid}>
                             Buy Now
                         </Button>
-                    </Form>
-                   
+                    </Form>                   
                 )}
             </Formik>
             </div>
