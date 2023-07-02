@@ -14,7 +14,11 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import GlobalModel from '../components/GlobalModal';
 import SingUpForm from '../components/SignUpForm'
 import { PALLETE } from '../config/config';
-import giftsImg from '../img/giftsImg.png'
+
+
+
+import giftsImg from "../img/gifts.png"
+
 
 const defaultTheme = createTheme();
 
@@ -158,6 +162,9 @@ export const LogIn: React.FC = () => {
                                     <GlobalModel btnOpen={"Sign Up"} isButton={false} title={"Set up your account"} img={giftsImg}  txtSide={" Fill in your details so you can login later"}>
                                         <SingUpForm></SingUpForm>
                                     </GlobalModel>
+
+
+
 
                                 </Grid>
                             </Box>

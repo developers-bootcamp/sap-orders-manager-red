@@ -4,8 +4,6 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-// import { fetchAllOrders } from "../redux/action/orderAction";
-
 import CatalogManager from '../components/catalogManager';
 import Dashboard from '../components/dashboard';
 import PendingOrders from '../components/pendingOrders';
@@ -13,26 +11,15 @@ import UserManagements from '../components/usersManagement';
 
 interface TabPanelProps {
     children?: React.ReactNode;
-    index: number;
-    value: number;
   }
   
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+  function TabPanel( { children}: TabPanelProps) {
   
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
+      <div role="tabpanel" >      
           <Box sx={{ p: 3 }}>
             <Typography>{children}</Typography>
           </Box>
-        )}
       </div>
     );
   }
@@ -44,23 +31,22 @@ interface TabPanelProps {
     };
   }
   
-
-  const componentArray = [PendingOrders, Dashboard, CatalogManager,UserManagements];  
-
 const LandingPage = () => {
- 
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      setValue(newValue);
+  const componentArray = [PendingOrders, Dashboard, CatalogManager,UserManagements];
+ 
+    const [index, setIndex] = React.useState(0);
+
+    const changeTubComponent = (event: React.SyntheticEvent, newIndex: number) => {
+      setIndex(newIndex);
     };
   
-    const SelectedComponent = componentArray[value];
+     const SelectedComponent = componentArray[index];
   
     return (
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs value={index} onChange={changeTubComponent} aria-label="basic tabs example">
             <Tab label="pending Orders" {...a11yProps(0)} />
             <Tab label="dashboard" {...a11yProps(1)} />
             <Tab label="catalog Manager" {...a11yProps(2)} />
@@ -68,16 +54,7 @@ const LandingPage = () => {
           </Tabs>
         </Box>
 
-        <TabPanel value={value} index={0}>
-          <SelectedComponent />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <SelectedComponent />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <SelectedComponent />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
+        <TabPanel >
           <SelectedComponent />
         </TabPanel>
       </Box>
