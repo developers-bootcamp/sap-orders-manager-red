@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
-import useStyles from '../pages/SignUpForm/SignUpForm.styles';
+import useStyles from '../pages/signUpForm/SignUpForm.styles';
 import { Link, Button, DialogTitle, DialogContent } from '@mui/material';
 
 const GlobalModel = (props: any) => {
