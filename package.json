@@ -15,11 +15,12 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.36",
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "axios": "^0.27.2",
+    "dotenv": "^16.3.1",
     "formik": "^2.4.2",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.0",
@@ -55,10 +56,14 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
     "babel-jest": "^29.5.0",
     "jest": "^27.5.1",
     "react-test-renderer": "^18.2.0"
+=======
+    "@types/node": "^20.3.1"
+>>>>>>> ea6ee9bf3d8ee749dcf5f45d60fc8b7cc358103d
   }
 }
