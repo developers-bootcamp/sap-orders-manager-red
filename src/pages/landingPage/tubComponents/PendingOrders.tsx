@@ -1,7 +1,7 @@
 import React from 'react';
-import GlobalModel from './GlobalModal';
-import NewOrderForm from './NewOrderForm';
-import giftsImg from '../img/giftsWithBaloons.png'
+import GlobalModel from '../../../components/GlobalModal';
+import NewOrderForm from '../../NewOrderForm/NewOrderForm';
+import giftsImg from '../../../img/giftsWithBaloons.png'
 
 const PendingOrders: React.FC = () => {
 

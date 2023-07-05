@@ -1,5 +1,5 @@
 import { makeStyles } from '@mui/styles';
-import { PALLETE } from '../config/config';
+import { PALLETE } from '../../config/config';
 
 const useStylesForOrders = makeStyles((theme) => ({
     btnAdd: {

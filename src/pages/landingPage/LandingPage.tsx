@@ -4,10 +4,10 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import CatalogManager from '../components/CatalogManager';
-import Dashboard from '../components/Dashboard';
-import PendingOrders from '../components/PendingOrders';
-import UserManagements from '../components/UsersManagement';
+import CatalogManager from './tubComponents/CatalogManager';
+import Dashboard from './tubComponents/Dashboard';
+import PendingOrders from './tubComponents/PendingOrders';
+import UserManagements from './tubComponents/UsersManagement';
 
 interface TabPanelProps {
   children?: React.ReactNode;
