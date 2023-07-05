@@ -55,10 +55,9 @@ const useStylesForOrders = makeStyles((theme) => ({
     },
     btnBuyNow: {
         background: `${PALLETE.YELLOW} !important`,
-        width: '30%',
-        color: `${PALLETE.WHITE} !important`,
-        right: "0%",
-        position: "absolute"
+         width: '30%',
+         color: `${PALLETE.WHITE} !important`,
+         right: "0%",
     },
     productList: {
         top: '50%'
