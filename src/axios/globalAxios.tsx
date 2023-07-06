@@ -4,7 +4,7 @@ import { LOG_IN } from "../config/config";
 axios.interceptors.request.use(
     (config: any) => {
         let userToken = localStorage.getItem("userToken");
-        if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
+        if (config.url.indexOf(LOG_IN) !== 0  && userToken) {
             config.headers["token"] = userToken;
         }
         console.log(config);
