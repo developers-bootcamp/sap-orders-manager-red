@@ -14,7 +14,7 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 )
-
+debugger;
 axios.interceptors.response.use(
     (response: any) => {
         console.log("I come interceptore response");
