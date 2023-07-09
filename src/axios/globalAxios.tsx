@@ -1,9 +1,10 @@
 import axios from "axios";
 import { LOG_IN } from "../config/config";
+import { getFromLocalStorage } from "../storageUtils";
 
 axios.interceptors.request.use(
     (config: any) => {
-        let userToken = localStorage.getItem("userToken");
+        let userToken = getFromLocalStorage("userToken");
         if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
             config.headers["token"] = userToken;
         }

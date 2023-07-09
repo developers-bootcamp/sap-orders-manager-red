@@ -4,7 +4,7 @@
 
 const BASE_URL = "http://localhost:8080"
 
-// const BASE_URL = process.env.DASHBOARD_API_BASE_URL;
+// const BASE_URL = process.env.BASE_URL;
 
 // Define the full URL for getting all orders
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;

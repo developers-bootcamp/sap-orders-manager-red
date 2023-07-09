@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { logIn } from '../axios/userAxios';
@@ -15,10 +14,14 @@ import GlobalModel from '../components/GlobalModal';
 import SingUpForm from './SignUpForm/SignUpForm'
 import { PALLETE } from '../config/config';
 import giftsImg from "../img/gifts.png"
+import { saveToLocalStorage } from '../storageUtils';
 
-const defaultTheme = createTheme();
 
 export const LogIn: React.FC = () => {
+
+    const [email, setEmail] = React.useState<string>("");
+    const [password, setPassword] = React.useState<string>("");
+
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
     const handleClickShowPassword = (): void => setShowPassword((show) => !show);
@@ -30,20 +33,24 @@ export const LogIn: React.FC = () => {
     const navigate = useNavigate()
 
     const [isShowError, setIsShowError] = React.useState<boolean>(false)
+    const [error, setError] = React.useState<string>("")
 
     const login = (event: React.FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const data: FormData = new FormData(event.currentTarget)
-        const email: string = data.get('email')?.toString() || ""
-        const password: string = data.get('password')?.toString() || ""
+        event.preventDefault();        
         if (email || password) {
             logIn(email, password)
                 .then(res => {
-                    window.localStorage.setItem("userToken", res.data)
+                    saveToLocalStorage("userToken", res.data)
                     setIsShowError(false)
                     navigate("/")
                 })
                 .catch(err => {
+                    if (err.response.status === 404)
+                        setError("You do not exist in the system, register first!")
+                    if (err.response.status === 401)
+                        setError("Incorrect password Try again!")
+                    if (err.response.status === 500)
+                        setError("try again or register!")
                     setIsShowError(true)
                 })
         }
@@ -52,7 +59,7 @@ export const LogIn: React.FC = () => {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <Box>
             <CssBaseline />
             <AppBar
                 position="absolute"
@@ -69,7 +76,7 @@ export const LogIn: React.FC = () => {
                 </Toolbar>
             </AppBar>
 
-            <ThemeProvider theme={defaultTheme}>
+            <Box>
                 <Container component="main" maxWidth="xl">
                     <CssBaseline />
                     <Box
@@ -99,13 +106,14 @@ export const LogIn: React.FC = () => {
                                     id="email"
                                     type={'email'}
                                     placeholder='Email Address'
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <OutlinedInput
                                     sx={{ mt: 2 }}
                                     name="password"
                                     fullWidth
                                     required
-                                    id="outlined-adornment-password"
+                                    id="password"
                                     type={showPassword ? 'text' : 'password'}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -120,9 +128,10 @@ export const LogIn: React.FC = () => {
                                         </InputAdornment>
                                     }
                                     placeholder='Password'
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 {isShowError && <Alert severity="error" sx={{ mt: 3 }}>
-                                    Oops... try again or register
+                                    Oops... {error}
                                 </Alert>}
                                 <Button
                                     type="submit"
@@ -164,7 +173,7 @@ export const LogIn: React.FC = () => {
                         </Box>
                     </Box>
                 </Container>
-            </ThemeProvider >
-        </ThemeProvider >
+            </Box >
+        </Box >
     );
 }
