@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { Grid, TextField, Typography } from '@mui/material';
 import { FormHelperText } from '@mui/material';
@@ -17,16 +17,11 @@ const schema = Yup.object().shape({
 const NewOrderForm: React.FC = () => {
     const classes = useStylesForOrders();
 
-    // const [showPassword, setShowPassword] = React.useState(false);
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
-    // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    // };
     const handleNewOrder = (values: any) => {
         //  API call of new order here
         console.log(values);
     };
-
+    let requestTimeout: NodeJS.Timeout | null = null;
     //*just for now! should be from the server*\\
     const optionsForSelect = [{ label: 'The Shawshank Redemption', year: 1994 },
     { label: 'The Godfather', year: 1972 },
@@ -37,7 +32,18 @@ const NewOrderForm: React.FC = () => {
         { name: 'Photo albom', price: '$20', quantity: 'x 3' }
         // ... more items
     ];
-
+    const getCusomersOptionsByProfix = async (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+        console.log( new Date().toISOString());
+        if (requestTimeout) {
+            clearTimeout(requestTimeout);
+        }
+        if (value.length >= 2) {
+            requestTimeout = setTimeout(() => {
+                console.log("value:",value,"is send to server at:",new Date().toISOString());
+                
+            }, 1000)
+        }
+    };
     //*\\
 
     return (
@@ -55,6 +61,7 @@ const NewOrderForm: React.FC = () => {
                                 component={Autocomplete}
                                 disablePortal
                                 id="autoCompleteCustomer"
+                                onInputChange={getCusomersOptionsByProfix}
                                 options={optionsForSelect}
                                 sx={{ mr: 8 }}
                                 renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
@@ -69,6 +76,7 @@ const NewOrderForm: React.FC = () => {
                                 component={Autocomplete}
                                 disablePortal
                                 id="autoCompleteProduct"
+
                                 options={optionsForSelect}
                                 sx={{ mr: 8 }}
                                 renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
