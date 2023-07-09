@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import GlobalModel from '../../../components/GlobalModal';
-import NewOrderForm from '../../NewOrderForm/NewOrderForm';
+import NewOrderForm from '../../newOrderForm/NewOrderForm';
 import giftsImg from '../../../img/giftsWithBaloons.png'
 
 
