@@ -1,10 +1,13 @@
 // Loader component
 import React from 'react';
+
 import {ColorRing} from 'react-loader-spinner'
 const Loader: React.FC = () => {
+ 
   return (
     <div className="loader">
-     <ColorRing
+ <ColorRing
+
   visible={true}
   height="80"
   width="80"
