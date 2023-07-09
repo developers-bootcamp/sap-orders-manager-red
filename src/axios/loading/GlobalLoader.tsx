@@ -12,7 +12,7 @@ const GlobalLoader: React.FC = () => {
         return config;
       }
     );
-debugger;
+
     const responseInterceptor = axios.interceptors.response.use(
       (response: AxiosResponse) => {
         setLoading(false);
@@ -34,7 +34,6 @@ debugger;
   return (
     <div>
       {loading && <Loader />}
-      {/* Your app content */}
     </div>
   );
 };

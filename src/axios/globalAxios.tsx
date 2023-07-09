@@ -14,7 +14,7 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 )
-debugger;
+
 axios.interceptors.response.use(
     (response: any) => {
         console.log("I come interceptore response");
@@ -23,7 +23,7 @@ axios.interceptors.response.use(
     },
     (error: any) => {
         if (error.response.status !== 401)
-            alert("ארע שגיאה אנא פנה למהנל המערכת");
+            alert("ארע שגיאה אנא פנה למנהל המערכת");
         return Promise.reject(error);
     }
 );
