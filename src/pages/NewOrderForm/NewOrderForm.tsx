@@ -9,9 +9,8 @@ import useStylesForOrders from './NewOrdersForm.style';
 import Divider from '@mui/material/Divider';
 
 const schema = Yup.object().shape({
-
     customer: Yup.string().required('customer is a required field'),
-    product: Yup.string().required('customer is a required field'),
+    product: Yup.string().required('product is a required field'),
 
 });
 const NewOrderForm: React.FC = () => {
@@ -32,15 +31,16 @@ const NewOrderForm: React.FC = () => {
         { name: 'Photo albom', price: '$20', quantity: 'x 3' }
         // ... more items
     ];
-    const getCusomersOptionsByProfix = async (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-        console.log( new Date().toISOString());
+    const getCusomersOptionsByProfix = async ( event: React.ChangeEvent<HTMLInputElement>,value: string,type:string) => {
+        console.log( new Date().toISOString(),value);
         if (requestTimeout) {
             clearTimeout(requestTimeout);
         }
-        if (value.length >= 2) {
+        if (value.length>2 ) {
             requestTimeout = setTimeout(() => {
                 console.log("value:",value,"is send to server at:",new Date().toISOString());
-                
+                // data=fetch...
+                // set data according to the type;
             }, 1000)
         }
     };
@@ -61,7 +61,7 @@ const NewOrderForm: React.FC = () => {
                                 component={Autocomplete}
                                 disablePortal
                                 id="autoCompleteCustomer"
-                                onInputChange={getCusomersOptionsByProfix}
+                                onInputChange={(event: React.ChangeEvent<HTMLInputElement>,value:string)=>getCusomersOptionsByProfix(event, value,"castomer")}
                                 options={optionsForSelect}
                                 sx={{ mr: 8 }}
                                 renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
