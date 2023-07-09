@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { logIn } from '../axios/userAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import GlobalModel from '../components/GlobalModal';
-import SingUpForm from './SignUpForm/SignUpForm'
+import SingUpForm from './signUpForm/SignUpForm'
 import { PALLETE } from '../config/config';
 import giftsImg from "../img/gifts.png"
 import { saveToLocalStorage } from '../storageUtils';
