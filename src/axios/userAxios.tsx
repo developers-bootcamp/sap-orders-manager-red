@@ -1,8 +1,6 @@
 import axios from "axios"
 import { LOG_IN } from "../config/config"
 
-console.log(LOG_IN);
-
-export const logIn = (email: String, password: String) => {
-    return axios.get(`${LOG_IN}/${email}/${password}`)
+export const logIn = async (email: String, password: String) => {
+    return await axios.get(`${LOG_IN}/${email}/${password}`)
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOG_IN } from "../config/config";
+import { GET_CURRENCIES, LOG_IN } from "../config/config";
 import { getFromLocalStorage } from "../storageUtils";
 
 axios.interceptors.request.use(
@@ -28,3 +28,7 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export const getCurrencies = async () => {
+    return await axios.get(`${GET_CURRENCIES}`)
+}

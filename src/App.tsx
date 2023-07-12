@@ -4,18 +4,22 @@ import { Routes } from 'react-router';
 import LandingPage from "./pages/landingPage/LandingPage";
 import { LogIn } from "./pages/Login";
 import { ThemeProvider, createTheme } from '@mui/material';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const defaultTheme = createTheme();
 
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LogIn />} />
-        </ Routes>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LogIn />} />
+          </ Routes>
+        </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   );
 }

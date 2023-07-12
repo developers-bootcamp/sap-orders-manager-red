@@ -8,10 +8,11 @@ const BASE_URL = "http://localhost:8080"
 
 // Define the full URL for getting all orders
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
-const LOG_IN = `${BASE_URL}/User/logIn`
-export { GET_ALL_ORDERS_URL, LOG_IN };
+const LOG_IN = `${BASE_URL}/user/logIn`
+const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
 
-export const PALLETE = {
+
+const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
     RED: '#EE696A',
@@ -20,4 +21,6 @@ export const PALLETE = {
     WHITE: '#FFFFFF',
     GRAY: '#F2F2F2',
 }
+
+export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES };
 
