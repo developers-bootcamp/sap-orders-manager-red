@@ -6,21 +6,27 @@ import { LogIn } from "./pages/Login";
 import { ThemeProvider, createTheme } from '@mui/material';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import GlobalLoader from './components/loading/GlobalLoader';
+import './axios/globalAxios';
 
 const defaultTheme = createTheme();
 
-function App() {
+const App: React.FC = () => {
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LogIn />} />
-          </ Routes>
-        </BrowserRouter>
-      </Provider>
-    </ThemeProvider>
+    <>
+      <GlobalLoader />
+      <ThemeProvider theme={defaultTheme}>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LogIn />} />
+            </ Routes>
+          </BrowserRouter>
+        </Provider>
+      </ThemeProvider>
+    </>
   );
 }
 

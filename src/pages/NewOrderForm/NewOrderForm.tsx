@@ -1,12 +1,10 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Grid, TextField, Typography } from '@mui/material';
+import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import useStylesForOrders from './NewOrdersForm.style';
-import Divider from '@mui/material/Divider';
 
 const schema = Yup.object().shape({
 
