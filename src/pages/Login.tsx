@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { logIn } from '../axios/userAxios';
+import { logIn } from '../axios/UserAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import GlobalModel from '../components/GlobalModal';
 import SingUpForm from './signUpForm/SignUpForm'

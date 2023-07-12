@@ -4,7 +4,7 @@ import { LOG_IN } from "../config/config";
 axios.interceptors.request.use(
     (config: any) => {
         let userToken = localStorage.getItem("userToken");
-        if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
+        if (config.url.indexOf(LOG_IN) !== 0  && userToken) {
             config.headers["token"] = userToken;
         }
         console.log(config);
@@ -23,7 +23,7 @@ axios.interceptors.response.use(
     },
     (error: any) => {
         if (error.response.status !== 401)
-            alert("ארע שגיאה אנא פנה למהנל המערכת");
+            alert("ארע שגיאה אנא פנה למנהל המערכת");
         return Promise.reject(error);
     }
 );

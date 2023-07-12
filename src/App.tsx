@@ -5,14 +5,21 @@ import LandingPage from "./pages/landingPage/LandingPage";
 import { LogIn } from "./pages/Login";
 
 
-function App() {
-  return (
+import  GlobalLoader from './axios/loading/GlobalLoader';
+import  './axios/GlobalAxios';
+const App: React.FC = () => {
+
+  return (<>
+    <GlobalLoader />
+
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LogIn />} />
       </ Routes>
     </BrowserRouter>
+  </>
+
   );
 }
 
