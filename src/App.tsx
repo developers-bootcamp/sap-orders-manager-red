@@ -4,19 +4,25 @@ import { Routes } from 'react-router';
 import LandingPage from "./pages/landingPage/LandingPage";
 import { LogIn } from "./pages/Login";
 import { ThemeProvider, createTheme } from '@mui/material';
+import GlobalLoader from './components/loading/GlobalLoader';
+import './axios/globalAxios';
 
 const defaultTheme = createTheme();
 
-function App() {
+const App: React.FC = () => {
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LogIn />} />
-        </ Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <>
+      <GlobalLoader />
+      <ThemeProvider theme={defaultTheme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LogIn />} />
+          </ Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </>
   );
 }
 

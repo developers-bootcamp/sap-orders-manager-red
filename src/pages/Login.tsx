@@ -1,12 +1,9 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Alert, Divider, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import { Alert, Box, Button, Divider, Grid, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { logIn } from '../axios/userAxios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -36,7 +33,7 @@ export const LogIn: React.FC = () => {
     const [error, setError] = React.useState<string>("")
 
     const login = (event: React.FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();        
+        event.preventDefault();
         if (email || password) {
             logIn(email, password)
                 .then(res => {

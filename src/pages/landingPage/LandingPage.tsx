@@ -1,13 +1,9 @@
 import React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-
 import CatalogManager from './tubComponents/CatalogManager';
 import Dashboard from './tubComponents/Dashboard';
 import PendingOrders from './tubComponents/PendingOrders';
 import UserManagements from './tubComponents/UsersManagement';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 
 interface TabPanelProps {
   children?: React.ReactNode;
