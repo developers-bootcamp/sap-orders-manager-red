@@ -1,22 +1,21 @@
-import React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-import CatalogManager from './tubComponents/CatalogManager';
-import Dashboard from './tubComponents/Dashboard';
-import PendingOrders from './tubComponents/PendingOrders';
-import UserManagements from './tubComponents/UsersManagement';
+import CatalogManager from "./tubComponents/CatalogManager";
+import Dashboard from "./tubComponents/deshboard/Dashboard";
+import PendingOrders from "./tubComponents/PendingOrders";
+import UserManagements from "./tubComponents/UsersManagement";
 
 interface TabPanelProps {
   children?: React.ReactNode;
 }
 
 function TabPanel({ children }: TabPanelProps) {
-
   return (
-    <div role="tabpanel" >
+    <div role="tabpanel">
       <Box sx={{ p: 3 }}>
         <Typography>{children}</Typography>
       </Box>
@@ -27,17 +26,24 @@ function TabPanel({ children }: TabPanelProps) {
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
 const LandingPage = () => {
-
-  const componentArray = [PendingOrders, Dashboard, CatalogManager, UserManagements];
+  const componentArray = [
+    PendingOrders,
+    Dashboard,
+    CatalogManager,
+    UserManagements,
+  ];
 
   const [index, setIndex] = React.useState(0);
 
-  const changeTubComponent = (event: React.SyntheticEvent, newIndex: number) => {
+  const changeTubComponent = (
+    event: React.SyntheticEvent,
+    newIndex: number
+  ) => {
     setIndex(newIndex);
   };
 
@@ -45,8 +51,13 @@ const LandingPage = () => {
 
   return (
     <Box>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={index} onChange={changeTubComponent} variant="fullWidth" aria-label="basic tabs example">
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={index}
+          onChange={changeTubComponent}
+          variant="fullWidth"
+          aria-label="basic tabs example"
+        >
           <Tab label="pending Orders" {...a11yProps(0)} />
           <Tab label="dashboard" {...a11yProps(1)} />
           <Tab label="catalog Manager" {...a11yProps(2)} />
@@ -54,12 +65,11 @@ const LandingPage = () => {
         </Tabs>
       </Box>
 
-      <TabPanel >
+      <TabPanel>
         <SelectedComponent />
       </TabPanel>
     </Box>
   );
 };
-
 
 export default LandingPage;
