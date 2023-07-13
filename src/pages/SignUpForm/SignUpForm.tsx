@@ -6,7 +6,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox, FormControlLabel, IconButton, InputAdornment, OutlinedInput, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import useStyles from './SignUpForm.styles';
+import { MyMsdError, MyTxtField } from './SignUpForm.styles';
+import { PALLETE } from '../../config/config';
 
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
@@ -20,7 +21,7 @@ const schema = Yup.object().shape({
 });
 
 const SingUpForm: React.FC = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,15 +42,16 @@ const SingUpForm: React.FC = () => {
                 {({ isValid }) => (
                     <Form>
                         <FormHelperText>Full name</FormHelperText>
-                        <Field className={classes.txtField} type="text" name="fullName" as={TextField} />
-                        <ErrorMessage className={classes.msdError} name="fullName" component="div" />
+                        <MyTxtField><Field fullWidth type="text" name="fullName" as={TextField} /></MyTxtField>
+                        <MyMsdError><ErrorMessage name="fullName" component="div" /></MyMsdError>
                         <FormHelperText>Company Name</FormHelperText>
-                        <Field className={classes.txtField} type="text" name="companyName" as={TextField} />
-                        <ErrorMessage className={classes.msdError} name="companyName" component="div" />
+                        <MyTxtField><Field fullWidth type="text" name="companyName" as={TextField} /></MyTxtField>
+                        <MyMsdError><ErrorMessage name="companyName" component="div" /></MyMsdError>
                         <FormHelperText >Password</FormHelperText>
                         <Field name="password">
                             {({ field }: any) => (
-                                <OutlinedInput className={classes.txtField}
+                                <MyTxtField><OutlinedInput
+                                    fullWidth
                                     {...field} type={showPassword ? 'text' : "password"}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -64,13 +66,13 @@ const SingUpForm: React.FC = () => {
                                         </InputAdornment>
                                     }
                                     label="Password"
-                                />
+                                /></MyTxtField>
                             )}
                         </Field>
-                        <ErrorMessage className={classes.msdError} name="password" component="div" />
+                        <MyMsdError><ErrorMessage name="password" component="div" /></MyMsdError>
                         <FormHelperText>Email address</FormHelperText>
-                        <Field className={classes.txtField} type="email" name="email" as={TextField} />
-                        <ErrorMessage className={classes.msdError} name="email" component="div" />
+                        <MyTxtField><Field fullWidth type="email" name="email" as={TextField} /></MyTxtField>
+                        <MyMsdError><ErrorMessage name="email" component="div" /></MyMsdError>
                         <Field name="agree" >
                             {({ field }: any) => (
                                 <FormControlLabel
@@ -80,9 +82,13 @@ const SingUpForm: React.FC = () => {
                                 />
                             )}
                         </Field>
-                        <ErrorMessage className={classes.msdError} name="agree" component="div" />
-                        <br />
-                        <Button className={classes.btnSignUp} type="submit" disabled={!isValid}>
+                        <MyMsdError><ErrorMessage name="agree" component="div" /></MyMsdError>
+                        <Button type="submit" disabled={!isValid} sx={{
+                            mt: 2,
+                            backgroundColor: `${PALLETE.YELLOW} !important`,
+                            width: '30%',
+                            color: `${PALLETE.WHITE}`,
+                        }}>
                             sign Up
                         </Button>
                     </Form>
