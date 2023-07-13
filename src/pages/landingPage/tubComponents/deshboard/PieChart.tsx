@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 import { PALLETE } from "../../../../config/config";
+import Loader from "../../../../components/loading/Loader";
 
 export const data = [
   ["Task", "Hours per Day"],
@@ -22,6 +23,7 @@ export function PieChart() {
       chartType="PieChart"
       width="100%"
       height="300px"
+      loader={<Loader />}
       data={data}
       options={options}
     />

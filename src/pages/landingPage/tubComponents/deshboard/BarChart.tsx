@@ -1,5 +1,6 @@
 import { Chart } from "react-google-charts";
 import { PALLETE } from "../../../../config/config";
+import Loader from "../../../../components/loading/Loader";
 
 export const data = [
   ["City", "2010 Population", "2000 Population"],
@@ -31,7 +32,7 @@ export const BarChart = () => {
       chartType="BarChart"
       width="100%"
       height="300px"
-      loader={<div>Loading Chart</div>}
+      loader={<Loader />}
       data={data}
       options={options}
     />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 import { PALLETE } from "../../../../config/config";
+import Loader from "../../../../components/loading/Loader";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -23,6 +24,7 @@ export function LineChart() {
       chartType="LineChart"
       width="100%"
       height="300px"
+      loader={<Loader />}
       data={data}
       options={options}
     />
