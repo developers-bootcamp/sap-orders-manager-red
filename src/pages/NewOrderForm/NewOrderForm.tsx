@@ -98,12 +98,12 @@ const NewOrderForm: React.FC = () => {
                         <MyTxtField><Field fullWidth type="number" name="creditCard" as={TextField} /></MyTxtField>
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
                         <MyFieldContainer sx={{ mt: 1 }}>
-                            <Grid xs={12} sm={6}>
+                            <Grid item xs={12} sm={6}>
                                 <FormHelperText>Expire on:</FormHelperText>
                                 <Field fullWidth type="month" name="expireOn" as={TextField} />
                                 {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
                             </Grid>
-                            <Grid xs={12} sm={6} sx={{ mr: 5, ml: 2}}>
+                            <Grid item xs={12} sm={6} sx={{ mr: 5, ml: 2}}>
                                 <FormHelperText>Cvc:</FormHelperText>
                                 <Field fullWidth type="number" name="Cvc" as={TextField} />
                             </Grid>
