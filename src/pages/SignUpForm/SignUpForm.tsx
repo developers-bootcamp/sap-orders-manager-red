@@ -6,7 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import { getCurrencies } from '../../axios/globalAxios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrencies } from '../../redux/slices/sliceGlobal';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
@@ -25,7 +24,7 @@ const schema = Yup.object().shape({
 
 const SingUpForm: React.FC = () => {
 
-    const listOfCurrencies = useSelector((list: any) => list.globalReducer.listOfCurrencies)
+    const listOfCurrencies = ["1", "2", "3"]
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -50,7 +49,7 @@ const SingUpForm: React.FC = () => {
                         <MyMsdError><ErrorMessage name="fullName" component="div" /></MyMsdError>
 
                         <MyTxtField>
-                            <Grid container xs={12} sm={12}>
+                            <Grid item container xs={12} sm={12}>
                                 <Grid item xs={12} sm={9} sx={{ pr: 2 }}>
                                     <FormHelperText>Company Name</FormHelperText>
                                     <Field fullWidth type="text" name="companyName" as={TextField} />

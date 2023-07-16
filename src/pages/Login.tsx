@@ -101,8 +101,8 @@ export const LogIn: React.FC = () => {
                         initialValues={{ email: '', password: '' }}
                         onSubmit={handleLogIn}
                     >
-                        <Form>
-                            <Container maxWidth="xl">
+                        <Form style={{ width: "100%" }}>
+                            <Container style={{ width: "30%" }}>
                                 <Field name="email" >
                                     {({ field }: any) => (
                                         <OutlinedInput
@@ -158,7 +158,9 @@ export const LogIn: React.FC = () => {
                                     Log in
                                 </Button>
                             </Container>
-                            <Divider> Or Sign in with </Divider>
+                            <Container style={{ width: "50%" }}>
+                                <Divider> Or Sign in with </Divider>
+                            </Container>
                             <Box sx={{
                                 marginTop: 5,
                                 display: 'flex',

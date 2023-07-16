@@ -23,12 +23,8 @@ axios.interceptors.response.use(
         return response;
     },
     (error: any) => {
-        if (error.response.status !== 401)
-            alert("ארע שגיאה אנא פנה למנהל המערכת");
+        // if (error.response.status !== 401)
+        //     alert("ארע שגיאה אנא פנה למנהל המערכת");
         return Promise.reject(error);
     }
 );
-
-export const getCurrencies = async () => {
-    return await axios.get(`${GET_CURRENCIES}`)
-}
