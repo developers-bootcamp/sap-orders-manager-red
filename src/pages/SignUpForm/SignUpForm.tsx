@@ -25,14 +25,6 @@ const schema = Yup.object().shape({
 
 const SingUpForm: React.FC = () => {
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        getCurrencies().then((res) => {
-            dispatch(setCurrencies(res.data))
-        })
-    }, [])
-
     const listOfCurrencies = useSelector((list: any) => list.globalReducer.listOfCurrencies)
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -56,9 +48,31 @@ const SingUpForm: React.FC = () => {
                         <FormHelperText>Full name</FormHelperText>
                         <MyTxtField><Field fullWidth type="text" name="fullName" as={TextField} /></MyTxtField>
                         <MyMsdError><ErrorMessage name="fullName" component="div" /></MyMsdError>
-                        <FormHelperText>Company Name</FormHelperText>
-                        <MyTxtField><Field fullWidth type="text" name="companyName" as={TextField} /></MyTxtField>
-                        <MyMsdError><ErrorMessage name="companyName" component="div" /></MyMsdError>
+
+                        <MyTxtField>
+                            <Grid container xs={12} sm={12}>
+                                <Grid item xs={12} sm={9} sx={{ pr: 2 }}>
+                                    <FormHelperText>Company Name</FormHelperText>
+                                    <Field fullWidth type="text" name="companyName" as={TextField} />
+                                    <MyMsdError><ErrorMessage name="companyName" component="div" /></MyMsdError>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <FormHelperText>Currency</FormHelperText>
+                                    <Select
+                                        fullWidth
+                                        displayEmpty
+                                    >
+                                        {
+                                            listOfCurrencies.map((c: string, i: number) => (
+                                                <MenuItem key={i} value={c}>{c}</MenuItem>
+                                            ))
+                                        }
+                                    </Select>
+                                    <MyMsdError><ErrorMessage name="currency" component="div" /></MyMsdError>
+                                </Grid>
+                            </Grid>
+                        </MyTxtField>
+
                         <FormHelperText >Password</FormHelperText>
                         <Field name="password">
                             {({ field }: any) => (
