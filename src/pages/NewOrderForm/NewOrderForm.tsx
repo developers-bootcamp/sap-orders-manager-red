@@ -4,22 +4,16 @@ import * as Yup from 'yup';
 import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import useStylesForOrders from './NewOrdersForm.style';
+import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
+import { PALLETE } from '../../config/config';
 
 const schema = Yup.object().shape({
-
     customer: Yup.string().required('customer is a required field'),
     product: Yup.string().required('customer is a required field'),
+})
 
-});
 const NewOrderForm: React.FC = () => {
-    const classes = useStylesForOrders();
 
-    // const [showPassword, setShowPassword] = React.useState(false);
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
-    // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    // };
     const handleNewOrder = (values: any) => {
         //  API call of new order here
         console.log(values);
@@ -36,8 +30,6 @@ const NewOrderForm: React.FC = () => {
         // ... more items
     ];
 
-    //*\\
-
     return (
         <Formik
             validationSchema={schema}
@@ -49,18 +41,17 @@ const NewOrderForm: React.FC = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={8}>
                             <FormHelperText>customer</FormHelperText>
-                            <Field
-                                component={Autocomplete}
-                                disablePortal
-                                id="autoCompleteCustomer"
-                                options={optionsForSelect}
-                                sx={{ mr: 8 }}
-                                renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
-                                classes={{
-                                    clearIndicator: classes.arrowIcon,
-                                }}
-                            />
-                            <ErrorMessage className={classes.msdError} name="customer" component="div" />
+                            <MyArrowIcon>
+                                <Field
+                                    component={Autocomplete}
+                                    disablePortal
+                                    id="autoCompleteCustomer"
+                                    options={optionsForSelect}
+                                    sx={{ mr: 8 }}
+                                    renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
+                                />
+                            </MyArrowIcon>
+                            <MyMsdError><ErrorMessage name="customer" component="div" /></MyMsdError>
 
                             <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
                             <Field
@@ -71,10 +62,14 @@ const NewOrderForm: React.FC = () => {
                                 sx={{ mr: 8 }}
                                 renderInput={(params: any) => <TextField {...params} placeholder={optionsForSelect[0].label} />}
                             />
-                            <ErrorMessage className={classes.msdError} name="product" component="div" />
+                            <MyMsdError><ErrorMessage name="product" component="div" /></MyMsdError>
 
                             <Typography sx={{ mr: 8 }}>
-                                <Button fullWidth sx={{ mt: 2 }} className={classes.btnAdd} type="submit" disabled={!isValid}>
+                                <Button fullWidth sx={{
+                                    mt: 2,
+                                    backgroundColor: `${PALLETE.BLUE} !important`,
+                                    color: `${PALLETE.WHITE} !important`,
+                                }} type="submit" disabled={!isValid}>
                                     Add
                                 </Button>
                             </Typography>
@@ -100,21 +95,26 @@ const NewOrderForm: React.FC = () => {
 
                     <Grid sx={{ width: 400 }}>
                         <FormHelperText>Credit card number</FormHelperText>
-                        <Field className={classes.txtField} type="number" name="creditCard" as={TextField} />
+                        <MyTxtField><Field fullWidth type="number" name="creditCard" as={TextField} /></MyTxtField>
                         {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-
-                        <div className={classes.fieldContainer}>
-                            <div>
+                        <MyFieldContainer sx={{ mt: 1 }}>
+                            <Grid xs={12} sm={6}>
                                 <FormHelperText>Expire on:</FormHelperText>
-                                <Field className={`${classes.spalltxtField} ${classes.halfField}`} type="number" name="expireOn" as={TextField} />
+                                <Field fullWidth type="month" name="expireOn" as={TextField} />
                                 {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-                            </div>
-                            <div>
-                                <FormHelperText className={classes.helperText}>Cvc:</FormHelperText>
-                                <Field className={`${classes.spalltxtField} ${classes.halfField}`} type="number" name="Cvc" as={TextField} />
-                            </div>
-                        </div>
-                        <Button sx={{ mt: 2 }} className={classes.btnBuyNow} type="submit" disabled={!isValid}>
+                            </Grid>
+                            <Grid xs={12} sm={6} sx={{ mr: 5, ml: 2}}>
+                                <FormHelperText>Cvc:</FormHelperText>
+                                <Field fullWidth type="number" name="Cvc" as={TextField} />
+                            </Grid>
+                        </MyFieldContainer>
+                        <Button sx={{
+                            mt: 2, backgroundColor: `${PALLETE.YELLOW} !important`,
+                            width: '30%',
+                            color: `${PALLETE.WHITE} !important`,
+                        }}
+                            type="submit"
+                            disabled={!isValid}>
                             Buy Now
                         </Button>
                     </Grid>
@@ -123,4 +123,5 @@ const NewOrderForm: React.FC = () => {
         </Formik>
     )
 }
+
 export default NewOrderForm;

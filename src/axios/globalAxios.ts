@@ -24,7 +24,7 @@ axios.interceptors.response.use(
     },
     (error: any) => {
         if (error.response.status !== 401)
-            alert("ארע שגיאה אנא פנה למהנל המערכת");
+            alert("ארע שגיאה אנא פנה למנהל המערכת");
         return Promise.reject(error);
     }
 );
