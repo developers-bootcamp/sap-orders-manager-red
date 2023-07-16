@@ -1,7 +1,8 @@
 import React from 'react';
+import GlobalTable from '../../../components/GlobalTable';
 
 const UserManagements: React.FC = () => {
-  return <p>userManagements component</p>;
+  return(<><GlobalTable></GlobalTable><GlobalTable></GlobalTable></>);
 };
 
 export default UserManagements;
