@@ -13,6 +13,16 @@ import {
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
+
+// import React from 'react';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
+// import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
+// import { FormHelperText } from '@mui/material';
+// import Autocomplete from '@mui/material/Autocomplete';
+// import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
+// import { PALLETE } from '../../config/config';
+
 const schema = Yup.object().shape({
   customer: Yup.string().required("customer is a required field"),
   product: Yup.string().required("customer is a required field"),
@@ -105,12 +115,12 @@ const NewOrderForm: React.FC = () => {
             </MyTxtField>
             {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
             <MyFieldContainer sx={{ mt: 1 }}>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormHelperText>Expire on:</FormHelperText>
                 <Field fullWidth type="month" name="expireOn" as={TextField} />
                 {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
               </Grid>
-              <Grid xs={12} sm={6} sx={{ mr: 5, ml: 2 }}>
+              <Grid item xs={12} sm={6} sx={{ mr: 5, ml: 2 }}>
                 <FormHelperText>Cvc:</FormHelperText>
                 <Field fullWidth type="number" name="Cvc" as={TextField} />
               </Grid>

@@ -1,6 +1,8 @@
-// import dotenv from 'dotenv';
-// Load the environment variables from the .env file
-// dotenv.config();
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
+const LOG_IN = `${BASE_URL}/user/logIn`
+const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
 
 const PALLETE = {
     BLUE: '#6794CF',
@@ -12,11 +14,5 @@ const PALLETE = {
     GRAY: '#F2F2F2',
 }
 
-const BASE_URL = process.env.REACT_APP_BASE_URL
-
-const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
-const LOG_IN = `${BASE_URL}/User/logIn`
-
-export { PALLETE, GET_ALL_ORDERS_URL, LOG_IN };
-
+export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES };
 
