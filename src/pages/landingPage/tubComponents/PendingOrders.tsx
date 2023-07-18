@@ -3,9 +3,9 @@ import NewOrderForm from "../../newOrderForm/NewOrderForm";
 import giftsImg from "../../../img/giftsWithBaloons.png";
 
 import GlobalPopOver from "../../../components/GlobalPopOver";
-import FilterPop from "../../../pages/filterPop/FilterPop";
+// import FilterPop from "../../../pages/filterPop/FilterPop";
 import filterImg from "../../../img/filter.png";
-
+import AllFiltr from '../../../pages/filterPop/AllFiltr';
 const PendingOrders: React.FC = () => {
   return (
     <>
@@ -23,7 +23,7 @@ const PendingOrders: React.FC = () => {
         <div style={{ marginLeft: "3%" }}>
           <GlobalPopOver
             name={"filter"}
-            Pop={FilterPop}
+            Pop={AllFilter}
             image={filterImg}
           ></GlobalPopOver>
         </div>
