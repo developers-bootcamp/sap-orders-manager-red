@@ -5,7 +5,8 @@ import giftsImg from "../../../img/giftsWithBaloons.png";
 import GlobalPopOver from "../../../components/GlobalPopOver";
 // import FilterPop from "../../../pages/filterPop/FilterPop";
 import filterImg from "../../../img/filter.png";
-import AllFiltr from '../../../pages/filterPop/AllFiltr';
+import AllFilter from '../../../pages/filterPop/AllFilter';
+
 const PendingOrders: React.FC = () => {
   return (
     <>
