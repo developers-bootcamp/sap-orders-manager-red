@@ -1,11 +1,13 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Checkbox, FormControlLabel, IconButton, InputAdornment, OutlinedInput, TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrencies } from '../../redux/slices/sliceGlobal';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 
@@ -21,7 +23,8 @@ const schema = Yup.object().shape({
 });
 
 const SingUpForm: React.FC = () => {
-    // const classes = useStyles();
+
+    const listOfCurrencies = ["1", "2", "3"]
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -44,9 +47,31 @@ const SingUpForm: React.FC = () => {
                         <FormHelperText>Full name</FormHelperText>
                         <MyTxtField><Field fullWidth type="text" name="fullName" as={TextField} /></MyTxtField>
                         <MyMsdError><ErrorMessage name="fullName" component="div" /></MyMsdError>
-                        <FormHelperText>Company Name</FormHelperText>
-                        <MyTxtField><Field fullWidth type="text" name="companyName" as={TextField} /></MyTxtField>
-                        <MyMsdError><ErrorMessage name="companyName" component="div" /></MyMsdError>
+
+                        <MyTxtField>
+                            <Grid item container xs={12} sm={12}>
+                                <Grid item xs={12} sm={9} sx={{ pr: 2 }}>
+                                    <FormHelperText>Company Name</FormHelperText>
+                                    <Field fullWidth type="text" name="companyName" as={TextField} />
+                                    <MyMsdError><ErrorMessage name="companyName" component="div" /></MyMsdError>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <FormHelperText>Currency</FormHelperText>
+                                    <Select
+                                        fullWidth
+                                        displayEmpty
+                                    >
+                                        {
+                                            listOfCurrencies.map((c: string, i: number) => (
+                                                <MenuItem key={i} value={c}>{c}</MenuItem>
+                                            ))
+                                        }
+                                    </Select>
+                                    <MyMsdError><ErrorMessage name="currency" component="div" /></MyMsdError>
+                                </Grid>
+                            </Grid>
+                        </MyTxtField>
+
                         <FormHelperText >Password</FormHelperText>
                         <Field name="password">
                             {({ field }: any) => (

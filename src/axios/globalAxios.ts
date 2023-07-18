@@ -1,10 +1,11 @@
 import axios from "axios";
-import { LOG_IN } from "../config/config";
+import { GET_CURRENCIES, LOG_IN } from "../config/config";
+import { getFromLocalStorage } from "../storageUtils";
 
 axios.interceptors.request.use(
     (config: any) => {
-        let userToken = localStorage.getItem("userToken");
-        if (config.url.indexOf(LOG_IN) !== 0  && userToken) {
+        let userToken = getFromLocalStorage("userToken");
+        if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
             config.headers["token"] = userToken;
         }
         console.log(config);
@@ -22,8 +23,8 @@ axios.interceptors.response.use(
         return response;
     },
     (error: any) => {
-        if (error.response.status !== 401)
-            alert("ארע שגיאה אנא פנה למנהל המערכת");
+        // if (error.response.status !== 401)
+        //     alert("ארע שגיאה אנא פנה למנהל המערכת");
         return Promise.reject(error);
     }
 );

@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import { Routes } from 'react-router';
 import LandingPage from "./pages/landingPage/LandingPage";
 import { LogIn } from "./pages/Login";
-import GlobalLoader from './axios/loading/GlobalLoader';
+import GlobalLoader from './components/loading/GlobalLoader';
 import './axios/globalAxios';
 
 const App: React.FC = () => {
@@ -14,7 +14,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LogIn />} />
-      </Routes>
+      </ Routes>
     </>
   );
 }

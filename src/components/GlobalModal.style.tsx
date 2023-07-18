@@ -33,3 +33,8 @@ export const MyTxtSide = styled('div')({
     paddingRight: "25px",
     marginTop: 0,
 })
+
+export const MyMsdError = styled('div')({
+    color: `${PALLETE.RED} !important `,
+    fontSize: "11px",
+})
