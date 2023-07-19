@@ -3,7 +3,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
-
+const SIGN_UP = `${BASE_URL}/user` 
 const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
@@ -14,5 +14,5 @@ const PALLETE = {
     GRAY: '#F2F2F2',
 }
 
-export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES };
+export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES, SIGN_UP };
 

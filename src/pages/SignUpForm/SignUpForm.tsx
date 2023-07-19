@@ -4,16 +4,17 @@ import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
+import { Alert, Autocomplete, Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrencies } from '../../redux/slices/sliceGlobal';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
+import { getCurrencies } from '../../axios/currencyAxios'
+import { signUp } from '../../axios/signUpAxios';
 
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
     companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
+    // currency: Yup.string().required('currency is a required field'),
     password: Yup.string()
         .required('Password is a required field')
         .min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
@@ -24,17 +25,41 @@ const schema = Yup.object().shape({
 
 const SingUpForm: React.FC = () => {
 
-    const listOfCurrencies = ["1", "2", "3"]
-
+    const [currency, setCurrency] = React.useState("DOLLAR");
     const [showPassword, setShowPassword] = React.useState(false);
+    const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
+    const [register, setRegistre] = React.useState(false);
+    const [errorRegister, setErrorRegistre] = React.useState(false);
+    const [errorMessage,setErrorMessage] = React.useState('')
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
     const handleSignUp = (values: any) => {
-        // Handle form submission or API call here
-        console.log(values);
+        signUp(values.fullName, values.companyName, currency, values.email, values.password)
+            .then(response => {
+                setRegistre(true);
+                setErrorRegistre(false);
+            })
+            .catch(error => {
+                setErrorRegistre(true);
+
+                if (error.code == 'ERR_BAD_REQUEST') {
+                    setErrorMessage('email or company name already exists')
+                }
+                else {
+                    setErrorMessage('the request could not be completed, please try again')
+                }
+
+            })
     };
+    const getCurrencies1 = async () => {
+        await getCurrencies().then(res => setListOfCurrencies(res.data));
+    }
+    useEffect(() => {
+        getCurrencies1();
+    }, []);
     return (
         <div>
             <Formik
@@ -43,7 +68,7 @@ const SingUpForm: React.FC = () => {
                 onSubmit={handleSignUp}
             >
                 {({ isValid }) => (
-                    <Form>
+                    <Form >
                         <FormHelperText>Full name</FormHelperText>
                         <MyTxtField><Field fullWidth type="text" name="fullName" as={TextField} /></MyTxtField>
                         <MyMsdError><ErrorMessage name="fullName" component="div" /></MyMsdError>
@@ -57,17 +82,19 @@ const SingUpForm: React.FC = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <FormHelperText>Currency</FormHelperText>
-                                    <Select
+                                    <Autocomplete
                                         fullWidth
-                                        displayEmpty
-                                    >
-                                        {
-                                            listOfCurrencies.map((c: string, i: number) => (
-                                                <MenuItem key={i} value={c}>{c}</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                    <MyMsdError><ErrorMessage name="currency" component="div" /></MyMsdError>
+                                        value={currency}
+                                        defaultValue={currency}
+                                        options={listOfCurrencies.map((c: string) => c)}
+                                        inputValue={currency}
+                                        onInputChange={(event, newInputValue) => {
+                                            setCurrency(newInputValue);
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} />
+                                        )}
+                                    />
                                 </Grid>
                             </Grid>
                         </MyTxtField>
@@ -119,6 +146,12 @@ const SingUpForm: React.FC = () => {
                     </Form>
                 )}
             </Formik>
+            {errorRegister ? <Alert severity="error" sx={{ mt: 3 }}>
+               { `Oops... ${errorMessage}`}
+            </Alert> : ""}
+            {register ? <Alert severity="success" sx={{ mt: 3 }}>
+                You have successfully registered
+            </Alert> : ""}
         </div>
     );
 };
