@@ -14,12 +14,8 @@ import { signUp } from '../../axios/signUpAxios';
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
     companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    // currency: Yup.string().required('currency is a required field'),
-    password: Yup.string()
-        .required('Password is a required field')
-        .min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
-    email: Yup.string().required('Email is a required field').matches(/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-        , 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
+    password: Yup.string().required('Password is a required field').min(8, 'Password must be at least 8 characters').max(20, 'You cannot enter more than 20 letters'),
+    email: Yup.string().required('Email is a required field').matches(/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, 'Invalid email format').max(200, 'You cannot enter more than 200 letters'),
     agree: Yup.boolean().required("Required field").oneOf([true], "Required field")
 });
 
@@ -54,11 +50,11 @@ const SingUpForm: React.FC = () => {
 
             })
     };
-    const getCurrencies1 = async () => {
+    const getCurrenciesAsync = async () => {
         await getCurrencies().then(res => setListOfCurrencies(res.data));
     }
     useEffect(() => {
-        getCurrencies1();
+        getCurrenciesAsync();
     }, []);
     return (
         <div>
