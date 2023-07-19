@@ -3,7 +3,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
-const SIGN_UP = `${BASE_URL}/user` 
+const SIGN_UP = `${BASE_URL}/user/singUp` 
 const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
