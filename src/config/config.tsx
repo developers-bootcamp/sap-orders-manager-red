@@ -3,6 +3,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
+const GET_ORDERS = `${BASE_URL}/order`
+
 
 const PALLETE = {
     BLUE: '#6794CF',

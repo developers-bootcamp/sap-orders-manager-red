@@ -5,12 +5,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { MyBox } from "./FilterPop.Style";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Button } from "@mui/material";
-import { PALLETE } from '../../config/config';
 
-const FilterPop : React.FC = () => {
+const FilterPop = (props:any) => {
   const [age, setAge] = useState("");
+  const {whatFilters,key}=props;
   const arrFieldToFilter = [
     "status",
     "priority",
@@ -29,6 +27,7 @@ const FilterPop : React.FC = () => {
   };
   const handleChangeFieldToFilter = (event: SelectChangeEvent) => {
     setFieldToFilter(event.target.value as string);
+    whatFilters(event.target.value,key);
   };
 
   return (
@@ -84,20 +83,6 @@ const FilterPop : React.FC = () => {
         </Box>
         </MyBox>
       </Box>
-
-      <p>
-        <AddCircleOutlineIcon /> Add new filter
-      </p>
-      <Button
-        variant="contained"
-        style={{
-          background: PALLETE.GREEN,
-          textTransform: "none",
-          marginLeft: "75%",
-        }}
-      >
-        Apply
-      </Button>
     </>
   );
 };
