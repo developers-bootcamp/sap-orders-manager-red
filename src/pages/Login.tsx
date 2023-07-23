@@ -51,6 +51,7 @@ export const LogIn: React.FC = () => {
                 navigate("/")
             })
             .catch(err => {
+                console.log(err);
                 if (err.response.status === 404)
                     setError("You do not exist in the system, register first!")
                 if (err.response.status === 401)

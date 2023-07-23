@@ -4,6 +4,7 @@ import orderReducer from './slices/sliceOrder'
 import globalReducer from './slices/sliceGlobal'
 import userReducer from './slices/sliceUser'
 import productReducer from './slices/sliceProduct'
+import loadingReducer from './slices/sliceLoader'
 import { useDispatch } from "react-redux"
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         globalReducer,
         userReducer,
         productReducer,
+        loadingReducer
     },
 })
 
