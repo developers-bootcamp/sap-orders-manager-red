@@ -8,7 +8,7 @@ import { Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem,
 import { FormHelperText } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrencies } from '../../redux/slices/sliceGlobal';
-import { MyMsdError, MyTxtField } from './SignUpForm.styles';
+import { MyMsdError, MyTxtField } from './SignUpForm.styles'
 import { PALLETE } from '../../config/config';
 
 const schema = Yup.object().shape({

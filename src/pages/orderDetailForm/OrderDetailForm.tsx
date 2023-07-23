@@ -1,0 +1,148 @@
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Grid, TextField, Typography } from "@mui/material";
+import { FormHelperText } from "@mui/material";
+import {
+  MyArrowIcon,
+  MyFieldContainer,
+  MyMsdError,
+  MyTxtField,
+} from "./OrderDetailForm.style";
+import Divider from "@mui/material/Divider";
+import { PALLETE } from "../../config/config";
+import GlobalAutoComplete from "../../components/GlobalAutoComplete";
+import ToggleComponent from "../../components/ToggleComponent";
+
+// import React from 'react';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
+// import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
+// import { FormHelperText } from '@mui/material';
+// import Autocomplete from '@mui/material/Autocomplete';
+// import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
+// import { PALLETE } from '../../config/config';
+
+const schema = Yup.object().shape({
+  customer: Yup.string().required("customer is a required field"),
+  product: Yup.string().required("customer is a required field"),
+});
+
+const NewOrderForm: React.FC = () => {
+  const handleNewOrder = (values: any) => {
+    //  API call of new order here
+    console.log(values);
+  };
+
+  const productList = [
+    { name: "Collage", price: "$10", quantity: "x 2" },
+    { name: "Photo albom", price: "$20", quantity: "x 3" },
+    // ... more items
+  ];
+
+  return (
+    <Formik
+      validationSchema={schema}
+      initialValues={{
+        fullName: "",
+        companyName: "",
+        password: "",
+        email: "",
+        agree: false,
+      }}
+      onSubmit={handleNewOrder}
+    >
+      {({ isValid }) => (
+        <Form>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={8}>
+              <FormHelperText>customer</FormHelperText>
+              <MyArrowIcon>
+                <GlobalAutoComplete
+                  path={`/user/getNamesOfCustomersByPrefix`}
+                ></GlobalAutoComplete>
+              </MyArrowIcon>
+              <MyMsdError>
+                <ErrorMessage name="customer" component="div" />
+              </MyMsdError>
+
+              <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
+              <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
+              <MyMsdError>
+                <ErrorMessage name="product" component="div" />
+              </MyMsdError>
+
+              <Typography sx={{ mr: 8 }}>
+                <Button
+                  fullWidth
+                  sx={{
+                    mt: 2,
+                    backgroundColor: `${PALLETE.BLUE} !important`,
+                    color: `${PALLETE.WHITE} !important`,
+                  }}
+                  type="submit"
+                  disabled={!isValid}
+                >
+                  Add
+                </Button>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <h3>
+                price: <span>34.00 $</span>
+              </h3>
+              <div>
+                <Grid container spacing={2}>
+                  <h5>productList:</h5>
+                </Grid>
+                {productList.map((item, index) => (
+                  <Grid key={index} container spacing={2} sx={{ mb: 2 }}>
+                    <Typography sx={{ mr: 1 }}>{item.name}</Typography>
+                    <Typography sx={{ mr: 1 }}>{item.price}</Typography>
+                    <Typography sx={{ mr: 0 }}>{item.quantity}</Typography>
+                  </Grid>
+                ))}
+              </div>
+            </Grid>
+          </Grid>
+
+          <Divider sx={{ mt: 3 }} />
+          <div>
+            <ToggleComponent></ToggleComponent>
+            <Button
+              sx={{
+                mt: 2,
+                backgroundColor: `${PALLETE.ORANGE} !important`,
+                width: "45%",
+                color: `${PALLETE.WHITE} !important`,
+              }}
+              type="submit"
+              disabled={!isValid}
+            >
+              Cancel Order
+            </Button>
+            <Button
+              sx={{
+                mt: 2,
+                left: '10% !important',
+                backgroundColor: `${PALLETE.GREEN} !important`,
+                width: "45%",
+                color: `${PALLETE.WHITE} !important`,
+              }}
+              type="submit"
+              disabled={!isValid}
+            >
+              Save Changes
+            </Button>
+
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default NewOrderForm;
+
+
