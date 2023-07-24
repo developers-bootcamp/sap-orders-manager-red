@@ -10,6 +10,7 @@ import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 import { getCurrencies } from '../../axios/currencyAxios'
 import { signUp } from '../../axios/signUpAxios';
+import { useAppDispatch } from '../../redux/store';
 
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
@@ -26,7 +27,7 @@ const SingUpForm: React.FC = () => {
     const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
     const [register, setRegistre] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
-    const [errorMessage,setErrorMessage] = React.useState('')
+    const [errorMessage, setErrorMessage] = React.useState('')
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,7 +50,13 @@ const SingUpForm: React.FC = () => {
                 }
 
             })
+
+            for (let index = 0; index < [1, 2, 3].length; index++) {
+                
+                
+            }
     };
+    
     const getCurrenciesAsync = async () => {
         await getCurrencies().then(res => setListOfCurrencies(res.data));
     }
@@ -143,7 +150,7 @@ const SingUpForm: React.FC = () => {
                 )}
             </Formik>
             {errorRegister ? <Alert severity="error" sx={{ mt: 3 }}>
-               { `Oops... ${errorMessage}`}
+                {`Oops... ${errorMessage}`}
             </Alert> : ""}
             {register ? <Alert severity="success" sx={{ mt: 3 }}>
                 You have successfully registered
