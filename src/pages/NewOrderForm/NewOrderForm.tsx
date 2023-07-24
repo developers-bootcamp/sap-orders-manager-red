@@ -14,6 +14,9 @@ import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
 
+import { ICurrencyState } from "../../redux/slices/sliceCurrency";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 const schema = Yup.object().shape({
@@ -22,6 +25,9 @@ const schema = Yup.object().shape({
 });
 
 const NewOrderForm: React.FC = () => {
+  
+  const listOfCurrencies:string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
+ 
   const handleNewOrder = (values: any) => {
     //  API call of new order here
     console.log(values);
@@ -32,7 +38,7 @@ const NewOrderForm: React.FC = () => {
     { name: "Photo albom", price: "$20", quantity: "x 3" },
     // ... more items
   ];
-  const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
+  // const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
   const [currency, setCurrency] = React.useState("DOLLAR");
   return (
     <Formik
