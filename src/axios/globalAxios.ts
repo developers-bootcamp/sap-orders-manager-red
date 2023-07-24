@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_CURRENCIES, LOG_IN } from "../config/config";
+import { GET_CURRENCIES, LOG_IN , SIGN_UP } from "../config/config";
 import { getFromLocalStorage } from "../storageUtils";
 
 axios.interceptors.request.use(
     (config: any) => {
         let userToken = getFromLocalStorage("userToken");
-        if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
+        if (config.url.indexOf(GET_CURRENCIES) === 0 && config.url.indexOf(LOG_IN) === 0 && config.url.indexOf(SIGN_UP) === 0) {
             config.headers["token"] = userToken;
         }
         console.log(config);
