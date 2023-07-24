@@ -6,9 +6,9 @@ import { RootState } from '../../redux/store';
 
 const GlobalLoader: React.FC = () => {
   const loading: ILoadingState = useSelector<RootState, ILoadingState>(state => state.loadingReducer);
-
+  
   return (
-    <div>
+    <div style={{ position: 'absolute', top: "15%", left: "45%" }}>
       {loading.loading && <Loader />}
     </div>
   );

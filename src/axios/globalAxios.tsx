@@ -6,7 +6,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from '../redux/store'
 
 import { useAppDispatch } from "../redux/store";
-import { setLoading } from "../redux/slices/sliceLoader";
+import { startLoading, stopLoading } from "../redux/slices/sliceLoader";
 
 const GlobalAxios: React.FC = () => {
 
@@ -20,7 +20,7 @@ const GlobalAxios: React.FC = () => {
         config.headers["token"] = userToken;
       }
       console.log(config);
-      dispatch(setLoading(true));
+      dispatch(startLoading());
       return config;
     },
     (error: any) => {
@@ -31,7 +31,7 @@ const GlobalAxios: React.FC = () => {
     (response: any) => {
       console.log("I come interceptore response");
       console.log(response);
-      dispatch(setLoading(false));
+      dispatch(stopLoading());
       return response;
     },
     (error: any) => {
@@ -41,19 +41,8 @@ const GlobalAxios: React.FC = () => {
     }
   );
 
-
-  // Clean up interceptors to avoid memory leaks
-  axios.interceptors.request.eject(requestInterceptor);
-  axios.interceptors.response.eject(responseInterceptor);
-
-
-
-
   return (
-    <div>
-
-    </div>
+    <></>
   );
 };
-
 export default GlobalAxios
