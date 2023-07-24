@@ -4,12 +4,12 @@ import ICompany from "./ICompany";
 import IRole from "./IRole";
 
 export default interface IUser {
-    id: String,
-    fullName: String,
-    password: String,
-    email: String;
-    address: IAddress,
-    roleId: IRole,
-    companyId: ICompany,
-    AuditData: IAuditData,
+    id?: String,
+    fullName?: String,
+    password?: String,
+    email?: String;
+    address?: IAddress,
+    roleId?: IRole,
+    companyId?: ICompany,
+    AuditData?: IAuditData,
 }

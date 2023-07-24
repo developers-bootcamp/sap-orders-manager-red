@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Grid, TextField, Typography } from "@mui/material";
 import { FormHelperText } from "@mui/material";
+import ArrowCircleUpSharpIcon from '@mui/icons-material/ArrowCircleUpSharp';
 import {
   MyArrowIcon,
   MyFieldContainer,
@@ -14,6 +15,13 @@ import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
 import ToggleComponent from "../../components/ToggleComponent";
+import { useAppDispatch } from "../../redux/store";
+import IOrder from "../../interfaces/IOrder";
+import { setOrder } from "../../redux/slices/sliceOrder";
+import { useSelector } from "react-redux";
+import ArrowCircleUpSharp from "@mui/icons-material/ArrowCircleUpSharp";
+import IOrderItem from "../../interfaces/IOrderItem";
+import { updateOrder } from "../../axios/orderAxios";
 
 // import React from 'react';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -29,6 +37,7 @@ const schema = Yup.object().shape({
   product: Yup.string().required("customer is a required field"),
 });
 
+
 const NewOrderForm: React.FC = () => {
   const handleNewOrder = (values: any) => {
     //  API call of new order here
@@ -41,15 +50,72 @@ const NewOrderForm: React.FC = () => {
     // ... more items
   ];
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let order: IOrder = {
+      id: "1",
+      employeeId: { fullName: "rooti" },
+      customerId: { fullName: "custRoti" },
+      totalAmount: 60,
+      orderItemsList: [
+        { productId: { id: "1", name: "product1" }, amount: 20, quantity: 2 },
+        { productId: { id: "2", name: "product2" }, amount: 40, quantity: 1 },
+      ],
+      orderStatusId: "done",
+      companyId: { name: "kamatek" },
+      creditCardNumber: "1111222233334444",
+      expiryOn: new Date,
+      cvc: 123,
+    }
+
+    dispatch(setOrder(order))
+  }, [])
+
+  let currectOrder: IOrder = useSelector((o: any) => o.orderReducer.order)
+
+
+  const keepProduct = (event: any) => {
+
+  }
+
+  const keepCustomer = (event: any) => {
+
+  }
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const cancelOrder=(id:any)=>{
+    
+  }
+
+  const dellProduct = (id: any, amount: any) => {
+    let order: IOrder = { ...currectOrder }
+    order.orderItemsList = currectOrder.orderItemsList?.filter(o => o.productId?.id !== id)
+    order.totalAmount = (currectOrder.totalAmount ?? 0) - amount
+    dispatch(setOrder(order))
+  }
+
+  const saveChanges = (event: any) => {
+    updateOrder(currectOrder).then(res => {
+      // פה יהיה את כל העדכון של ההזמנה
+      toggleOpen()
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   return (
     <Formik
       validationSchema={schema}
       initialValues={{
-        fullName: "",
-        companyName: "",
-        password: "",
-        email: "",
-        agree: false,
+        creditCardNumber: `${currectOrder.creditCardNumber}`,
+        expiryOn: `${currectOrder.expiryOn}`,
+        cvc: `${currectOrder.cvc}`
       }}
       onSubmit={handleNewOrder}
     >
@@ -61,17 +127,26 @@ const NewOrderForm: React.FC = () => {
               <MyArrowIcon>
                 <GlobalAutoComplete
                   path={`/user/getNamesOfCustomersByPrefix`}
+                  onChangeSelect={keepProduct}
                 ></GlobalAutoComplete>
               </MyArrowIcon>
               <MyMsdError>
                 <ErrorMessage name="customer" component="div" />
               </MyMsdError>
 
-              <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
-              <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
-              <MyMsdError>
-                <ErrorMessage name="product" component="div" />
-              </MyMsdError>
+              <MyFieldContainer sx={{ mt: 1, mr: 8, ml: 0 }}>
+                <Grid item xs={12} sm={8}>
+                  <FormHelperText>product</FormHelperText>
+                  <GlobalAutoComplete path={"/product/names"} onChangeSelect={keepCustomer}></GlobalAutoComplete>
+                  <MyMsdError>
+                    <ErrorMessage name="product" component="div" />
+                  </MyMsdError>              </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormHelperText>Count</FormHelperText>
+                  <Field type="number" name="count" as={TextField} />
+                  <MyMsdError><ErrorMessage name="count" component="div" /></MyMsdError>
+                </Grid>
+              </MyFieldContainer>
 
               <Typography sx={{ mr: 8 }}>
                 <Button
@@ -90,17 +165,18 @@ const NewOrderForm: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <h3>
-                price: <span>34.00 $</span>
+                price: <span>{currectOrder.totalAmount} $</span>
               </h3>
               <div>
                 <Grid container spacing={2}>
                   <h5>productList:</h5>
                 </Grid>
-                {productList.map((item, index) => (
+                {currectOrder.orderItemsList?.map((item, index) => (
                   <Grid key={index} container spacing={2} sx={{ mb: 2 }}>
-                    <Typography sx={{ mr: 1 }}>{item.name}</Typography>
-                    <Typography sx={{ mr: 1 }}>{item.price}</Typography>
+                    <Typography sx={{ mr: 1 }}>{item.productId?.name}</Typography>
+                    <Typography sx={{ mr: 1 }}>{item.amount}</Typography>
                     <Typography sx={{ mr: 0 }}>{item.quantity}</Typography>
+                    <Button sx={{ mt: 0, p: 0 }} onClick={() => dellProduct(item.productId?.id, item.amount)}>X</Button>
                   </Grid>
                 ))}
               </div>
@@ -108,9 +184,35 @@ const NewOrderForm: React.FC = () => {
           </Grid>
 
           <Divider sx={{ mt: 3 }} />
+          <Typography>Paid with a credit card ending in digits: {currectOrder.creditCardNumber?.substring(12)}</Typography>
+
           <div>
-            <ToggleComponent></ToggleComponent>
+            <div>
+
+
+              <Button sx={{ color: PALLETE.ORANGE }} startIcon={<ArrowCircleUpSharp />} onClick={toggleOpen}>{isOpen ? 'Close' : ' change credit card details'}
+              </Button>
+              {isOpen && <div>
+                <Grid sx={{ width: 400 }}>
+                  <FormHelperText>Credit card number</FormHelperText>
+                  <MyTxtField>
+                    <Field fullWidth type="number" name="creditCardNumber" as={TextField} />
+                  </MyTxtField>
+                  <MyFieldContainer sx={{ mt: 1 }}>
+                    <Grid item xs={12} sm={6}>
+                      <FormHelperText>Expire on:</FormHelperText>
+                      <Field fullWidth type="month" name="expiryOn" as={TextField} />
+                    </Grid>
+                    <Grid item xs={12} sm={6} sx={{ mr: 5, ml: 2 }}>
+                      <FormHelperText>Cvc:</FormHelperText>
+                      <Field fullWidth type="number" name="cvc" as={TextField} />
+                    </Grid>
+
+                  </MyFieldContainer></Grid>
+              </div>}
+            </div>
             <Button
+            onClick={()=>cancelOrder(currectOrder.id)}
               sx={{
                 mt: 2,
                 backgroundColor: `${PALLETE.ORANGE} !important`,
@@ -132,6 +234,7 @@ const NewOrderForm: React.FC = () => {
               }}
               type="submit"
               disabled={!isValid}
+              onClick={(e) => saveChanges(e)}
             >
               Save Changes
             </Button>

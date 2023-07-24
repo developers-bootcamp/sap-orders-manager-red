@@ -55,7 +55,7 @@ const NewOrderForm: React.FC = () => {
       {({ isValid }) => (
         <Form>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={10} sm={8} >
               <FormHelperText>customer</FormHelperText>
               <MyArrowIcon>
                 <GlobalAutoComplete

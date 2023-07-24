@@ -10,7 +10,7 @@ import {
   MyTxtField,
 } from "../pages/orderDetailForm/OrderDetailForm.style";
 // ./OrderDetailForm.style
-const ToggleComponent = () => {
+const ToggleComponent = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {

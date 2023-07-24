@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useAppDispatch } from "../redux/store";
 
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
@@ -43,10 +44,11 @@ const GlobalAutoComplete = (props: any) => {
   return (
     <>
       <Autocomplete
+        onChange={(e) => props.onChangeSelect(e)}
         disablePortal
         id="Autocomplete"
         options={data}
-        sx={{ width: 300 }}
+        sx={{ mr: 8 }}
         renderInput={(params) => <TextField {...params} />}
         onInputChange={(event: any, value: string) =>
           getOptionsByProfix(event, value, props.path)
