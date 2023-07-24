@@ -1,7 +1,13 @@
 import React from 'react';
+import ProductCategoryTable from '../../tables/ProductCategoryTable';
 
 const CatalogManager: React.FC = () => {
-    return <p>CatalogManager component</p>;
+    return (
+      <>
+      <ProductCategoryTable></ProductCategoryTable>
+      </>
+    )
   };
   
   export default CatalogManager;
+
