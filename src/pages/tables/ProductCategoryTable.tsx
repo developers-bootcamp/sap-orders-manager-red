@@ -4,10 +4,10 @@ import GlobalTable from "../../components/GlobalTable";
 import IProductCategory from "../../interfaces/IProductCategory";
 
 const ProductCategoryTable = () => {
-    const [allCategory, setAllCategory] = useState<IProductCategory>()
+    const [allCategory, setAllCategory] = useState<IProductCategory[]>()
+
     const getAllCategoryAsync = async () => {
         await getAllCategory().then(res => setAllCategory(res.data));
-
     }
     useEffect(() => {
         getAllCategoryAsync();
@@ -15,9 +15,10 @@ const ProductCategoryTable = () => {
     }, []);
 
     const head = ["Product", "Description"]
+    
     return (
         <>
-            {allCategory != null ? <GlobalTable rows={allCategory} head={head}></GlobalTable> : ""}
+          {allCategory != null ? <GlobalTable  head={head} rows={allCategory} whatToAdd="item"></GlobalTable> : ""}
         </>
     );
 };

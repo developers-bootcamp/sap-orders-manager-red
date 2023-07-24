@@ -8,20 +8,19 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton, TableHead } from '@mui/material';
-// import useStylesForTable from './GlobalTable.style';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { PALLETE } from '../config/config';
+import IPropsToGlobalTable from '../interfaces/IPropsToGlobalModel';
 
 
 
-export default function GlobalTable(props: any) {
+
+export default function GlobalTable(props: IPropsToGlobalTable) {
   const rows = props.rows;
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  // const classes = useStylesForTable(PALLETE.RED)
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -59,11 +58,11 @@ export default function GlobalTable(props: any) {
               <TableRow key={row.id} style={{ height: "20px" }} >
                 {Object.keys(row).map((key) => (
                   key!=="id"?
-                   <TableCell /*style={{ padding: '0', borderBottom: '5px solid #ffff' }} */ component="th" scope="row">
+                   <TableCell  component="th" scope="row">
                       {row[key]}
                    </TableCell>:""
                 ))}
-                <TableCell /*style={{ padding: '0', borderBottom: '5px solid #ffff' }}*/><IconButton aria-label="add an alarm">
+                <TableCell ><IconButton aria-label="add an alarm">
                   <EditIcon />
                 </IconButton>
                 </TableCell>
@@ -71,7 +70,7 @@ export default function GlobalTable(props: any) {
 
             ))}
             {emptyRows > 0 && (
-              <TableRow /*style={{ height: 53 * emptyRows }}*/>
+              <TableRow >
                 <TableCell colSpan={6} />
               </TableRow>
 
@@ -79,11 +78,11 @@ export default function GlobalTable(props: any) {
             )}
           </TableBody>
           <TableFooter>
-            <TableRow><TableCell /*style={{ width: 1000 }}*/><IconButton aria-label="add an alarm">
+            <TableRow><TableCell><IconButton aria-label="add an alarm">
 
               <AddIcon />
             </IconButton>
-              add product
+              {`add ${props.whatToAdd}`} 
             </TableCell>
               <TablePagination
                 rowsPerPageOptions={[3, 5, 10, { label: 'All', value: -1 }]}
