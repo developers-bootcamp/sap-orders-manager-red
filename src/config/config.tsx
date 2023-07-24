@@ -5,6 +5,7 @@ const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
 const UPDATE_ORDER = `${BASE_URL}/order/updateOrder`
 
+const SIGN_UP = `${BASE_URL}/user/singUp` 
 const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
@@ -15,5 +16,5 @@ const PALLETE = {
     GRAY: '#F2F2F2',
 }
 
-export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES, UPDATE_ORDER };
+export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES, SIGN_UP, UPDATE_ORDER };
 

@@ -27,7 +27,6 @@ const GlobalModel = (props: any) => {
         <Link onClick={handleClickOpen} underline="hover" >
           <MyOpenDialog>{props.btnOpen}</MyOpenDialog>
         </Link>}
-      {/* <MyDialog> */}
         <Dialog fullWidth maxWidth={'md'} open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
           <DialogContent sx={{ p: 0, height: '42rem' }}>
             <MyDetailsDiv>
@@ -44,7 +43,6 @@ const GlobalModel = (props: any) => {
             </MySideBackImg>
           </DialogContent>
         </Dialog>
-      {/* </MyDialog> */}
     </>
   );
 };
