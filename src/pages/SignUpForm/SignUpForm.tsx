@@ -14,6 +14,13 @@ import { saveToLocalStorage } from '../../storageUtils';
 import { useNavigate } from 'react-router';
 
 
+import { ICurrencyState } from "../../redux/slices/sliceCurrency";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useAppDispatch } from "../../redux/store";
+import { setCurrencies } from "../../redux/slices/sliceCurrency";
+
+
 const schema = Yup.object().shape({
     fullName: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
     companyName: Yup.string().required('Company name is a required field').max(20, 'You cannot enter more than 20 letters'),
@@ -23,10 +30,14 @@ const schema = Yup.object().shape({
 });
 
 const SingUpForm: React.FC = () => {
+    const dispatch = useAppDispatch();
+
+
+    const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
 
     const [currency, setCurrency] = React.useState("DOLLAR");
     const [showPassword, setShowPassword] = React.useState(false);
-    const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
+    //const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
     const [register, setRegistre] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
     const [errorMessage,setErrorMessage] = React.useState('')
@@ -57,7 +68,12 @@ const SingUpForm: React.FC = () => {
             })
     };
     const getCurrenciesAsync = async () => {
-        await getCurrencies().then(res => setListOfCurrencies(res.data));
+        await getCurrencies().then(res => {
+            // setListOfCurrencies(res.data);//PROBEBLY SHOULD BE REDUX
+            dispatch(setCurrencies(res.data));
+        }
+        );
+
     }
     useEffect(() => {
         getCurrenciesAsync();
@@ -149,7 +165,7 @@ const SingUpForm: React.FC = () => {
                 )}
             </Formik>
             {errorRegister ? <Alert severity="error" sx={{ mt: 3 }}>
-               { `Oops... ${errorMessage}`}
+                {`Oops... ${errorMessage}`}
             </Alert> : ""}
             {register ? <Alert severity="success" sx={{ mt: 3 }}>
                 You have successfully registered
