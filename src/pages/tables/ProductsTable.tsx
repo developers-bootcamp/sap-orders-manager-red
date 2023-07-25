@@ -4,7 +4,7 @@ import GlobalTable from "../../components/GlobalTable";
 import IProductCategory from "../../interfaces/IProductCategory";
 import IProduct from "../../interfaces/IProduct";
 
-const ProductTable = () => {
+const ProductTable: React.FC = () => {
     const [allProduct, setAllProduct] = useState<IProduct[]>()
 
     const getAllProductAsync = async () => {
@@ -14,11 +14,11 @@ const ProductTable = () => {
         getAllProductAsync();
     }, []);
 
-    const head = ["Name", "Description","Inventory","Discount","","Category","Price"]
-    
+    const head = ["Name", "Description", "Inventory", "Discount", "", "Category", "Price"]
+
     return (
         <>
-          {allProduct != null ? <GlobalTable  head={head} rows={allProduct} whatToAdd="item"></GlobalTable> : ""}
+            {allProduct != null ? <GlobalTable head={head} rows={allProduct} whatToAdd="item"></GlobalTable> : ""}
         </>
     );
 };

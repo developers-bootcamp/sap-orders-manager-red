@@ -58,7 +58,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
               <TableRow key={row.id} style={{ height: "20px" }} >
                 {Object.keys(row).map((key) => (
                   key!=="id"?
-                   <TableCell  component="th" scope="row">
+                   <TableCell key={key} component="th" scope="row">
                       {row[key]}
                    </TableCell>:""
                 ))}
