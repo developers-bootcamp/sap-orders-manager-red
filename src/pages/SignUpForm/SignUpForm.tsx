@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -9,12 +9,12 @@ import { FormHelperText } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
-import { getCurrencies } from '../../axios/currencyAxios'
 import { signUp } from '../../axios/signUpAxios';
+import { saveToLocalStorage } from '../../storageUtils';
+import { useNavigate } from 'react-router';
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
 import { RootState } from '../../redux/store';
 import { useAppDispatch } from "../../redux/store";
-import { setCurrencies } from "../../redux/slices/sliceCurrency";
 
 
 const schema = Yup.object().shape({
@@ -26,25 +26,26 @@ const schema = Yup.object().shape({
 });
 
 const SingUpForm: React.FC = () => {
-    const dispatch = useAppDispatch();
-
 
     const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
 
     const [currency, setCurrency] = React.useState("DOLLAR");
     const [showPassword, setShowPassword] = React.useState(false);
-    //const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
     const [register, setRegistre] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState('')
+    const [errorMessage,setErrorMessage] = React.useState('')
+    const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
     const handleSignUp = (values: any) => {
         signUp(values.fullName, values.companyName, currency, values.email, values.password)
-            .then(response => {
+            .then(res => {
+                saveToLocalStorage("userToken", res.data)
+                navigate("/")
                 setRegistre(true);
                 setErrorRegistre(false);
             })
@@ -60,17 +61,7 @@ const SingUpForm: React.FC = () => {
 
             })
     };
-    const getCurrenciesAsync = async () => {
-        await getCurrencies().then(res => {
-            // setListOfCurrencies(res.data);//PROBEBLY SHOULD BE REDUX
-            dispatch(setCurrencies(res.data));
-        }
-        );
-
-    }
-    useEffect(() => {
-        getCurrenciesAsync();
-    }, []);
+    
     return (
         <div>
             <Formik

@@ -29,17 +29,17 @@ const NewOrderForm: React.FC = () => {
   const listOfCurrencies:string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
  
   const handleNewOrder = (values: any) => {
-    //  API call of new order here
+    // API call of new order here
     console.log(values);
   };
 
   const productList = [
     { name: "Collage", price: "$10", quantity: "x 2" },
     { name: "Photo albom", price: "$20", quantity: "x 3" },
-    // ... more items
   ];
-  // const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
+
   const [currency, setCurrency] = React.useState("DOLLAR");
+
   return (
     <Formik
       validationSchema={schema}
@@ -75,7 +75,6 @@ const NewOrderForm: React.FC = () => {
                 <Grid item xs={5} sm={5.5}>
                   <FormHelperText>Quantity:</FormHelperText>
                   <Field fullWidth type="number" name="quantity" as={TextField} />
-                  {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
                 </Grid>
                 <Grid item xs={6} sm={4} sx={{ mr: 5, ml: 2 }}>
                   <FormHelperText>Currency</FormHelperText>
