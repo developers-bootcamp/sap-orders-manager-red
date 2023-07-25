@@ -4,8 +4,8 @@ const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
 const UPDATE_ORDER = `${BASE_URL}/order/updateOrder`
+const SIGN_UP = `${BASE_URL}/user/signUp` 
 
-const SIGN_UP = `${BASE_URL}/user/singUp` 
 const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
