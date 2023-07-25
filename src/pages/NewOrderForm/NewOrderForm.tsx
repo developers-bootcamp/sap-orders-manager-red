@@ -21,21 +21,21 @@ const schema = Yup.object().shape({
 });
 
 const NewOrderForm: React.FC = () => {
-
   const handleNewOrder = (values: any) => {
     //  API call of new order here
     console.log(values);
   };
 
   const [productList ,setProductList]=useState<IProduct[]>([]);
-  const [product,setProduct] =useState();
+  const [product,setProduct] =useState<IProduct>();
 
   const setProductFrom=(selectProduct:IProduct)=>{
-    setProductList([...productList,selectProduct]);
+    setProduct(selectProduct);
   }
 
   const handleAddProduct=()=>{
-    let updateProductList=[...productList,];
+    if(product)
+      setProductList([...productList,product]);
   }
 
   return (
