@@ -10,6 +10,9 @@ import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 import { getCurrencies } from '../../axios/currencyAxios'
 import { signUp } from '../../axios/signUpAxios';
+import { saveToLocalStorage } from '../../storageUtils';
+import { useNavigate } from 'react-router';
+
 
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
 import { useSelector } from 'react-redux';
@@ -37,7 +40,8 @@ const SingUpForm: React.FC = () => {
     //const [listOfCurrencies, setListOfCurrencies] = React.useState([]);
     const [register, setRegistre] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState('')
+    const [errorMessage,setErrorMessage] = React.useState('')
+    const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,7 +49,9 @@ const SingUpForm: React.FC = () => {
     };
     const handleSignUp = (values: any) => {
         signUp(values.fullName, values.companyName, currency, values.email, values.password)
-            .then(response => {
+            .then(res => {
+                saveToLocalStorage("userToken", res.data)
+                navigate("/")
                 setRegistre(true);
                 setErrorRegistre(false);
             })

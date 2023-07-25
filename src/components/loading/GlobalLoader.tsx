@@ -1,39 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import Loader from './Loader';
+import Loader from '../../components/loading/Loader';
+import { ILoadingState } from "../../redux/slices/sliceLoader";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const GlobalLoader: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
-        setLoading(true);
-        return config;
-      }
-    );
-
-    const responseInterceptor = axios.interceptors.response.use(
-      (response: AxiosResponse) => {
-        setLoading(false);
-        return response;
-      },
-      (error: AxiosError) => {
-        setLoading(false);
-        return Promise.reject(error);
-      }
-    );
-
-    return () => {
-      // Clean up interceptors to avoid memory leaks
-      axios.interceptors.request.eject(requestInterceptor);
-      axios.interceptors.response.eject(responseInterceptor);
-    };
-  }, []);
-
+  const loading: ILoadingState = useSelector<RootState, ILoadingState>(state => state.loadingReducer);
+  
   return (
-    <div>
-      {loading && <Loader />}
+    <div style={{ position: 'absolute', top: "15%", left: "45%" }}>
+      {loading.loading && <Loader />}
     </div>
   );
 };
