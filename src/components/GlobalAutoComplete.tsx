@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
   let requestTimeout: NodeJS.Timeout | null = null;
-
+const {whatChoose}=props;
   const getOptionsByProfix = async (
     event: any,
     value: string,
@@ -25,7 +25,9 @@ const GlobalAutoComplete = (props: any) => {
           new Date().toISOString()
         );
         axios
-          .get(`http://localhost:8080${path}/${value}`)
+          .get(`http://localhost:8080${path}/${value}`, {headers: {
+            token: localStorage.getItem("userToken"),
+          }}as any)
           .then((response) => {
             setData(response.data);
             console.log(response);
@@ -40,6 +42,10 @@ const GlobalAutoComplete = (props: any) => {
     }
   };
 
+  const selectOption=(event:Event)=>{
+    if(whatChoose){
+       whatChoose(event.target);console.log(event.target)}
+  }
   return (
     <>
       <Autocomplete
@@ -52,6 +58,7 @@ const GlobalAutoComplete = (props: any) => {
           getOptionsByProfix(event, value, props.path)
         }
         getOptionLabel={(option) => option.name}
+        onSelect={(e)=>selectOption}
       />
     </>
   );

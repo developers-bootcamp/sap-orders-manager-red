@@ -27,15 +27,19 @@ const NewOrderForm: React.FC = () => {
   };
 
   const [productList ,setProductList]=useState<IProduct[]>([]);
-  const [product,setProduct] =useState<IProduct>();
+  const [productIdList ,setProductIdList]=useState<string[]>([]);
 
-  const setProductFrom=(selectProduct:IProduct)=>{
-    setProduct(selectProduct);
+  const [productId,setProductId] =useState<string>();
+
+  const setProductFrom=(selectProductId:string)=>{
+    console.log(selectProductId)
+    // setProductId(selectProductId);
   }
 
   const handleAddProduct=()=>{
-    if(product)
-      setProductList([...productList,product]);
+    // if(product)
+    //   setProductList([...productList,product]);
+    //   console.log(productList);
   }
 
   return (
@@ -58,6 +62,7 @@ const NewOrderForm: React.FC = () => {
               <MyArrowIcon>
                 <GlobalAutoComplete
                   path={`/user/getNamesOfCustomersByPrefix`}
+                 
                 ></GlobalAutoComplete>
               </MyArrowIcon>
               <MyMsdError>
@@ -65,7 +70,7 @@ const NewOrderForm: React.FC = () => {
               </MyMsdError>
 
               <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
-              <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
+              <GlobalAutoComplete path={"/product/names"} whatChoose={setProductFrom}></GlobalAutoComplete>
               <MyMsdError>
                 <ErrorMessage name="product" component="div" />
               </MyMsdError>
