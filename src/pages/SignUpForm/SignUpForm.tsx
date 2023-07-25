@@ -7,14 +7,11 @@ import * as Yup from 'yup';
 import { Alert, Autocomplete, Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrencies } from '../../redux/slices/sliceGlobal';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 import { getCurrencies } from '../../axios/currencyAxios'
 import { signUp } from '../../axios/signUpAxios';
-
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useAppDispatch } from "../../redux/store";
 import { setCurrencies } from "../../redux/slices/sliceCurrency";

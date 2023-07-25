@@ -66,7 +66,7 @@ const NewOrderForm: React.FC = () => {
                 <ErrorMessage name="customer" component="div" />
               </MyMsdError>
 
-              <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
+              <FormHelperText sx={{ mt: 1 }}>product</FormHelperText>
               <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
               <MyMsdError>
                 <ErrorMessage name="product" component="div" />
