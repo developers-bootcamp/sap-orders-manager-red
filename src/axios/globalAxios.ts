@@ -4,6 +4,7 @@ import { getFromLocalStorage } from "../storageUtils";
 
 axios.interceptors.request.use(
     (config: any) => {
+        console.log("token: " +getFromLocalStorage("userToken")); 
         let userToken = getFromLocalStorage("userToken");
         if (config.url.indexOf(GET_CURRENCIES) === 0 && config.url.indexOf(LOG_IN) === 0 && config.url.indexOf(SIGN_UP) === 0) {
             config.headers["token"] = userToken;

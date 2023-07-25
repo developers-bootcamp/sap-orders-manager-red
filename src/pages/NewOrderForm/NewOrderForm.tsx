@@ -13,15 +13,7 @@ import {
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
-
-// import React from 'react';
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-// import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
-// import { FormHelperText } from '@mui/material';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
-// import { PALLETE } from '../../config/config';
+import IProduct from "../../interfaces/IProduct";
 
 const schema = Yup.object().shape({
   customer: Yup.string().required("customer is a required field"),
@@ -29,16 +21,22 @@ const schema = Yup.object().shape({
 });
 
 const NewOrderForm: React.FC = () => {
+
   const handleNewOrder = (values: any) => {
     //  API call of new order here
     console.log(values);
   };
 
-  const productList = [
-    { name: "Collage", price: "$10", quantity: "x 2" },
-    { name: "Photo albom", price: "$20", quantity: "x 3" },
-    // ... more items
-  ];
+  const [productList ,setProductList]=useState<IProduct[]>([]);
+  const [product,setProduct] =useState();
+
+  const setProductFrom=(selectProduct:IProduct)=>{
+    setProductList([...productList,selectProduct]);
+  }
+
+  const handleAddProduct=()=>{
+    let updateProductList=[...productList,];
+  }
 
   return (
     <Formik
@@ -82,6 +80,7 @@ const NewOrderForm: React.FC = () => {
                   }}
                   type="submit"
                   disabled={!isValid}
+                  onClick={handleAddProduct}
                 >
                   Add
                 </Button>

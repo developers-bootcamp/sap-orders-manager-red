@@ -13,4 +13,5 @@ export default interface IProduct {
     inventory: number,
     companyId: ICompany,
     auditData: IAuditData,
+    quantity:number,
 }

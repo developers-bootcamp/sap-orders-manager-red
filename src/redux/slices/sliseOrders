@@ -1,0 +1,22 @@
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
+
+
+const initialState = {
+    user:{};
+   products=[];
+}
+
+export const userSlice = createSlice({
+    name: 'userReducer',
+    initialState,
+    reducers: {
+        setUsers: (state, action: PayloadAction<Array<IUser>>) => {
+            state.users = action.payload;
+        },
+    },
+})
+
+export const { setUsers } = userSlice.actions
+export default userSlice.reducer
