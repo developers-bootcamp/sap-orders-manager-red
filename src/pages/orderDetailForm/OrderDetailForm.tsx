@@ -14,7 +14,6 @@ import {
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
-import ToggleComponent from "../../components/ToggleComponent";
 import { useAppDispatch } from "../../redux/store";
 import IOrder from "../../interfaces/IOrder";
 import { setOrder } from "../../redux/slices/sliceOrder";
