@@ -25,9 +25,7 @@ const {whatChoose}=props;
           new Date().toISOString()
         );
         axios
-          .get(`http://localhost:8080${path}/${value}`, {headers: {
-            token: localStorage.getItem("userToken"),
-          }}as any)
+          .get(`http://localhost:8080${path}/${value}`)
           .then((response) => {
             setData(response.data);
             console.log(response);
