@@ -22,7 +22,7 @@ const schema = Yup.object().shape({
 
 const NewOrderForm: React.FC = () => {
   const handleNewOrder = (values: any) => {
-    //  API call of new order here
+    // API call of new order here
     console.log(values);
   };
 
@@ -41,6 +41,8 @@ const NewOrderForm: React.FC = () => {
     //   setProductList([...productList,product]);
     //   console.log(productList);
   }
+
+  const [currency, setCurrency] = React.useState("DOLLAR");
 
   return (
     <Formik
@@ -75,6 +77,33 @@ const NewOrderForm: React.FC = () => {
                 <ErrorMessage name="product" component="div" />
               </MyMsdError>
 
+              <FormHelperText sx={{ mt: 1 }}>product</FormHelperText>
+              <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
+              <MyMsdError>
+                <ErrorMessage name="product" component="div" />
+              </MyMsdError>
+              <MyFieldContainer sx={{ mt: 1 }}>
+                <Grid item xs={5} sm={5.5}>
+                  <FormHelperText>Quantity:</FormHelperText>
+                  <Field fullWidth type="number" name="quantity" as={TextField} />
+                </Grid>
+                <Grid item xs={6} sm={4} sx={{ mr: 5, ml: 2 }}>
+                  <FormHelperText>Currency</FormHelperText>
+                  <Autocomplete
+                    fullWidth
+                    value={currency}
+                    defaultValue={currency}
+                    options={listOfCurrencies.map((c: string) => c)}
+                    inputValue={currency}
+                    onInputChange={(event, newInputValue) => {
+                      setCurrency(newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} />
+                    )}
+                  />
+                </Grid>
+              </MyFieldContainer>
               <Typography sx={{ mr: 8 }}>
                 <Button
                   fullWidth

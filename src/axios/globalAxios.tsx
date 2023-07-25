@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import { GET_CURRENCIES, LOG_IN } from "../config/config";
+import { GET_CURRENCIES, LOG_IN, SIGN_UP } from "../config/config";
 import { getFromLocalStorage } from "../storageUtils";
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from '../redux/store'
@@ -13,10 +13,8 @@ const GlobalAxios: React.FC = () => {
   const dispatch = useAppDispatch();
   const requestInterceptor = axios.interceptors.request.use(
     (config: any) => {
-
-
       let userToken = getFromLocalStorage("userToken");
-      if (config.url.indexOf(LOG_IN) !== 0 && userToken) {
+      if (config.url.indexOf(LOG_IN) === -1 && config.url.indexOf(SIGN_UP) === -1 && config.url.indexOf(GET_CURRENCIES) === -1) {
         config.headers["token"] = userToken;
       }
       console.log(config);
@@ -29,8 +27,6 @@ const GlobalAxios: React.FC = () => {
   )
   const responseInterceptor = axios.interceptors.response.use(
     (response: any) => {
-      console.log("I come interceptore response");
-      console.log(response);
       dispatch(stopLoading());
       return response;
     },

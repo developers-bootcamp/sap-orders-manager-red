@@ -18,7 +18,6 @@ export const loadingSlice = createSlice({
     reducers: {
         startLoading: (state, action: PayloadAction<void>) => {
             state.loading = true;
-            console.log(state.loading);
             state.isExistLoading++;
         },
         stopLoading: (state, action: PayloadAction<void>) => {
