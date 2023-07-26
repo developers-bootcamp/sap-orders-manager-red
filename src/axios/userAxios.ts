@@ -6,7 +6,7 @@ export const logIn = async (email: String, password: String) => {
     return await axios.get(`${LOG_IN}/${email}/${password}`)
 }
 
-export const getAllUser=async()=>{
-    return await axios.get(`${GET_ALL_USER}`)
+export const getAllUser=async(pageNumber:number)=>{
+    return await axios.get(`${GET_ALL_USER}/${pageNumber}`)
 }
 
