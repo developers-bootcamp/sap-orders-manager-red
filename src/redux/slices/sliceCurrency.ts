@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-interface IGlobalState {
+export interface ICurrencyState {
     listOfCurrencies: string[],
 }
 
-const initialState: IGlobalState = {
+const initialState: ICurrencyState = {
     listOfCurrencies: [],
 }
 
-export const globalSlice = createSlice({
-    name: 'globalReducer',
+export const currencySlice = createSlice({
+    name: 'currencyReducer',
     initialState,
     reducers: {
         setCurrencies: (state, action: PayloadAction<Array<string>>) => {
@@ -19,6 +19,6 @@ export const globalSlice = createSlice({
     },
 })
 
-export const { setCurrencies } = globalSlice.actions
-export default globalSlice.reducer
+export const { setCurrencies } = currencySlice.actions
+export default currencySlice.reducer
 
