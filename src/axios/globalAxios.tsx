@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { GET_CURRENCIES, LOG_IN, SIGN_UP } from "../config/config";
 import { getFromLocalStorage } from "../storageUtils";
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { RootState, AppDispatch } from '../redux/store'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../redux/store';
 
 import { useAppDispatch } from "../redux/store";
 import { startLoading, stopLoading } from "../redux/slices/sliceLoader";
+import GlobalModel from '../components/GlobalModal';
+import GlobalErrModal from './GlobalErrorModal';
 
-const GlobalAxios: React.FC = () => {
+interface GlobalAxiosState {
+  showError: boolean;
+}
+
+const GlobalAxios: React.FC<GlobalAxiosState> = () => {
 
   const dispatch = useAppDispatch();
+  const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    setShowError(false);
+  }, []);
+
   const requestInterceptor = axios.interceptors.request.use(
     (config: any) => {
       let userToken = getFromLocalStorage("userToken");
@@ -24,21 +36,29 @@ const GlobalAxios: React.FC = () => {
     (error: any) => {
       return Promise.reject(error);
     }
-  )
+  );
   const responseInterceptor = axios.interceptors.response.use(
     (response: any) => {
       dispatch(stopLoading());
       return response;
     },
     (error: any) => {
-      // if (error.response.status !== 401)
-      //     alert("ארע שגיאה אנא פנה למנהל המערכת");
+      // if (error.response.status == 500)
+      setShowError(true);
       return Promise.reject(error);
     }
   );
 
   return (
-    <></>
+    <>
+    {showError ? (
+      <GlobalErrModal
+        // showError={showError}
+        onClose={() => setShowError(false)}
+      />
+    ) : null}
+    </>
   );
 };
-export default GlobalAxios
+
+export default GlobalAxios;
