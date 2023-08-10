@@ -10,3 +10,4 @@ export const getAllUser=async(pageNumber:number)=>{
     return await axios.get(`${GET_ALL_USER}/${pageNumber}`)
 }
 
+
