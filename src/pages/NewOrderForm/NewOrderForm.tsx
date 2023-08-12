@@ -2,178 +2,404 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography, Autocomplete } from "@mui/material";
 import { FormHelperText } from "@mui/material";
-import {
-  MyArrowIcon,
-  MyFieldContainer,
-  MyMsdError,
-  MyTxtField,
-} from "./NewOrderForm.style";
+import {MyArrowIcon, MyFieldContainer,MyMsdError,MyTxtField} from "./NewOrderForm.style";
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
-import IProduct from "../../interfaces/IProduct";
+import IProductDTO from "../../interfaces/IproductDTO";
+
+import { ICurrencyState } from "../../redux/slices/sliceCurrency";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import axios from "axios";
+import IOrder from "../../interfaces/IOrder";
+import { json } from "node:stream/consumers";
 
 const schema = Yup.object().shape({
-  customer: Yup.string().required("customer is a required field"),
-  product: Yup.string().required("customer is a required field"),
+  // customer: Yup.string().required("customer is a required field"),
+  // product: Yup.string().required("customer is a required field"),
+  // quantity: Yup.number().required("quantity is a required field"),
+  cvc: Yup.string().required("number is a required field"),
+  expireOn:Yup.string().required("expireOn is a required field"),
+  creditCard: Yup.string().required("creditCard is a required field"),
 });
 
-const NewOrderForm: React.FC = () => {
-  const handleNewOrder = (values: any) => {
-    // API call of new order here
+const NewOrderForm = () => {
+  
+  const [productId, setProductId] = useState<string>("");
+  const [customerId, setCustomerId] = useState<string>("");
+  const [currency, setCurrency] = useState("DOLLAR");
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [productListToBuy, setProductListToBuy] = useState<IProductDTO[]>([]);
+  // const [order, setOrder] = useState<IOrder>({customerId:{id:customerId}}); 
+  const [order, setOrder] = useState<IOrder>({
+    employeeId: {
+      id: "string",
+      fullName: "string",
+      password: "string",
+      address: {
+        phone: "string",
+        name: "string",
+        email: "string"
+      },
+      roleId: {
+        id: "string",
+        name: "ADMIN",
+        desc: "string",
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11"
+        }
+      },
+      companyId: {
+        id: "string",
+        name: "string",
+        currency: "EURO",
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11"
+        }
+      },
+     auditData: {
+        createDate: "2023-08-11",
+        updateDate: "2023-08-11"
+      }
+    },
+    customerId: {
+      id: customerId,
+      fullName: "string",
+      password: "string",
+      address: {
+        phone: "string",
+        name: "string",
+        email: "string"
+      },
+      roleId: {
+        id: "string",
+        name: "ADMIN",
+        desc: "string",
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11"
+        }
+      },
+      companyId: {
+        id: "string",
+        name: "string",
+        currency: "EURO",
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11"
+        }
+      },
+      auditData: {
+        createDate: "2023-08-11",
+        updateDate: "2023-08-11"
+      }
+    },
+    totalAmount: 0,
+    orderItemsList: [
+      
+    ],
+    orderStatus: "NEW",
+    companyId: {
+      id: "string",
+      name: "string",
+      currency: "EURO",
+      auditData: {
+        createDate: "2023-08-11",
+        updateDate: "2023-08-11"
+      }
+    },
+    creditCardNumber: 0,
+    expireOn: "2023-08-11T13:23:16.989Z",
+    cvc: 0,
+    notificationFlag: true,
+    auditData: {
+      createDate: "2023-08-11",
+      updateDate: "2023-08-11"
+    }
+  });
+  const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(
+    (state) => state.currencyReducer
+  ).listOfCurrencies;
+  
+  const handleNewOrder = async(values:any) => {
+      // API call of new order here
+  console.log("in function handleNewOrder");
+  let updateOrder = await {...order};
+  updateOrder.creditCardNumber = await values.creditCard;
+  updateOrder.cvc = await values.cvc;
+  updateOrder.expireOn = await values.expireOn;
+  await setOrder({...updateOrder});
+  console.log(order)
+  // productDTO.creditCardNumber=parseInt(values.creditCard);
+  await axios.post(`http://localhost:8080/order/`, order)
+    .then((response) => {console.log(response)})
+    .catch((error) => {console.log(error)});
+
     console.log(values);
+};
+
+  const setProductFrom = (selectProductId: string) => {
+    setProductId(selectProductId);
+    // console.log(selectProductId);
+    // console.log("productId",productId);
+  };
+  const setCustomerFrom = (selectCustomerId: string) => {
+    setCustomerId(selectCustomerId);
+    setProductId("");
+    let updatrOrder=order;
+    if(updatrOrder.customerId)
+      updatrOrder.customerId.id=selectCustomerId;
+    setOrder(updatrOrder);
   };
 
-  const [productList ,setProductList]=useState<IProduct[]>([]);
-  const [productIdList ,setProductIdList]=useState<string[]>([]);
+  const handleAddProduct =async (state: any) => {
+    console.log("state", state);
+    // if(productList.orderItemsList)
+    //   productList.orderItemsList.push({productId: {id:productId||""},quantity:quantity});
+    let updatedProductList =await { ...order };
+    let newOrderItem =await {
+      productId: {
+        id: productId,
+        name: "string",
+        desc: "string",
+        price: 0,
+        discount: 0,
+        discountType: "PERCENTAGE",
+        productCategoryId: {
+          id: "string",
+          name: "string",
+          desc: "string",
+          companyId: {
+            id: "string",
+            name: "string",
+            currency: "EURO",
+            auditData: {
+              createDate: "2023-08-11",
+              updateDate: "2023-08-11"
+            }
+          },
+          auditData: {
+            createDate: "2023-08-11",
+            updateDate: "2023-08-11"
+          }
+        },
+        inventory: 0,
+        companyId: {
+          id: "string",
+          name: "string",
+          currency: "EURO",
+          auditData: {
+            createDate: "2023-08-11",
+            updateDate: "2023-08-11"
+          }
+        },
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11"
+        }
+      },
+      amount: 0,
+      quantity: parseInt(quantity.toString())
+    }
+    if (updatedProductList.orderItemsList==undefined) {
+      updatedProductList.orderItemsList = [];
+    }
+    await updatedProductList.orderItemsList.push(newOrderItem);
+    setOrder(updatedProductList)
+    console.log(order)
 
-  const [productId,setProductId] =useState<string>();
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/order/calculateOrderAmount`,
+        updatedProductList // Use the updatedProductList here
+      );
+      console.log(response)
+      setProductListToBuy([...productListToBuy,response.data[0]]);
+      updatedProductList.orderItemsList[updatedProductList.orderItemsList.length-1].amount=response.data[0].amount;
+      setOrder(updatedProductList);
+      setPrice(response.data[0].amount+price);
+    } catch (error) {
+      console.log(error);
+    }
+    // axios
+    //   .get(`http://localhost:8080/product/${productId}`)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     let product: IProduct = res.data;
 
-  const setProductFrom=(selectProductId:string)=>{
-    console.log(selectProductId)
-    // setProductId(selectProductId);
-  }
-
-  const handleAddProduct=()=>{
-    // if(product)
-    //   setProductList([...productList,product]);
-    //   console.log(productList);
-  }
-
-  const [currency, setCurrency] = React.useState("DOLLAR");
+    //     setProductList([
+    //       ...productList,
+    //       {
+    //         id: product.id,
+    //         name: product.name,
+    //         desc: product.name,
+    //         inventory: product.inventory,
+    //         discount: product.discount,
+    //         discountType: product.discountType,
+    //         productCategoryId: product.productCategoryId,
+    //         quantity: quntity,
+    //         price: product.price,
+    //       },
+    //     ]);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // console.log(productList);
+  };
 
   return (
-    <Formik
-      validationSchema={schema}
-      initialValues={{
-        fullName: "",
-        companyName: "",
-        password: "",
-        email: "",
-        agree: false,
-      }}
-      onSubmit={handleNewOrder}
-    >
-      {({ isValid }) => (
-        <Form>
+    <>
+      <Formik
+        validationSchema={schema}
+        initialValues={{cvc:"",expireOn:"",creditCard:""}}
+        onSubmit={handleNewOrder}
+      >
+        {({ isValid }) => (
+          <Form>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
-              <FormHelperText>customer</FormHelperText>
-              <MyArrowIcon>
+              <Grid item xs={12} sm={8}>
+                <FormHelperText>customer</FormHelperText>
+                <MyArrowIcon>
+                  <GlobalAutoComplete
+                    path={`/user/getNamesOfCustomersByPrefix`}
+                    whatChoose={(event: string) => setCustomerFrom(event)}
+                  ></GlobalAutoComplete>
+                </MyArrowIcon>
+                <MyMsdError>
+                  <ErrorMessage name="customer" component="div" />
+                </MyMsdError>
+                <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
                 <GlobalAutoComplete
-                  path={`/user/getNamesOfCustomersByPrefix`}
-                 
+                  path={"/product/names"}
+                  whatChoose={(event: string) => setProductFrom(event)}
                 ></GlobalAutoComplete>
-              </MyArrowIcon>
-              <MyMsdError>
-                <ErrorMessage name="customer" component="div" />
-              </MyMsdError>
-
-              <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
-              <GlobalAutoComplete path={"/product/names"} whatChoose={setProductFrom}></GlobalAutoComplete>
-              <MyMsdError>
-                <ErrorMessage name="product" component="div" />
-              </MyMsdError>
-
-              <FormHelperText sx={{ mt: 1 }}>product</FormHelperText>
+                <MyMsdError>
+                  <ErrorMessage name="product" component="div" />
+                </MyMsdError>
+                {/* <FormHelperText sx={{ mt: 1 }}>product</FormHelperText>
               <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
               <MyMsdError>
                 <ErrorMessage name="product" component="div" />
-              </MyMsdError>
-              <MyFieldContainer sx={{ mt: 1 }}>
-                <Grid item xs={5} sm={5.5}>
-                  <FormHelperText>Quantity:</FormHelperText>
-                  <Field fullWidth type="number" name="quantity" as={TextField} />
-                </Grid>
-                <Grid item xs={6} sm={4} sx={{ mr: 5, ml: 2 }}>
-                  <FormHelperText>Currency</FormHelperText>
-                  <Autocomplete
+              </MyMsdError> */}
+                <MyFieldContainer sx={{ mt: 1 }}>
+                  <Grid item xs={5} sm={5.5}>
+                    <FormHelperText>Quantity:</FormHelperText>
+                    <Field
+                      fullWidth
+                      type="number"
+                      name="quantity"
+                      as={TextField}
+                      value={quantity}
+                      onChange={(event: any) => {
+                        setQuantity(event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={4} sx={{ mr: 5, ml: 2 }}>
+                    <FormHelperText>Currency</FormHelperText>
+                    <Autocomplete
+                      fullWidth
+                      value={currency}
+                      // defaultValue={currency}
+                      options={listOfCurrencies.map((c: string) => c)}
+                      inputValue={currency}
+                      onInputChange={(event: any, newInputValue: any) => {
+                        setCurrency(newInputValue);
+                      }}
+                      renderInput={(params: any) => <TextField {...params} />}
+                    />
+                  </Grid>
+                </MyFieldContainer>
+                <Typography sx={{ mr: 8 }}>
+                  <Button
                     fullWidth
-                    value={currency}
-                    defaultValue={currency}
-                    options={listOfCurrencies.map((c: string) => c)}
-                    inputValue={currency}
-                    onInputChange={(event, newInputValue) => {
-                      setCurrency(newInputValue);
+                    sx={{
+                      mt: 2,
+                      backgroundColor: `${PALLETE.BLUE} !important`,
+                      color: `${PALLETE.WHITE} !important`,
                     }}
-                    renderInput={(params) => (
-                      <TextField {...params} />
-                    )}
+                    // disabled={isValid}
+                    onClick={handleAddProduct}
+                  >
+                    Add
+                  </Button>
+                </Typography>{" "}
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <h3>
+                  price: <span>{price}$</span>
+                </h3>
+                <div>
+                  <Grid container spacing={2}>
+                    <h5>productList:</h5>
+                  </Grid>
+                  {productListToBuy != undefined &&
+                    productListToBuy.map((item, index) => (
+                      <Grid key={index} container spacing={2} sx={{ mb: 2 }}>
+                        <Typography sx={{ mr: 1 }}>{item.name}</Typography>
+                        <Typography sx={{ mr: 1 }}> {item.amount}</Typography>
+                        <Typography sx={{ mr: 0 }}>{item.quantity}</Typography>
+                      </Grid>
+                    ))}
+                </div>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ mt: 3 }} />
+
+            <Grid sx={{ width: 400 }}>
+              <FormHelperText>Credit card number</FormHelperText>
+              <MyTxtField>
+                <Field
+                  fullWidth
+                  type="number"
+                  name="creditCard"
+                  as={TextField}
+                />
+              </MyTxtField>
+              {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
+              <MyFieldContainer sx={{ mt: 1 }}>
+                <Grid item xs={12} sm={6}>
+                  <FormHelperText>Expire on:</FormHelperText>
+                  <Field
+                    fullWidth
+                    type="month"
+                    name="expireOn"
+                    as={TextField}
                   />
+                  {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
+                </Grid>
+                <Grid item xs={12} sm={6} sx={{ mr: 5, ml: 2 }}>
+                  <FormHelperText>Cvc:</FormHelperText>
+                  <Field fullWidth type="number" name="cvc" as={TextField} />
                 </Grid>
               </MyFieldContainer>
-              <Typography sx={{ mr: 8 }}>
-                <Button
-                  fullWidth
-                  sx={{
-                    mt: 2,
-                    backgroundColor: `${PALLETE.BLUE} !important`,
-                    color: `${PALLETE.WHITE} !important`,
-                  }}
-                  type="submit"
-                  disabled={!isValid}
-                  onClick={handleAddProduct}
-                >
-                  Add
-                </Button>
-              </Typography>
+              <Button
+                sx={{
+                  mt: 2,
+                  backgroundColor: `${PALLETE.YELLOW} !important`,
+                  width: "30%",
+                  color: `${PALLETE.WHITE} !important`,
+                }}
+                type="submit"
+                disabled={!isValid}
+                // onClick={(values)=>handleNewOrder(values)}
+              >
+                Buy Now
+              </Button>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <h3>
-                price: <span>34.00 $</span>
-              </h3>
-              <div>
-                <Grid container spacing={2}>
-                  <h5>productList:</h5>
-                </Grid>
-                {productList.map((item, index) => (
-                  <Grid key={index} container spacing={2} sx={{ mb: 2 }}>
-                    <Typography sx={{ mr: 1 }}>{item.name}</Typography>
-                    <Typography sx={{ mr: 1 }}>{item.price}</Typography>
-                    <Typography sx={{ mr: 0 }}>{item.quantity}</Typography>
-                  </Grid>
-                ))}
-              </div>
-            </Grid>
-          </Grid>
-
-          <Divider sx={{ mt: 3 }} />
-
-          <Grid sx={{ width: 400 }}>
-            <FormHelperText>Credit card number</FormHelperText>
-            <MyTxtField>
-              <Field fullWidth type="number" name="creditCard" as={TextField} />
-            </MyTxtField>
-            {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-            <MyFieldContainer sx={{ mt: 1 }}>
-              <Grid item xs={12} sm={6}>
-                <FormHelperText>Expire on:</FormHelperText>
-                <Field fullWidth type="month" name="expireOn" as={TextField} />
-                {/* <ErrorMessage className={classes.msdError} name="Credit card number" component="div" /> */}
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ mr: 5, ml: 2 }}>
-                <FormHelperText>Cvc:</FormHelperText>
-                <Field fullWidth type="number" name="Cvc" as={TextField} />
-              </Grid>
-            </MyFieldContainer>
-            <Button
-              sx={{
-                mt: 2,
-                backgroundColor: `${PALLETE.YELLOW} !important`,
-                width: "30%",
-                color: `${PALLETE.WHITE} !important`,
-              }}
-              type="submit"
-              disabled={!isValid}
-            >
-              Buy Now
-            </Button>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

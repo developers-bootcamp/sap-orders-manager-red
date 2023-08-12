@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
   let requestTimeout: NodeJS.Timeout | null = null;
-const {whatChoose}=props;
+  const { whatChoose } = props;
   const getOptionsByProfix = async (
     event: any,
     value: string,
@@ -40,10 +40,13 @@ const {whatChoose}=props;
     }
   };
 
-  const selectOption=(event:Event)=>{
-    if(whatChoose){
-       whatChoose(event.target);console.log(event.target)}
-  }
+  const handleClickShowPassword = (event: any) => {
+    console.log("event", event);
+    if (whatChoose) {
+      whatChoose(event);
+      console.log(event);
+    }
+  };
   return (
     <>
       <Autocomplete
@@ -51,15 +54,20 @@ const {whatChoose}=props;
         id="Autocomplete"
         options={data}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} />}
         onInputChange={(event: any, value: string) =>
           getOptionsByProfix(event, value, props.path)
         }
         getOptionLabel={(option) => option.name}
-        onSelect={(e)=>selectOption}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        onChange={(e, value) => handleClickShowPassword(value?.id)}
+        renderInput={(params) => <TextField {...params} />}
       />
     </>
   );
 };
 
 export default GlobalAutoComplete;
+
+// getOptionSelected={(option, value) => option.id === value.id}
+// isOptionEqualToValue={}
+//  isOptionEqualToValue={(option, value) => option.name === value.name}
