@@ -31,7 +31,7 @@ const SingUpForm: React.FC = () => {
 
     const [currency, setCurrency] = React.useState("DOLLAR");
     const [showPassword, setShowPassword] = React.useState(false);
-    const [register, setRegistre] = React.useState(false);
+    const [register, setRegister] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
     const [errorMessage,setErrorMessage] = React.useState('')
     const navigate = useNavigate()
@@ -46,7 +46,7 @@ const SingUpForm: React.FC = () => {
             .then(res => {
                 saveToLocalStorage("userToken", res.data)
                 navigate("/")
-                setRegistre(true);
+                setRegister(true);
                 setErrorRegistre(false);
             })
             .catch(error => {

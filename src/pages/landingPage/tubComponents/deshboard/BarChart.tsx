@@ -31,14 +31,6 @@ export const options = {
 export const BarChart = () => {
 
   return (
-    // <Chart
-    //   chartType="BarChart"
-    //   width="100%"
-    //   height="300px"
-    //   loader={<Loader />}
-    //   data={data}
-    //   options={options}
-    // />
     <Chart
       chartType="ComboChart"
       width="100%"

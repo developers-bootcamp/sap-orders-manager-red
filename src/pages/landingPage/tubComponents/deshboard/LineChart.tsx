@@ -18,7 +18,7 @@ export const options = {
   backgroundColor: `${PALLETE.GRAY}`,
 };
 
-export function LineChart() {
+export const LineChart: React.FC = () => {
   return (
     <Chart
       chartType="LineChart"
