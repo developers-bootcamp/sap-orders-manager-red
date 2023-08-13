@@ -1,17 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 import orderReducer from './slices/sliceOrder'
-import globalReducer from './slices/sliceGlobal'
+import currencyReducer from './slices/sliceCurrency'
 import userReducer from './slices/sliceUser'
 import productReducer from './slices/sliceProduct'
+import loadingReducer from './slices/sliceLoader'
 import { useDispatch } from "react-redux"
 
 export const store = configureStore({
     reducer: {
         orderReducer,
-        globalReducer,
+        currencyReducer,
         userReducer,
         productReducer,
+        loadingReducer
     },
 })
 

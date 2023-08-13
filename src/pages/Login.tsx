@@ -49,6 +49,7 @@ export const LogIn: React.FC = () => {
                 navigate("/")
             })
             .catch(err => {
+                console.log(err);
                 if (err.response.status === 404)
                     setError("You do not exist in the system, register first!")
                 if (err.response.status === 401)
@@ -105,7 +106,6 @@ export const LogIn: React.FC = () => {
                                     {({ field }: any) => (
                                         <OutlinedInput
                                             {...field} sx={{ mt: 2 }}
-                                            autoFocus
                                             autoComplete="email"
                                             name="email"
                                             fullWidth

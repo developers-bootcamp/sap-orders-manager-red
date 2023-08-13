@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography,Autocomplete } from "@mui/material";
 import { FormHelperText } from "@mui/material";
 import {
   MyArrowIcon,
@@ -14,14 +14,10 @@ import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
 
-// import React from 'react';
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-// import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
-// import { FormHelperText } from '@mui/material';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
-// import { PALLETE } from '../../config/config';
+import { ICurrencyState } from "../../redux/slices/sliceCurrency";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+
 
 const schema = Yup.object().shape({
   customer: Yup.string().required("customer is a required field"),
@@ -29,16 +25,20 @@ const schema = Yup.object().shape({
 });
 
 const NewOrderForm: React.FC = () => {
+  
+  const listOfCurrencies:string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
+ 
   const handleNewOrder = (values: any) => {
-    //  API call of new order here
+    // API call of new order here
     console.log(values);
   };
 
   const productList = [
     { name: "Collage", price: "$10", quantity: "x 2" },
     { name: "Photo albom", price: "$20", quantity: "x 3" },
-    // ... more items
   ];
+
+  const [currency, setCurrency] = React.useState("DOLLAR");
 
   return (
     <Formik
@@ -66,12 +66,33 @@ const NewOrderForm: React.FC = () => {
                 <ErrorMessage name="customer" component="div" />
               </MyMsdError>
 
-              <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
+              <FormHelperText sx={{ mt: 1 }}>product</FormHelperText>
               <GlobalAutoComplete path={"/product/names"}></GlobalAutoComplete>
               <MyMsdError>
                 <ErrorMessage name="product" component="div" />
               </MyMsdError>
-
+              <MyFieldContainer sx={{ mt: 1 }}>
+                <Grid item xs={5} sm={5.5}>
+                  <FormHelperText>Quantity:</FormHelperText>
+                  <Field fullWidth type="number" name="quantity" as={TextField} />
+                </Grid>
+                <Grid item xs={6} sm={4} sx={{ mr: 5, ml: 2 }}>
+                  <FormHelperText>Currency</FormHelperText>
+                  <Autocomplete
+                    fullWidth
+                    value={currency}
+                    defaultValue={currency}
+                    options={listOfCurrencies.map((c: string) => c)}
+                    inputValue={currency}
+                    onInputChange={(event, newInputValue) => {
+                      setCurrency(newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} />
+                    )}
+                  />
+                </Grid>
+              </MyFieldContainer>
               <Typography sx={{ mr: 8 }}>
                 <Button
                   fullWidth
