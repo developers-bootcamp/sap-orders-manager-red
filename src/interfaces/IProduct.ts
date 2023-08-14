@@ -4,13 +4,14 @@ import IProductCategory from "./IProductCategory";
 
 export default interface IProduct {
     id: string,
-    name: string,
-    desc: string,
-    price: number,
-    discount: number,
-    discountType: string,
-    productCategoryId: IProductCategory,
-    inventory: number,
-    companyId: ICompany,
+    name?: string,
+    desc?: string,
+    inventory?: number,
+    discount?: number,
+    discountType?: string,
+    productCategoryId?: IProductCategory,
+    companyId?: ICompany,
     auditData: IAuditData,
+    quantity?:number,
+    price?: number,
 }

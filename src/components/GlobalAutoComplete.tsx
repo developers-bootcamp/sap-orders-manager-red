@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
   let requestTimeout: NodeJS.Timeout | null = null;
-
+  const { whatChoose } = props;
   const getOptionsByProfix = async (
     event: any,
     value: string,
@@ -38,6 +38,13 @@ const GlobalAutoComplete = (props: any) => {
     }
   };
 
+  const handleClickShowPassword = (event: any) => {
+    console.log("event", event);
+    if (whatChoose) {
+      whatChoose(event);
+      console.log(event);
+    }
+  };
   return (
     <>
       <Autocomplete
@@ -45,14 +52,20 @@ const GlobalAutoComplete = (props: any) => {
         id="Autocomplete"
         options={data}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} />}
         onInputChange={(event: any, value: string) =>
           getOptionsByProfix(event, value, props.path)
         }
         getOptionLabel={(option) => option.name}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        onChange={(e, value) => handleClickShowPassword(value?.id)}
+        renderInput={(params) => <TextField {...params} />}
       />
     </>
   );
 };
 
 export default GlobalAutoComplete;
+
+// getOptionSelected={(option, value) => option.id === value.id}
+// isOptionEqualToValue={}
+//  isOptionEqualToValue={(option, value) => option.name === value.name}
