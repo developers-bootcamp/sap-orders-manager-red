@@ -9,7 +9,7 @@ export default interface IUser {
     password: String,
     email: String;
     address: IAddress,
-    roleId: IRole,
+    roleId: string //IRole,
     companyId: ICompany,
     AuditData: IAuditData,
 }
