@@ -92,6 +92,41 @@ const FilterPop = (props: any) => {
                     ))}
                 </Select>
               )}
+              {dataToShow?.fieldName === "customer"  && (
+                <div style={{display:"inline",width:"20%"}}>
+                <GlobalAutoComplete
+                  path={`/user/getNamesOfCustomersByPrefix`}
+                ></GlobalAutoComplete></div>
+              )}
+              {dataToShow?.fieldName === "product"&& (
+                <GlobalAutoComplete
+                  path={"/product/names"}
+                ></GlobalAutoComplete>
+              )} 
+              {dataToShow?.fieldName === "date"&& (
+                <>
+                  <MyInput>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DatePicker"]}>
+                        <DatePicker
+                          label="From date"
+                          slotProps={{ textField: { size: "small" } }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </MyInput>
+                  <MyInput>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DatePicker"]}>
+                        <DatePicker
+                          label="To date"
+                          slotProps={{ textField: { size: "small" } }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </MyInput>
+                </>
+              )}
             </FormControl>
           </Box>
         </MyBox>
