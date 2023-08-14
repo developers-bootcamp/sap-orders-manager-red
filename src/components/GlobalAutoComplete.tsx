@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAppDispatch } from "../redux/store";
@@ -7,7 +7,7 @@ import { useAppDispatch } from "../redux/store";
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
   let requestTimeout: NodeJS.Timeout | null = null;
-
+  const { whatChoose } = props;
   const getOptionsByProfix = async (
     event: any,
     value: string,
@@ -41,6 +41,13 @@ const GlobalAutoComplete = (props: any) => {
     }
   };
 
+  const handleClickShowPassword = (event: any) => {
+    console.log("event", event);
+    if (whatChoose) {
+      whatChoose(event);
+      console.log(event);
+    }
+  };
   return (
     <>
       <Autocomplete
@@ -48,15 +55,21 @@ const GlobalAutoComplete = (props: any) => {
         disablePortal
         id="Autocomplete"
         options={data}
-        sx={{ mr: 8 }}
-        renderInput={(params) => <TextField {...params} />}
+        sx={{ width: 300 }}
         onInputChange={(event: any, value: string) =>
           getOptionsByProfix(event, value, props.path)
         }
         getOptionLabel={(option) => option.name}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        onChange={(e, value) => handleClickShowPassword(value?.id)}
+        renderInput={(params) => <TextField {...params} />}
       />
     </>
   );
 };
 
 export default GlobalAutoComplete;
+
+// getOptionSelected={(option, value) => option.id === value.id}
+// isOptionEqualToValue={}
+//  isOptionEqualToValue={(option, value) => option.name === value.name}
