@@ -4,7 +4,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Grid, TextField, Typography, Autocomplete } from "@mui/material";
 import { FormHelperText } from "@mui/material";
-import {MyArrowIcon, MyFieldContainer,MyMsdError,MyTxtField} from "./NewOrderForm.style";
+import {
+  MyArrowIcon,
+  MyFieldContainer,
+  MyMsdError,
+  MyTxtField,
+} from "./NewOrderForm.style";
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
@@ -18,23 +23,18 @@ import IOrder from "../../interfaces/IOrder";
 import { json } from "node:stream/consumers";
 
 const schema = Yup.object().shape({
-  // customer: Yup.string().required("customer is a required field"),
-  // product: Yup.string().required("customer is a required field"),
-  // quantity: Yup.number().required("quantity is a required field"),
   cvc: Yup.string().required("number is a required field"),
-  expireOn:Yup.string().required("expireOn is a required field"),
+  expireOn: Yup.string().required("expireOn is a required field"),
   creditCard: Yup.string().required("creditCard is a required field"),
 });
 
 const NewOrderForm = () => {
-  
   const [productId, setProductId] = useState<string>("");
   const [customerId, setCustomerId] = useState<string>("");
   const [currency, setCurrency] = useState("DOLLAR");
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [productListToBuy, setProductListToBuy] = useState<IProductDTO[]>([]);
-  // const [order, setOrder] = useState<IOrder>({customerId:{id:customerId}}); 
   const [order, setOrder] = useState<IOrder>({
     employeeId: {
       id: "string",
@@ -43,7 +43,7 @@ const NewOrderForm = () => {
       address: {
         phone: "string",
         name: "string",
-        email: "string"
+        email: "string",
       },
       roleId: {
         id: "string",
@@ -51,8 +51,8 @@ const NewOrderForm = () => {
         desc: "string",
         auditData: {
           createDate: "2023-08-11",
-          updateDate: "2023-08-11"
-        }
+          updateDate: "2023-08-11",
+        },
       },
       companyId: {
         id: "string",
@@ -60,13 +60,13 @@ const NewOrderForm = () => {
         currency: "EURO",
         auditData: {
           createDate: "2023-08-11",
-          updateDate: "2023-08-11"
-        }
+          updateDate: "2023-08-11",
+        },
       },
-     auditData: {
+      auditData: {
         createDate: "2023-08-11",
-        updateDate: "2023-08-11"
-      }
+        updateDate: "2023-08-11",
+      },
     },
     customerId: {
       id: customerId,
@@ -75,7 +75,7 @@ const NewOrderForm = () => {
       address: {
         phone: "string",
         name: "string",
-        email: "string"
+        email: "string",
       },
       roleId: {
         id: "string",
@@ -83,8 +83,8 @@ const NewOrderForm = () => {
         desc: "string",
         auditData: {
           createDate: "2023-08-11",
-          updateDate: "2023-08-11"
-        }
+          updateDate: "2023-08-11",
+        },
       },
       companyId: {
         id: "string",
@@ -92,18 +92,16 @@ const NewOrderForm = () => {
         currency: "EURO",
         auditData: {
           createDate: "2023-08-11",
-          updateDate: "2023-08-11"
-        }
+          updateDate: "2023-08-11",
+        },
       },
       auditData: {
         createDate: "2023-08-11",
-        updateDate: "2023-08-11"
-      }
+        updateDate: "2023-08-11",
+      },
     },
     totalAmount: 0,
-    orderItemsList: [
-      
-    ],
+    orderItemsList: [],
     orderStatus: "NEW",
     companyId: {
       id: "string",
@@ -111,8 +109,8 @@ const NewOrderForm = () => {
       currency: "EURO",
       auditData: {
         createDate: "2023-08-11",
-        updateDate: "2023-08-11"
-      }
+        updateDate: "2023-08-11",
+      },
     },
     creditCardNumber: 0,
     expireOn: "2023-08-11T13:23:16.989Z",
@@ -120,50 +118,50 @@ const NewOrderForm = () => {
     notificationFlag: true,
     auditData: {
       createDate: "2023-08-11",
-      updateDate: "2023-08-11"
-    }
+      updateDate: "2023-08-11",
+    },
   });
   const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(
     (state) => state.currencyReducer
   ).listOfCurrencies;
-  
-  const handleNewOrder = async(values:any) => {
-      // API call of new order here
-  console.log("in function handleNewOrder");
-  let updateOrder = await {...order};
-  updateOrder.creditCardNumber = await values.creditCard;
-  updateOrder.cvc = await values.cvc;
-  updateOrder.expireOn = await values.expireOn;
-  await setOrder({...updateOrder});
-  console.log(order)
-  // productDTO.creditCardNumber=parseInt(values.creditCard);
-  await axios.post(`http://localhost:8080/order/`, order)
-    .then((response) => {console.log(response)})
-    .catch((error) => {console.log(error)});
+
+  const handleNewOrder = async (values: any) => {
+    console.log("in function handleNewOrder");
+    let updateOrder = await { ...order };
+    updateOrder.creditCardNumber = await values.creditCard;
+    updateOrder.cvc = await values.cvc;
+    updateOrder.expireOn = await values.expireOn;
+    await setOrder({ ...updateOrder });
+    console.log(order);
+    await axios
+      .post(`http://localhost:8080/order/`, order)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     console.log(values);
-};
+  };
 
   const setProductFrom = (selectProductId: string) => {
     setProductId(selectProductId);
     // console.log(selectProductId);
     // console.log("productId",productId);
   };
+
   const setCustomerFrom = (selectCustomerId: string) => {
     setCustomerId(selectCustomerId);
     setProductId("");
-    let updatrOrder=order;
-    if(updatrOrder.customerId)
-      updatrOrder.customerId.id=selectCustomerId;
+    let updatrOrder = order;
+    if (updatrOrder.customerId) updatrOrder.customerId.id = selectCustomerId;
     setOrder(updatrOrder);
   };
 
-  const handleAddProduct =async (state: any) => {
-    console.log("state", state);
-    // if(productList.orderItemsList)
-    //   productList.orderItemsList.push({productId: {id:productId||""},quantity:quantity});
-    let updatedProductList =await { ...order };
-    let newOrderItem =await {
+  const handleAddProduct = async (state: any) => {
+    let updatedProductList = await { ...order };
+    let newOrderItem = await {
       productId: {
         id: productId,
         name: "string",
@@ -181,13 +179,13 @@ const NewOrderForm = () => {
             currency: "EURO",
             auditData: {
               createDate: "2023-08-11",
-              updateDate: "2023-08-11"
-            }
+              updateDate: "2023-08-11",
+            },
           },
           auditData: {
             createDate: "2023-08-11",
-            updateDate: "2023-08-11"
-          }
+            updateDate: "2023-08-11",
+          },
         },
         inventory: 0,
         companyId: {
@@ -196,74 +194,51 @@ const NewOrderForm = () => {
           currency: "EURO",
           auditData: {
             createDate: "2023-08-11",
-            updateDate: "2023-08-11"
-          }
+            updateDate: "2023-08-11",
+          },
         },
         auditData: {
           createDate: "2023-08-11",
-          updateDate: "2023-08-11"
-        }
+          updateDate: "2023-08-11",
+        },
       },
       amount: 0,
-      quantity: parseInt(quantity.toString())
-    }
-    if (updatedProductList.orderItemsList==undefined) {
+      quantity: parseInt(quantity.toString()),
+    };
+    if (updatedProductList.orderItemsList == undefined) {
       updatedProductList.orderItemsList = [];
     }
     await updatedProductList.orderItemsList.push(newOrderItem);
-    setOrder(updatedProductList)
-    console.log(order)
+    setOrder(updatedProductList);
+    console.log(order);
 
     try {
       const response = await axios.post(
         `http://localhost:8080/order/calculateOrderAmount`,
         updatedProductList // Use the updatedProductList here
       );
-      console.log(response)
-      setProductListToBuy([...productListToBuy,response.data[0]]);
-      updatedProductList.orderItemsList[updatedProductList.orderItemsList.length-1].amount=response.data[0].amount;
+      console.log(response);
+      setProductListToBuy([...productListToBuy, response.data[0]]);
+      updatedProductList.orderItemsList[
+        updatedProductList.orderItemsList.length - 1
+      ].amount = response.data[0].amount;
       setOrder(updatedProductList);
-      setPrice(response.data[0].amount+price);
+      setPrice(response.data[0].amount + price);
     } catch (error) {
       console.log(error);
     }
-    // axios
-    //   .get(`http://localhost:8080/product/${productId}`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     let product: IProduct = res.data;
-
-    //     setProductList([
-    //       ...productList,
-    //       {
-    //         id: product.id,
-    //         name: product.name,
-    //         desc: product.name,
-    //         inventory: product.inventory,
-    //         discount: product.discount,
-    //         discountType: product.discountType,
-    //         productCategoryId: product.productCategoryId,
-    //         quantity: quntity,
-    //         price: product.price,
-    //       },
-    //     ]);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // console.log(productList);
   };
 
   return (
     <>
       <Formik
         validationSchema={schema}
-        initialValues={{cvc:"",expireOn:"",creditCard:""}}
+        initialValues={{ cvc: "", expireOn: "", creditCard: "" }}
         onSubmit={handleNewOrder}
       >
         {({ isValid }) => (
           <Form>
-          <Grid container spacing={2}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={8}>
                 <FormHelperText>customer</FormHelperText>
                 <MyArrowIcon>
@@ -307,7 +282,6 @@ const NewOrderForm = () => {
                     <Autocomplete
                       fullWidth
                       value={currency}
-                      // defaultValue={currency}
                       options={listOfCurrencies.map((c: string) => c)}
                       inputValue={currency}
                       onInputChange={(event: any, newInputValue: any) => {
@@ -325,7 +299,6 @@ const NewOrderForm = () => {
                       backgroundColor: `${PALLETE.BLUE} !important`,
                       color: `${PALLETE.WHITE} !important`,
                     }}
-                    // disabled={isValid}
                     onClick={handleAddProduct}
                   >
                     Add
