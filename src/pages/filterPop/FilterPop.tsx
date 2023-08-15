@@ -10,7 +10,6 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
-import { number, string } from "yup";
 
 const FilterPop = (props: any) => {
   const [age, setAge] = useState("");
@@ -18,7 +17,7 @@ const FilterPop = (props: any) => {
   const [indexData, setIndexData] = useState(0);
   const { changeFieldName, key ,changeFilterValue} = props;
   const [dataToShow, setDataToShow] = useState<FilterItem | undefined>(undefined);
-  const [fieldToFilter, setFieldToFilter] = useState("status");
+  const [fieldToFilter, setFieldToFilter] = useState<string>();
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedIndex = parseInt(event.target.value);
@@ -26,24 +25,26 @@ const FilterPop = (props: any) => {
     setAge(event.target.value as string);
   };
 
-  const handleChangeFieldToFilter = async (event: SelectChangeEvent) => {
+  const handleChangeFieldToFilter =  (event: SelectChangeEvent) => {
     const selectedIndex = parseInt(event.target.value);
     if (!isNaN(selectedIndex)) {
-      setIndexData(selectedIndex);
-      setFieldToFilter(DataToFilter[selectedIndex].fieldName);
-      console.log(DataToFilter[selectedIndex].fieldName);
-      console.log(fieldToFilter)
-      console.log("message")
-      changeFieldName(DataToFilter[selectedIndex].fieldName, key);
-      setShow(true);
-      const selectedItem = DataToFilter.find((item) => item.fieldName === DataToFilter[selectedIndex].fieldName);
-      setDataToShow(selectedItem);
+       setIndexData(selectedIndex);
+       console.log("ff ",DataToFilter[selectedIndex].fieldName);
+       setFieldToFilter(DataToFilter[selectedIndex].fieldName);
+       console.log("ggg ",fieldToFilter)
+       console.log(DataToFilter[selectedIndex].fieldName);
+       console.log(fieldToFilter)
+       console.log("message")
+       changeFieldName(DataToFilter[selectedIndex].fieldName, key);
+       setShow(true);
+      const selectedItem =  DataToFilter.find((item) => item.fieldName === DataToFilter[selectedIndex].fieldName);
+       setDataToShow(selectedItem);
     }
   };
 
   return (
     <>
-      <Box sx={{ minWidth: 400, maxWidth: 800 }}>
+      <Box sx={{ minWidth: 450, maxWidth: 1000 }}>
         <label>where</label>
         <MyBox>
           <Box>
@@ -62,7 +63,7 @@ const FilterPop = (props: any) => {
                 }}
               >
                 {DataToFilter.map((item, index) => (
-                  <MenuItem value={index} key={index}>
+                  <MenuItem key={index} value={index}>
                     {item.fieldName}
                   </MenuItem>
                 ))}

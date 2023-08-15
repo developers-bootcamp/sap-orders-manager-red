@@ -120,6 +120,7 @@ const NewOrderForm = () => {
       createDate: "2023-08-11",
       updateDate: "2023-08-11",
     },
+    currency:currency
   });
   const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(
     (state) => state.currencyReducer
