@@ -22,6 +22,7 @@ import ArrowCircleUpSharp from "@mui/icons-material/ArrowCircleUpSharp";
 import IOrderItem from "../../interfaces/IOrderItem";
 import { updateOrder } from "../../axios/orderAxios";
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
+import IUser from "../../interfaces/IUser";
 
 // import React from 'react';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -61,17 +62,17 @@ const NewOrderForm: React.FC = () => {
   useEffect(() => {
     let order: IOrder = {
       id: "1",
-      employeeId: { fullName: "rooti" },
-      customerId: { fullName: "custRoti" },
+      employeeId: { id: "1", fullName: "rooti" },
+      customerId: { id: "2", fullName: "custRoti" },
       totalAmount: 60,
       orderItemsList: [
         { productId: { id: "1", name: "product1" }, amount: 20, quantity: 2 },
         { productId: { id: "2", name: "product2" }, amount: 40, quantity: 1 },
       ],
-      orderStatusId: "done",
+      orderStatus: "done",
       companyId: { name: "kamatek" },
-      creditCardNumber: "1111222233334444",
-      expiryOn: new Date,
+      creditCardNumber: 1111222233334444,
+      expireOn: new Date,
       cvc: 123,
     }
 
@@ -120,7 +121,7 @@ const NewOrderForm: React.FC = () => {
       validationSchema={schema}
       initialValues={{
         creditCardNumber: `${currectOrder.creditCardNumber}`,
-        expiryOn: `${currectOrder.expiryOn}`,
+        expiryOn: `${currectOrder.expireOn}`,
         cvc: `${currectOrder.cvc}`
       }}
       onSubmit={handleNewOrder}
@@ -209,7 +210,7 @@ const NewOrderForm: React.FC = () => {
           </Grid>
 
           <Divider sx={{ mt: 3 }} />
-          <Typography>Paid with a credit card ending in digits: {currectOrder.creditCardNumber?.substring(12)}</Typography>
+          <Typography>Paid with a credit card ending in digits: {currectOrder.creditCardNumber?.toString().substring(12)}</Typography>
 
           <div>
             <div>

@@ -11,7 +11,7 @@ export default interface IProduct {
     discountType?: string,
     productCategoryId?: IProductCategory,
     companyId?: ICompany,
-    auditData: IAuditData,
+    auditData?: IAuditData,
     quantity?:number,
     price?: number,
 }

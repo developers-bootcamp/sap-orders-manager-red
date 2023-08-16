@@ -4,9 +4,9 @@ import ICompany from "./ICompany";
 import IRole from "./IRole";
 
 export default interface IUser {
-    id: String,
-    fullName?: String,
-    password?: String,
+    id: string,
+    fullName?: string,
+    password?: string,
     address?: IAddress,
     roleId?: IRole,
     companyId?: ICompany,

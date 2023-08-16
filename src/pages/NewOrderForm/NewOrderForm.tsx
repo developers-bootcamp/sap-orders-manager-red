@@ -113,7 +113,7 @@ const NewOrderForm = () => {
       },
     },
     creditCardNumber: 0,
-    expireOn: "2023-08-11T13:23:16.989Z",
+    expireOn: new Date(),
     cvc: 0,
     notificationFlag: true,
     auditData: {

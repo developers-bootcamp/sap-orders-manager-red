@@ -51,7 +51,6 @@ const GlobalAutoComplete = (props: any) => {
   return (
     <>
       <Autocomplete
-        onChange={(e) => props.onChangeSelect(e)}
         disablePortal
         id="Autocomplete"
         options={data}
