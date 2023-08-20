@@ -1,17 +1,20 @@
-// import dotenv from 'dotenv';
-// Load the environment variables from the .env file
-// dotenv.config();
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const BASE_URL = "http://localhost:8080"
-
-// const BASE_URL = process.env.DASHBOARD_API_BASE_URL;
-
-// Define the full URL for getting all orders
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
-const LOG_IN = `${BASE_URL}/User/logIn`
-export { GET_ALL_ORDERS_URL, LOG_IN };
+const LOG_IN = `${BASE_URL}/user/logIn`
+const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
+const SIGN_UP = `${BASE_URL}/user/signUp` 
+const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
+const DELETE_CATEGORY = `${BASE_URL}/productCategory`
+const EDIT_CATEGORY =  `${BASE_URL}/productCategory`
+const ADD_CATEGORY =  `${BASE_URL}/productCategory`
+const GET_ALL_PRODUCT = `${BASE_URL}/product`
+const DELETE_PRODUCT = `${BASE_URL}/product`
+const EDIT_PRODUCT = `${BASE_URL}/product`
+const ADD_PRODUCT = `${BASE_URL}/product`
 
-export const PALLETE = {
+
+const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
     RED: '#EE696A',
@@ -20,4 +23,6 @@ export const PALLETE = {
     WHITE: '#FFFFFF',
     GRAY: '#F2F2F2',
 }
+
+export { GET_ALL_ORDERS_URL, LOG_IN, PALLETE, GET_CURRENCIES, SIGN_UP ,GET_ALL_CATEGORY,GET_ALL_PRODUCT,DELETE_CATEGORY,EDIT_CATEGORY,ADD_CATEGORY,DELETE_PRODUCT, EDIT_PRODUCT,ADD_PRODUCT};
 
