@@ -30,7 +30,6 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
   ) => {
     setPage(newPage);
   };
-  
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
