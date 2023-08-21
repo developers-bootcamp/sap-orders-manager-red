@@ -7,24 +7,23 @@ import {PALLETE} from "../../config/config"
 import ArrowCircleUpSharp from '@mui/icons-material/ArrowCircleUpSharp';
 import IAddress from "../../interfaces/IAddress";
 import { Email } from "@mui/icons-material";
+import IUserDTO from "../../interfaces/IUserDTO";
 
 
 const UserTable = () => {
-    const [allUser, setAllUser] = useState<IUser[]>();
+    const [allUser, setAllUser] = useState<IUserDTO[]>();
     const [isOpenAdmin, setIsOpenAdmin] = useState(true);
     const [isOpenEmp, setIsOpenEmp] = useState(true);
     const [isOpenCustomer, setIsOpenCustomer] = useState(true);
 
     const getAllUserAsync = async (pageNumber: number) => {
-        debugger
         await getAllUser(pageNumber).then(res =>{ setAllUser(res.data);console.log(res.data)});
     }
 
 
     useEffect(() => {
-        getAllUserAsync(0);
-        
-    },);
+        getAllUserAsync(0);        
+    },[]);
 
     const goToEditUser = async (id: string, user: { id: string, FullName: string, Password: string,Address: IAddress}) => {
         // const editUser1: IUser = {
@@ -38,19 +37,13 @@ const UserTable = () => {
 
 
     const goToAddUser = async (user: { FullName: string, Password: string,Phone:string,Email:string,Address:string }) => {
-        const addUser1: IUser = {
+        const addUser1: IUserDTO = {
             fullName:user.FullName,
-            password:user.Password,
-            address:{
-              phone:user.Phone,
-              name:user.Address,
-              email:user.Email
-            },
-            roleId:{
-                id:"1",
-                name:"CUSTOMER",
-                desc:"bla bla"
-            }
+            phone:user.Phone,
+            address:user.Address,
+            email:user.Email,
+            roleId:"1"
+            
         }
         await addUser(addUser1)
     }
@@ -58,7 +51,6 @@ const UserTable = () => {
 
     const head =
     [{ name: "Full Name", type: "text" },
-     { name: "Password", type: "text" },
      { name: "Email", type: "text" },
      { name: "Address", type: "text" },
      { name: "Phone", type: "number" }
@@ -75,7 +67,7 @@ const UserTable = () => {
               {isOpenAdmin && 
               
 <div>
-            {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId?.id === "1")} whatToAdd="Administrator" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
+            {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId === "1")} whatToAdd="Administrator" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
         </div>    }
             <br></br>
             <Button sx={{ color: PALLETE.YELLOW }} startIcon={<ArrowCircleUpSharp />} onClick={() => setIsOpenEmp(!isOpenEmp)}>{isOpenEmp ? 'Employees' : 'Employees'}
@@ -83,7 +75,7 @@ const UserTable = () => {
               <br></br>
               {isOpenEmp && 
               
-<div>            {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId?.id === "2")} whatToAdd="Employee" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
+<div>            {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId === "2")} whatToAdd="Employee" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
 
         </div>    }
             <br></br>
@@ -93,7 +85,7 @@ const UserTable = () => {
               {isOpenCustomer && 
               
 <div>            
-{allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId?.id === "3")} whatToAdd="Customer" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
+{allUser != null ? <GlobalTable head={head} rows={allUser.filter(user=>user.roleId === "3")} whatToAdd="Customer" delete={deleteUser} add={goToAddUser} edit={goToEditUser}></GlobalTable> : ""}
 
         </div>    }
         </>
