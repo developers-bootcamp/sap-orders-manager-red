@@ -23,6 +23,7 @@ import IOrderItem from "../../interfaces/IOrderItem";
 import { updateOrder } from "../../axios/orderAxios";
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
 import IUser from "../../interfaces/IUser";
+import axios from "axios";
 
 // import React from 'react';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -44,12 +45,16 @@ const NewOrderForm: React.FC = () => {
   const listOfCurrencies:string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
 
   const [currency, setCurrency] = React.useState("DOLLAR");
+  const [data,setData]=useState();
+  const [isOpen, setIsOpen] = useState(false);
 
 
   const handleNewOrder = (values: any) => {
     //  API call of new order here
     console.log(values);
   };
+
+  
 
   const productList = [
     { name: "Collage", price: "$10", quantity: "x 2" },
@@ -75,8 +80,15 @@ const NewOrderForm: React.FC = () => {
       expireOn: new Date,
       cvc: 123,
     }
-
-    dispatch(setOrder(order))
+const getData=()=>{
+    axios.get(`http://localhost:8080/order/1/done/0`)
+    .then((res)=>setData(res.data))
+    .catch((error) => {
+      console.log(error);
+    })
+  };
+  if(data!= undefined)
+    dispatch(setOrder(data))
   }, [])
 
   let currectOrder: IOrder = useSelector((o: any) => o.orderReducer.order)
@@ -90,11 +102,11 @@ const NewOrderForm: React.FC = () => {
 
   }
 
-  const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
+  
 
   const cancelOrder=(id:any)=>{
     
