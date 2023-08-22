@@ -1,7 +1,8 @@
+
 import IProductCategory from "./IProductCategory";
 
 export default interface IProduct {
-    id: string,
+    id?: string,
     name: string,
     desc: string,
     inventory: number,

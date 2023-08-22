@@ -5,11 +5,10 @@ import IRole from "./IRole";
 
 export default interface IUser {
     id: String,
-    fullName: String,
-    password: String,
-    email: String;
-    address: IAddress,
-    roleId: IRole,
-    companyId: ICompany,
-    AuditData: IAuditData,
+    fullName?: String,
+    password?: String,
+    address?: IAddress,
+    roleId?: IRole,
+    companyId?: ICompany,
+    auditData?: IAuditData,
 }

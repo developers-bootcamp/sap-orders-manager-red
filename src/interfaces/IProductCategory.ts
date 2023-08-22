@@ -1,6 +1,7 @@
 
+
 export default interface IProductCategory {
-    id: string,
+    id?: string,
     name: string,
-    desc: string,
+    desc: string, 
 }
