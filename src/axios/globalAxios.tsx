@@ -43,20 +43,20 @@ const GlobalAxios: React.FC<GlobalAxiosState> = () => {
       return response;
     },
     (error: any) => {
-      // if (error.response.status == 500)
-      setShowError(true);
+      if (error.response.status == 500)
+        setShowError(true);
       return Promise.reject(error);
     }
   );
 
   return (
     <>
-    {showError ? (
-      <GlobalErrModal
-        // showError={showError}
-        onClose={() => setShowError(false)}
-      />
-    ) : null}
+      {showError ? (
+        <GlobalErrModal
+          // showError={showError}
+          onClose={() => setShowError(false)}
+        />
+      ) : null}
     </>
   );
 };
