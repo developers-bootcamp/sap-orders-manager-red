@@ -45,6 +45,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
     };
     // console.log(newRowValues);
     try {
+      console.log(newObject)
       await props.add(newObject);
       // props.rows = [...props.rows,newObject]
       closeAdd();

@@ -4,6 +4,5 @@ export default interface IUserDTO {
     email: string, 
     address: string,
     phone: string,
-    roleId: string,
-
+    roleId: string
 }
