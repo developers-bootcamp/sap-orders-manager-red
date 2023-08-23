@@ -6,20 +6,25 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Chart from "react-google-charts";
 
 export const data = [
-    ["Year", "Sales"],
-    ["2014", 1000],
-    ["2015", 1170],
-    ["2016", 660],
-    ["2017", 1030],
+    ["Object", "Count"],
+    ["2004/05", 165],
+    ["2005/06", 135],
+    ["2006/07", 157],
+    ["2007/08", 139],
+    ["2008/09", 136],
 ];
 
 export const options = {
-    chart: {
-        title: "Company Performance",
-        subtitle: "Sales, Expenses, and Profit: 2014-2017",
-    },
+    isStacked: true,
+    //   title: "Monthly Coffee Production by Country",
+    //   vAxis: { title: "Cups" },
+    //   hAxis: { title: "Month" },
+    seriesType: "bars",
     backgroundColor: `${PALLETE.GRAY}`,
+    padding: 0,
+    legend: { position: "none" },
 };
+
 
 export const DashboardGenerator: React.FC = () => {
 
@@ -30,7 +35,7 @@ export const DashboardGenerator: React.FC = () => {
     const [open, setOpen] = React.useState(false)
     const [collection, setCollection] = React.useState('10')
     const [item, setItem] = React.useState('0')
-    const [list, setList] = React.useState(ordersList)
+    const [list1, setList] = React.useState(ordersList)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -42,13 +47,24 @@ export const DashboardGenerator: React.FC = () => {
 
 
     const handleChangeCollection = (event: SelectChangeEvent) => {
-        setCollection(event.target.value as string);
-        if (collection === '10')
+        debugger
+        let tempCollection = event.target.value
+        setCollection(tempCollection);
+        if (tempCollection === '10')
+        {
+            debugger
             setList(ordersList)
-        else if (collection === '20')
+        }
+        else if (tempCollection === '20')
+        {
+            debugger
             setList(productsList)
+        }
         else
+        {
+            debugger
             setList(usersList)
+        }
     }
 
     const handleChangeItem = (event: SelectChangeEvent) => {
@@ -73,9 +89,9 @@ export const DashboardGenerator: React.FC = () => {
                                     label="Collection"
                                     onChange={handleChangeCollection}
                                 >
-                                    <MenuItem value={10}>Orders</MenuItem>
-                                    <MenuItem value={20}>Products</MenuItem>
-                                    <MenuItem value={30}>Users</MenuItem>
+                                    <MenuItem value={"10"}>Orders</MenuItem>
+                                    <MenuItem value={"20"}>Products</MenuItem>
+                                    <MenuItem value={"30"}>Users</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -90,7 +106,7 @@ export const DashboardGenerator: React.FC = () => {
                                     onChange={handleChangeItem}
                                 >
                                     {
-                                        list.map((item, index) => (
+                                        list1.map((item, index) => (
                                             <MenuItem value={index}>{item}</MenuItem>
                                         ))
                                     }
@@ -98,11 +114,11 @@ export const DashboardGenerator: React.FC = () => {
                             </FormControl>
                         </Grid>
                     </Grid>
-                    <Grid sx={{ mt: 5 }}>
+                    <Grid>
                         <Chart
-                            chartType="Bar"
+                            chartType="ComboChart"
                             width="100%"
-                            height="450px"
+                            height="500px"
                             data={data}
                             options={options}
                         />
