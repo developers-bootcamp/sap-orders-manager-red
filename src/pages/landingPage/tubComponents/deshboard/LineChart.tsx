@@ -18,12 +18,11 @@ export const options = {
   backgroundColor: `${PALLETE.GRAY}`,
 };
 
-export function LineChart() {
+export const LineChart: React.FC = () => {
   return (
     <Chart
       chartType="LineChart"
-      width="100%"
-      height="300px"
+      height="100%"
       loader={<Loader />}
       data={data}
       options={options}

@@ -16,8 +16,6 @@ import { saveToLocalStorage } from '../storageUtils';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { MyMsdError } from '../components/GlobalModal.style';
 
-
-
 export const LogIn: React.FC = () => {
 
     const schema = Yup.object().shape({

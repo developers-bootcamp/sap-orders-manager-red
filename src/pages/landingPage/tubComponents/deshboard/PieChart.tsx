@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import { PALLETE } from "../../../../config/config";
 import Loader from "../../../../components/loading/Loader";
+import { topEmployee } from "../../../../axios/graphAxios";
 
-export const data = [
-  ["Task", "Hours per Day"],
-  ["Work", 11],
-  ["Eat", 2],
-  ["Commute", 2],
-  ["Watch TV", 2],
-  ["Sleep", 7]
-];
+ 
+export const PieChart: React.FC = () => {
 
-export const options = {
-  title: "My Daily Activities",
-  backgroundColor: `${PALLETE.GRAY}`,
-};
+  const options = {
+    title: "Top employees",
+    backgroundColor: `${PALLETE.GRAY}`,
+  }
 
-export function PieChart() {
+  const [data, setData] = useState([["", ""]])
+
+  useEffect(() => {
+    topEmployee().then(res => {
+      setData([["", ""]])
+      let arr = [...res.data]      
+      arr.forEach(element => {
+        setData(prevData => [...prevData, [element.employee.fullName, element.countOfDeliveredOrders]])
+      });
+    }).catch(err => {
+      console.error(err)
+    })
+  }, [])
+
   return (
     <Chart
       chartType="PieChart"
-      width="100%"
-      height="300px"
+      height="100%"
       loader={<Loader />}
       data={data}
       options={options}
     />
-  );
+  )
 }
