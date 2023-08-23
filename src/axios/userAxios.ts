@@ -17,7 +17,7 @@ export const deleteUser = async (id: string) => {
     return await axios.delete(`${DELETE_USER}/${id}`)
 }
 
-export const editUser = async (id: string, user: IUser) => {
+export const editUser = async (id: string, user: IUserDTO) => {
     return await axios.put(`${EDIT_USER}/${id}`, user)
 }
 
