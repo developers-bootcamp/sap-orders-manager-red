@@ -6,7 +6,8 @@ const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
 const SIGN_UP = `${BASE_URL}/user/signUp`
 const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
 const GET_ALL_PRODUCT = `${BASE_URL}/product`
-const TOP_EMPLOYEE = `${BASE_URL}/Graph/topEmployee`
+const TOP_EMPLOYEE = `${BASE_URL}/graph/topEmployee`
+const TOP_PRODUCTS = `${BASE_URL}/graph`
 
 const PALLETE = {
     BLUE: '#6794CF',
@@ -25,6 +26,7 @@ export {
     SIGN_UP,
     GET_ALL_CATEGORY,
     GET_ALL_PRODUCT,
-    TOP_EMPLOYEE
+    TOP_EMPLOYEE,
+    TOP_PRODUCTS
 };
 

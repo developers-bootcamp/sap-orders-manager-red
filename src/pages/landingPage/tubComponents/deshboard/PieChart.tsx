@@ -10,14 +10,14 @@ export const PieChart: React.FC = () => {
   const options = {
     title: "Top employees",
     backgroundColor: `${PALLETE.GRAY}`,
-  };  
+  }
 
   const [data, setData] = useState([["", ""]])
 
   useEffect(() => {
     topEmployee().then(res => {
       setData([["", ""]])
-      let arr = [...res.data]
+      let arr = [...res.data]      
       arr.forEach(element => {
         setData(prevData => [...prevData, [element.employee.fullName, element.countOfDeliveredOrders]])
       });
@@ -34,5 +34,5 @@ export const PieChart: React.FC = () => {
       data={data}
       options={options}
     />
-  );
+  )
 }
