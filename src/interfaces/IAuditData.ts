@@ -1,4 +1,4 @@
 export default interface IAuditData {
-    createDate: Date,
-    updateDate: Date,
+    createDate: string,
+    updateDate: string,
 }

@@ -5,15 +5,15 @@ import IUser from "./IUser";
 
 export default interface IOrder {
     id?: string,
-    employeeId?: {id: string},
-    customerId?: {id: string},
+    employeeId?: IUser,
+    customerId?: IUser,
     totalAmount?: number,
     orderItemsList?: Array<IOrderItem>,
-    orderStatusId?: string,
-    companyId?: {id: string},
+    orderStatus?: string,
+    companyId?: ICompany,
     creditCardNumber?: number,
-    expiryOn?: Date,
+    expireOn?: string,
     cvc?: number,
-    notificationFlag?: number,
+    notificationFlag?: boolean,
     auditData?: IAuditData,
 }
