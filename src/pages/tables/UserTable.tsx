@@ -26,13 +26,13 @@ const UserTable = () => {
     },[]);
 
     const goToEditUser = async (id: string, user: { id: string, FullName: string, Password: string,Address: IAddress}) => {
-        const editUser1: IUser = {
-            id: user.id,
-            fullName:user.FullName,
-            password:user.Password
-            // address:user.Address
-        }
-        editUser(id, editUser1)
+        // const editUser1: IUser = {
+        //     id: user.id,
+        //     fullName:user.FullName,
+        //     password:user.Password
+        //     // address:user.Address
+        // }
+        // editUser(id, editUser1)
     }
 
 
