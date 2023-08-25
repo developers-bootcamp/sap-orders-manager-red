@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,36 +12,41 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
 
 const FilterPop = (props: any) => {
-  const [age, setAge] = useState("");
+  const [value, setValue] = useState();
   const [show, setShow] = useState(false);
   const [indexData, setIndexData] = useState(0);
-  const { changeFieldName, key ,changeFilterValue} = props;
+  const { keyIndex , changeFieldName,changeFilterValue} = props;
   const [dataToShow, setDataToShow] = useState<FilterItem | undefined>(undefined);
   const [fieldToFilter, setFieldToFilter] = useState<string>();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const selectedIndex = parseInt(event.target.value);
-    changeFieldName(DataToFilter[selectedIndex].fieldName, key);
-    setAge(event.target.value as string);
+  const handleChangeValue = (event:any) => {
+    if((dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "price") || (dataToShow?.fieldName === "priority")){
+      const selectedIndex = parseInt(event.target.value);
+      changeFilterValue(DataToFilter[indexData].value[event.target.value],keyIndex);
+      return;
+    }
+    if((dataToShow?.fieldName === "customer") || (dataToShow?.fieldName === "product")){
+      console.log("event val",event)
+      changeFilterValue(event.name,keyIndex);
+      return;
+    }
+   // changeFilterValue(event.target.value, keyIndex);
+    // setValue(event.target.value);
   };
 
   const handleChangeFieldToFilter =  (event: SelectChangeEvent) => {
     const selectedIndex = parseInt(event.target.value);
+    setIndexData(parseInt(event.target.value))
     if (!isNaN(selectedIndex)) {
        setIndexData(selectedIndex);
-       console.log("ff ",DataToFilter[selectedIndex].fieldName);
        setFieldToFilter(DataToFilter[selectedIndex].fieldName);
-       console.log("ggg ",fieldToFilter)
-       console.log(DataToFilter[selectedIndex].fieldName);
-       console.log(fieldToFilter)
-       console.log("message")
-       changeFieldName(DataToFilter[selectedIndex].fieldName, key);
+       changeFieldName(DataToFilter[selectedIndex].fieldName, keyIndex);
        setShow(true);
-      const selectedItem =  DataToFilter.find((item) => item.fieldName === DataToFilter[selectedIndex].fieldName);
+       const selectedItem =  DataToFilter.find((item) => item.fieldName === DataToFilter[selectedIndex].fieldName);
        setDataToShow(selectedItem);
     }
   };
-
+  useEffect(() =>{console.log(keyIndex)},[keyIndex])
   return (
     <>
       <Box sx={{ minWidth: 450, maxWidth: 1000 }}>
@@ -80,9 +85,9 @@ const FilterPop = (props: any) => {
                 <Select
                   labelId="filter"
                   id="filter"
-                  value={age}
-                  label="Age"
-                  onChange={handleChange}
+                  value={value}
+                  label="Value"
+                  onChange={handleChangeValue}
                   sx={{ height: "36px" }}
                 >
                   {show &&
@@ -97,11 +102,13 @@ const FilterPop = (props: any) => {
                 <div style={{display:"inline",width:"20%"}}>
                 <GlobalAutoComplete
                   path={`/user/getNamesOfCustomersByPrefix`}
+                  whatChoose={handleChangeValue}
                 ></GlobalAutoComplete></div>
               )}
               {dataToShow?.fieldName === "product"&& (
                 <GlobalAutoComplete
                   path={"/product/names"}
+                  whatChoose={handleChangeValue}
                 ></GlobalAutoComplete>
               )} 
               {dataToShow?.fieldName === "date"&& (

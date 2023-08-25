@@ -8,6 +8,9 @@ import filterImg from "../../../img/filter.png";
 import AllFilter from '../../../pages/filterPop/AllFilter';
 
 const PendingOrders: React.FC = () => {
+  const filterTables=(filters:any)=>{
+    console.log(filters)
+  }
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -26,6 +29,7 @@ const PendingOrders: React.FC = () => {
             name={"filter"}
             Pop={AllFilter}
             image={filterImg}
+            filterTables={filterTables}
           ></GlobalPopOver>
         </div>
       </div>

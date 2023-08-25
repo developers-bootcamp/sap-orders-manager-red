@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -112,6 +112,7 @@ const NewOrderForm = () => {
         updateDate: "2023-08-11",
       },
     },
+    currency:currency,
     creditCardNumber: 0,
     expireOn: "2023-08-11T13:23:16.989Z",
     cvc: 0,
@@ -120,7 +121,6 @@ const NewOrderForm = () => {
       createDate: "2023-08-11",
       updateDate: "2023-08-11",
     },
-    currency:currency
   });
   const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(
     (state) => state.currencyReducer
@@ -146,13 +146,13 @@ const NewOrderForm = () => {
     console.log(values);
   };
 
-  const setProductFrom = (selectProductId: string) => {
+  const setProductFrom = (selectProductId: any) => {
     setProductId(selectProductId);
     // console.log(selectProductId);
     // console.log("productId",productId);
   };
 
-  const setCustomerFrom = (selectCustomerId: string) => {
+  const setCustomerFrom = (selectCustomerId: any) => {
     setCustomerId(selectCustomerId);
     setProductId("");
     let updatrOrder = order;
@@ -204,14 +204,14 @@ const NewOrderForm = () => {
         },
       },
       amount: 0,
-      quantity: parseInt(quantity.toString()),
+      quantity:quantity,
     };
     if (updatedProductList.orderItemsList == undefined) {
       updatedProductList.orderItemsList = [];
     }
     await updatedProductList.orderItemsList.push(newOrderItem);
+    updatedProductList.currency=currency;
     setOrder(updatedProductList);
-    console.log(order);
 
     try {
       const response = await axios.post(
@@ -229,6 +229,9 @@ const NewOrderForm = () => {
       console.log(error);
     }
   };
+useEffect(()=>{
+  console.log("oooooooo",order)
+},[order])
 
   return (
     <>
@@ -245,7 +248,7 @@ const NewOrderForm = () => {
                 <MyArrowIcon>
                   <GlobalAutoComplete
                     path={`/user/getNamesOfCustomersByPrefix`}
-                    whatChoose={(event: string) => setCustomerFrom(event)}
+                    whatChoose={(event:any) => setCustomerFrom(event.id)}
                   ></GlobalAutoComplete>
                 </MyArrowIcon>
                 <MyMsdError>
@@ -254,7 +257,7 @@ const NewOrderForm = () => {
                 <FormHelperText sx={{ mt: 2 }}>product</FormHelperText>
                 <GlobalAutoComplete
                   path={"/product/names"}
-                  whatChoose={(event: string) => setProductFrom(event)}
+                  whatChoose={(event: any) => setProductFrom(event.id)}
                 ></GlobalAutoComplete>
                 <MyMsdError>
                   <ErrorMessage name="product" component="div" />
@@ -274,7 +277,7 @@ const NewOrderForm = () => {
                       as={TextField}
                       value={quantity}
                       onChange={(event: any) => {
-                        setQuantity(event.target.value);
+                        setQuantity(parseInt(event.target.value));
                       }}
                     />
                   </Grid>

@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Button } from "@mui/material";
 import { PALLETE} from "../../config/config";
 import FilterPop from "./FilterPop";
 
-const AllFilter = () => {
+const AllFilter = (props:any) => {
   const [filters, setFilters] = useState([{ fieldName: "status", filterValue: "DONE" },]);
-
+const {filterTables}=props;
   const addFilter = () => {
     setFilters((prevFilters) => [
       ...prevFilters,
@@ -22,13 +22,24 @@ const AllFilter = () => {
     const updatedFilters = [...filters];
     updatedFilters[index] = { ...updatedFilters[index], filterValue: filter };
     setFilters(updatedFilters);
-    console.log(filters);
   };
-  
+
+  const arrayToDictionary = () => {
+    return filters.reduce((dictionary:any, item) => {
+      dictionary[item.fieldName] = item.filterValue;
+      return dictionary;
+    }, {});
+  }
+  const filterOrder = () => {
+    filterTables(arrayToDictionary());
+  }
+  useEffect(()=>{
+    console.log("filters",filters);
+  },[filters])
   return (
     <>
       {filters.map((filter, index) => (
-        <FilterPop key={index} changeFieldName={changeFieldName} changeFilterValue={changeFilterValue}></FilterPop>
+        <FilterPop keyIndex={index} changeFieldName={changeFieldName} changeFilterValue={changeFilterValue}></FilterPop>
       ))}
 
       <label onClick={addFilter}>
@@ -41,6 +52,7 @@ const AllFilter = () => {
           textTransform: "none",
           marginLeft: "75%",
         }}
+        onClick={filterOrder}
       >
         Apply
       </Button>

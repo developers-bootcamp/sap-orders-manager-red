@@ -7,7 +7,7 @@ export default function GlobalPopOver(props: any) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-  const { name, Pop ,image} = props;
+  const { name, Pop ,image,filterTables} = props;
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -39,7 +39,7 @@ export default function GlobalPopOver(props: any) {
         }}
       >
         <Typography sx={{ p: 2 }} style={{margin:"none"}}>
-          <Pop></Pop>
+          <Pop filterTables={filterTables}></Pop>
         </Typography>
       </Popover>
     </div>
