@@ -101,11 +101,10 @@ const UserTable = () => {
         .map(user=>({
             id: user.id,
             FullName:user.fullName,
-            Password:user.password,
+            Password:"*********",
             Email:user.email,
             Address:user.address,
             Phone:user.phone
-
         }))
         
         
@@ -121,7 +120,7 @@ const UserTable = () => {
 .map(user=>({
     id: user.id,
     FullName:user.fullName,
-    Password:user.password,
+    Password:"*********",
     Email:user.email,
     Address:user.address,
     Phone:user.phone
@@ -141,7 +140,7 @@ const UserTable = () => {
 .map(user=>({
     id: user.id,
     FullName:user.fullName,
-    Password:user.password,
+    Password:"*********",
     Email:user.email,
     Address:user.address,
     Phone:user.phone
