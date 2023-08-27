@@ -1,41 +1,49 @@
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, Link, MenuItem, Select, Typography } from "@mui/material";
+import { Button, Dialog, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { PALLETE } from "../config/config";
-import { MyDetailsDiv, MyGiftImg, MyOpenDialog, MySideBackImg, MyTxtSide } from "../components/GlobalModal.style";
-import React from "react";
+import React, { useState } from "react";
 import { SelectChangeEvent } from '@mui/material/Select';
 import Chart from "react-google-charts";
-
-export const data = [
-    ["Object", "Count"],
-    ["2004/05", 165],
-    ["2005/06", 135],
-    ["2006/07", 157],
-    ["2007/08", 139],
-    ["2008/09", 136],
-];
-
-export const options = {
-    isStacked: true,
-    //   title: "Monthly Coffee Production by Country",
-    //   vAxis: { title: "Cups" },
-    //   hAxis: { title: "Month" },
-    seriesType: "bars",
-    backgroundColor: `${PALLETE.GRAY}`,
-    padding: 0,
-    legend: { position: "none" },
-};
-
+import { dynamicGraph } from "../axios/graphAxios";
+import Loader from "../components/loading/Loader";
 
 export const DashboardGenerator: React.FC = () => {
 
-    const ordersList = ["month-year", "employee", "customer"]
-    const productsList = ["month-year", "id", "categoryId"]
-    const usersList = ["month-year", "role"]
+    const COLLECTION = ["Order", "Product", "User"]
+
+    const ordersList = [
+        ["auditData.createDate", "month-year"],
+        ["employeeId", "employee"],
+        ["customerId", "customer"]
+    ]
+
+    const productsList = [
+        ["auditData.createDate", "month-year"],
+        ["productCategoryId", "category"]
+    ]
+
+    const usersList = [
+        ["auditData.createDate", "month-year"],
+        ["roleId", "role"]
+    ]
 
     const [open, setOpen] = React.useState(false)
-    const [collection, setCollection] = React.useState('10')
-    const [item, setItem] = React.useState('0')
-    const [list1, setList] = React.useState(ordersList)
+    const [collection, setCollection] = React.useState("Order")
+    const [field, setField] = React.useState("auditData.createDate")
+    const [listFields, setListFields] = React.useState(ordersList)
+
+    const options = {
+        isStacked: true,
+        title: `Grouping ${collection}s by ${field}`,
+        vAxis: { title: "Count" },
+        hAxis: { title: field },
+        seriesType: "bars",
+        backgroundColor: `${PALLETE.GRAY}`,
+        padding: 0,
+        margin: 0,
+        legend: { position: "none" },
+    };
+
+    const [data, setData] = useState([["", ""]])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -45,30 +53,39 @@ export const DashboardGenerator: React.FC = () => {
         setOpen(false);
     };
 
-
     const handleChangeCollection = (event: SelectChangeEvent) => {
-        debugger
         let tempCollection = event.target.value
         setCollection(tempCollection);
-        if (tempCollection === '10')
-        {
-            debugger
-            setList(ordersList)
-        }
-        else if (tempCollection === '20')
-        {
-            debugger
-            setList(productsList)
-        }
+        if (tempCollection === "Order")
+            setListFields(ordersList)
+        else if (tempCollection === 'Product')
+            setListFields(productsList)
         else
-        {
-            debugger
-            setList(usersList)
-        }
+            setListFields(usersList)
+        setField("auditData.createDate")
     }
 
     const handleChangeItem = (event: SelectChangeEvent) => {
-        setItem(event.target.value as string);
+        setField(event.target.value as string);
+    }
+
+    const create = () => {
+        dynamicGraph(collection, field)
+            .then(res => {
+                console.log(res.data);
+                setData([[collection, "Count"],])
+                let arr = [...res.data]
+                arr.forEach(element => {
+                    if (field === "roleId" || field === "productCategoryId")
+                        setData(prevData => [...prevData, [element.obj.name, element.count]])
+                    else if (field === "auditData.createDate")
+                        setData(prevData => [...prevData, [element.obj.substring(0, 10), element.count]])
+                    else
+                        setData(prevData => [...prevData, [element.obj.fullName, element.count]])
+                })
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     return (
@@ -79,38 +96,45 @@ export const DashboardGenerator: React.FC = () => {
             <Dialog fullWidth maxWidth={'md'} open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
                 <DialogContent sx={{ p: 5, height: '42rem', backgroundColor: PALLETE.GRAY }}>
                     <Grid item container xs={12} sm={12}>
-                        <Grid item xs={12} sm={6} sx={{ pr: 2 }}>
+                        <Grid item xs={12} sm={5} sx={{ pr: 2 }}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Collection</InputLabel>
+                                <InputLabel id="collectionLabel">Collection</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    labelId="collection"
+                                    id="collection"
                                     value={collection}
                                     label="Collection"
                                     onChange={handleChangeCollection}
                                 >
-                                    <MenuItem value={"10"}>Orders</MenuItem>
-                                    <MenuItem value={"20"}>Products</MenuItem>
-                                    <MenuItem value={"30"}>Users</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Item</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={item}
-                                    label="Item"
-                                    onChange={handleChangeItem}
-                                >
                                     {
-                                        list1.map((item, index) => (
-                                            <MenuItem value={index}>{item}</MenuItem>
+                                        COLLECTION.map((i) => (
+                                            <MenuItem value={i}>{i}</MenuItem>
                                         ))
                                     }
                                 </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={5}>
+                            <FormControl fullWidth>
+                                <InputLabel id="fieldLabel">Field</InputLabel>
+                                <Select
+                                    labelId="field"
+                                    id="field"
+                                    value={field}
+                                    label="Field"
+                                    onChange={handleChangeItem}
+                                >
+                                    {
+                                        listFields.map((f) => (
+                                            <MenuItem value={f[0]}>{f[1]}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={2}>
+                            <FormControl fullWidth>
+                                <Button variant="contained" sx={{ height: 55, ml: 2 }} onClick={() => create()}>Create</Button>
                             </FormControl>
                         </Grid>
                     </Grid>
@@ -119,6 +143,7 @@ export const DashboardGenerator: React.FC = () => {
                             chartType="ComboChart"
                             width="100%"
                             height="500px"
+                            loader={<Loader />}
                             data={data}
                             options={options}
                         />

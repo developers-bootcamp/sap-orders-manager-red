@@ -14,6 +14,7 @@ const ADD_CATEGORY = `${BASE_URL}/productCategory`
 const DELETE_PRODUCT = `${BASE_URL}/product`
 const EDIT_PRODUCT = `${BASE_URL}/product`
 const ADD_PRODUCT = `${BASE_URL}/product`
+const DYNAMIC_GRAPH = `${BASE_URL}/graph/dynamicGraph`
 
 
 const PALLETE = {
@@ -41,6 +42,7 @@ export {
     EDIT_PRODUCT,
     ADD_PRODUCT,
     TOP_EMPLOYEE,
-    TOP_PRODUCTS
+    TOP_PRODUCTS,
+    DYNAMIC_GRAPH
 };
 
