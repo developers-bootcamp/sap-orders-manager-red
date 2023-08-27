@@ -20,7 +20,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import axios from "axios";
 import IOrder from "../../interfaces/IOrder";
-import { json } from "node:stream/consumers";
 
 const schema = Yup.object().shape({
   cvc: Yup.string().required("number is a required field"),

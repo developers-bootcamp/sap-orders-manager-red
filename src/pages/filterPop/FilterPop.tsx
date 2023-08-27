@@ -10,6 +10,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
+import { Height } from "@mui/icons-material";
 
 const FilterPop = (props: any) => {
   const [value, setValue] = useState();
@@ -99,7 +100,10 @@ const FilterPop = (props: any) => {
                 </Select>
               )}
               {dataToShow?.fieldName === "price"&&
-                <div><input type="number"></input><input type="number"></input></div>
+                <div>
+                  <input type="number" style={{height:30,width:60,margin:8}}></input>
+                  <input type="number" style={{height:30,width:60}}></input>
+                </div>
               }
               {dataToShow?.fieldName === "customer"  && (
                 <div style={{display:"inline",width:"20%"}}>
