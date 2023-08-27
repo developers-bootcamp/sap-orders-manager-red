@@ -143,7 +143,6 @@ export const DashboardGenerator: React.FC = () => {
                             chartType="ComboChart"
                             width="100%"
                             height="500px"
-                            loader={<Loader />}
                             data={data}
                             options={options}
                         />

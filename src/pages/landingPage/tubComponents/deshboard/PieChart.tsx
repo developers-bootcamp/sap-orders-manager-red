@@ -30,7 +30,6 @@ export const PieChart: React.FC = () => {
     <Chart
       chartType="PieChart"
       height="100%"
-      loader={<Loader />}
       data={data}
       options={options}
     />

@@ -23,7 +23,6 @@ export const LineChart: React.FC = () => {
     <Chart
       chartType="LineChart"
       height="100%"
-      loader={<Loader />}
       data={data}
       options={options}
     />

@@ -61,7 +61,6 @@ export const BarChart = () => {
     <Chart
       chartType="ComboChart"
       height="100%"
-      loader={<Loader />}
       data={data}
       options={options}
     />
