@@ -3,7 +3,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
-const SIGN_UP = `${BASE_URL}/user/signUp`
+const GET_ALL_USER=`${BASE_URL}/user`
+const SIGN_UP = `${BASE_URL}/user/signUp` 
 const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
 const GET_ALL_PRODUCT = `${BASE_URL}/product`
 const TOP_EMPLOYEE = `${BASE_URL}/graph/topEmployee`
@@ -16,6 +17,9 @@ const EDIT_PRODUCT = `${BASE_URL}/product`
 const ADD_PRODUCT = `${BASE_URL}/product`
 const DYNAMIC_GRAPH = `${BASE_URL}/graph/dynamicGraph`
 
+const DELETE_USER = `${BASE_URL}/user`
+const EDIT_USER = `${BASE_URL}/user`
+const ADD_USER = `${BASE_URL}/user`
 
 const PALLETE = {
     BLUE: '#6794CF',
@@ -41,6 +45,9 @@ export {
     DELETE_PRODUCT,
     EDIT_PRODUCT,
     ADD_PRODUCT,
+    GET_ALL_USER,
+    DELETE_USER,
+    EDIT_USER,ADD_USER,
     TOP_EMPLOYEE,
     TOP_PRODUCTS,
     DYNAMIC_GRAPH
