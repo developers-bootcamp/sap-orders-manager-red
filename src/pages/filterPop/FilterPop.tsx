@@ -81,7 +81,7 @@ const FilterPop = (props: any) => {
           <Box>
             <FormControl fullWidth> 
               <InputLabel id="filter" classes={InputLabel}></InputLabel>
-              {(indexData==0||(dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "price") || (dataToShow?.fieldName === "priority")) && (
+              {(indexData==0||(dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "priority")) && (
                 <Select
                   labelId="filter"
                   id="filter"
@@ -98,17 +98,24 @@ const FilterPop = (props: any) => {
                     ))}
                 </Select>
               )}
+              {dataToShow?.fieldName === "price"&&
+                <div><input type="number"></input><input type="number"></input></div>
+              }
               {dataToShow?.fieldName === "customer"  && (
                 <div style={{display:"inline",width:"20%"}}>
                 <GlobalAutoComplete
                   path={`/user/getNamesOfCustomersByPrefix`}
                   whatChoose={handleChangeValue}
+                  width={160}
+                  height={3}
                 ></GlobalAutoComplete></div>
               )}
               {dataToShow?.fieldName === "product"&& (
                 <GlobalAutoComplete
                   path={"/product/names"}
                   whatChoose={handleChangeValue}
+                  width={160}
+                  height={3}
                 ></GlobalAutoComplete>
               )} 
               {dataToShow?.fieldName === "date"&& (
