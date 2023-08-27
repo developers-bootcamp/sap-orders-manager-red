@@ -2,7 +2,6 @@ import IAddress from "./IAddress";
 import IAuditData from "./IAuditData";
 import ICompany from "./ICompany";
 import IRole from "./IRole";
-
 export default interface IUser {
     id: string,
     fullName?: string,
@@ -12,3 +11,5 @@ export default interface IUser {
     companyId?: ICompany,
     auditData?: IAuditData,
 }
+
+
