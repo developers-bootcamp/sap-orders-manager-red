@@ -68,12 +68,15 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
   };
 
   const closeEdit=()=>{ setEditingRowId(null);}
-  const handleSaveClick = async(rowId: string) => {  
+  const handleSaveClick = async(rowId: string) => { 
+
     const newObject = {  
       id:rowId,
       ...newRowValues,
    };  
    try {
+     console.log({newObject});
+     
     await props.edit(rowId,newObject);
     // props.rows = [...props.rows,newObject]
     closeEdit();
