@@ -76,12 +76,13 @@ export const DashboardGenerator: React.FC = () => {
                 setData([[collection, "Count"],])
                 let arr = [...res.data]
                 arr.forEach(element => {
-                    if (field === "roleId" || field === "productCategoryId")
-                        setData(prevData => [...prevData, [element.obj.name, element.count]])
-                    else if (field === "auditData.createDate")
-                        setData(prevData => [...prevData, [element.obj.substring(0, 10), element.count]])
-                    else
-                        setData(prevData => [...prevData, [element.obj.fullName, element.count]])
+                    if (element.obj !== null)
+                        if (field === "roleId" || field === "productCategoryId")
+                            setData(prevData => [...prevData, [element.obj.name, element.count]])
+                        else if (field === "auditData.createDate")
+                            setData(prevData => [...prevData, [element.obj.substring(0, 10), element.count]])
+                        else
+                            setData(prevData => [...prevData, [element.obj.fullName, element.count]])
                 })
             }).catch(err => {
                 console.log(err);

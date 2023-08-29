@@ -37,7 +37,13 @@ const PendingOrders: React.FC = () => {
       </div>
 
       <div style={{ marginLeft: "3%" }}>
-        <GlobalModel btnOpen={"Order Detail"} isButton={true} title={"Order Detail"} img={giftsImg} txtSide={"we are almost done"}>
+        <GlobalModel
+          btnOpen={"Order Detail"}
+          isButton={true}
+          title={"Order Detail"}
+          img={giftsImg}
+          txtSide={"we are almost done"}
+        >
           <OrderDetailForm></OrderDetailForm>
         </GlobalModel>
       </div>

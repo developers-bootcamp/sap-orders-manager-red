@@ -112,7 +112,7 @@ const NewOrderForm = () => {
       },
     },
     currency:currency,
-    creditCardNumber: 0,
+    creditCardNumber: "0",
     expireOn: new Date(),
     cvc: 0,
     notificationFlag: true,

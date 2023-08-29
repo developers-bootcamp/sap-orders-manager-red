@@ -5,12 +5,7 @@ import * as Yup from "yup";
 import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
 import { FormHelperText } from "@mui/material";
 import ArrowCircleUpSharpIcon from '@mui/icons-material/ArrowCircleUpSharp';
-import {
-  MyArrowIcon,
-  MyFieldContainer,
-  MyMsdError,
-  MyTxtField,
-} from "./OrderDetailForm.style";
+import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from "./OrderDetailForm.style";
 import Divider from "@mui/material/Divider";
 import { PALLETE } from "../../config/config";
 import GlobalAutoComplete from "../../components/GlobalAutoComplete";
@@ -19,20 +14,10 @@ import IOrder from "../../interfaces/IOrder";
 import { setOrder } from "../../redux/slices/sliceOrder";
 import { useSelector } from "react-redux";
 import ArrowCircleUpSharp from "@mui/icons-material/ArrowCircleUpSharp";
-import IOrderItem from "../../interfaces/IOrderItem";
-import { updateOrder } from "../../axios/orderAxios";
+import { getAllOrders, updateOrder } from "../../axios/orderAxios";
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
 import IUser from "../../interfaces/IUser";
 import axios from "axios";
-
-// import React from 'react';
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-// import { Button, Divider, Grid, TextField, Typography } from '@mui/material';
-// import { FormHelperText } from '@mui/material';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import { MyArrowIcon, MyFieldContainer, MyMsdError, MyTxtField } from './NewOrderForm.style';
-// import { PALLETE } from '../../config/config';
 
 const schema = Yup.object().shape({
   customer: Yup.string().required("customer is a required field"),
@@ -42,29 +27,21 @@ const schema = Yup.object().shape({
 
 const NewOrderForm: React.FC = () => {
 
-  const listOfCurrencies:string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
+  const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
 
   const [currency, setCurrency] = React.useState("DOLLAR");
-  const [data,setData]=useState();
+  const [data, setData] = useState();
   const [isOpen, setIsOpen] = useState(false);
 
 
   const handleNewOrder = (values: any) => {
-    //  API call of new order here
     console.log(values);
   };
-
-  
-
-  const productList = [
-    { name: "Collage", price: "$10", quantity: "x 2" },
-    { name: "Photo albom", price: "$20", quantity: "x 3" },
-    // ... more items
-  ];
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+
     let order: IOrder = {
       id: "1",
       employeeId: { id: "1", fullName: "rooti" },
@@ -76,19 +53,11 @@ const NewOrderForm: React.FC = () => {
       ],
       orderStatus: "done",
       companyId: { name: "kamatek" },
-      creditCardNumber: 1111222233334444,
+      creditCardNumber: "1111222233334444",
       expireOn: new Date,
       cvc: 123,
     }
-const getData=()=>{
-    axios.get(`http://localhost:8080/order/1/done/0`)
-    .then((res)=>setData(res.data))
-    .catch((error) => {
-      console.log(error);
-    })
-  };
-  if(data!= undefined)
-    dispatch(setOrder(data))
+    dispatch(setOrder(order))
   }, [])
 
   let currectOrder: IOrder = useSelector((o: any) => o.orderReducer.order)
@@ -106,10 +75,10 @@ const getData=()=>{
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
-  
 
-  const cancelOrder=(id:any)=>{
-    
+
+  const cancelOrder = (id: any) => {
+
   }
 
   const dellProduct = (id: any, amount: any) => {
@@ -121,7 +90,6 @@ const getData=()=>{
 
   const saveChanges = (event: any) => {
     updateOrder(currectOrder).then(res => {
-      // פה יהיה את כל העדכון של ההזמנה
       toggleOpen()
     }).catch(err => {
       console.log(err)
@@ -152,16 +120,15 @@ const getData=()=>{
               <MyMsdError>
                 <ErrorMessage name="customer" component="div" />
               </MyMsdError>
-{/* sx={{ mt: 1, mr: 12, ml: 0 }} */}
               <MyFieldContainer >
                 <Grid item xs={12} sm={12}>
                   <FormHelperText>product</FormHelperText>
                   <GlobalAutoComplete path={"/product/names"} onChangeSelect={keepCustomer}></GlobalAutoComplete>
                   <MyMsdError>
                     <ErrorMessage name="product" component="div" />
-                  </MyMsdError>              
-                  </Grid>
-                
+                  </MyMsdError>
+                </Grid>
+
               </MyFieldContainer>
               <MyFieldContainer sx={{ mt: 1 }}>
                 <Grid item xs={5} sm={5.5}>
@@ -222,7 +189,7 @@ const getData=()=>{
           </Grid>
 
           <Divider sx={{ mt: 3 }} />
-          <Typography>Paid with a credit card ending in digits: {currectOrder.creditCardNumber?.toString().substring(12)}</Typography>
+          <Typography>Paid with a credit card ending in digits: {currectOrder.creditCardNumber?.substring(12)}</Typography>
 
           <div>
             <div>
@@ -250,7 +217,7 @@ const getData=()=>{
               </div>}
             </div>
             <Button
-            onClick={()=>cancelOrder(currectOrder.id)}
+              onClick={() => cancelOrder(currectOrder.id)}
               sx={{
                 mt: 2,
                 backgroundColor: `${PALLETE.ORANGE} !important`,
