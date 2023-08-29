@@ -41,7 +41,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
     await props.delete(id)
   }
   const openAdd = () => { setAdd(true) };
-  const closeAdd = () => { setAdd(false) };
+  const closeAdd = () => { setNewRowValues({});setAdd(false) };
   const handleAdd = async () => {
     const newObject = {
       ...newRowValues
@@ -56,9 +56,13 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
     }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewRowValues((prevValues: any) => ({
+    const { name, value } = e.target;
+    if (value != null || value != undefined) {
+      <p style={{ color: 'red' }}>Invalid input for someField</p>
+      console.log({ value });
+    } setNewRowValues((prevValues: any) => ({
       ...prevValues,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
   const handleAutocompleteChange = (fieldName: string, selectedValue: any) => {
@@ -115,7 +119,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row: any) => (
-            <TableRows key={row.id} style={{ height: "20px" }}>
+            <TableRows key={row.id} style={{borderLeftColor:"green!important"}}>
               {Object.keys(row).map((key, indexs) => (
                 key !== "id" ? (
                   <TableCells style={{ padding: "0px!important" }} key={key} component="th" scope="row">
@@ -174,7 +178,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
               {editingRowId === row.id ? (
                 <Edit>
                   <IconButton onClick={() => closeEdit()}>
-                    <CloseIcon/>
+                    <CloseIcon />
                   </IconButton>
                 </Edit>
               ) : (

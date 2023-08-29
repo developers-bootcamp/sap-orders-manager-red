@@ -15,8 +15,8 @@ const TableCells = styled(TableCell)({
     backgroundColor: "rgb(240,240,240)!important",
     paddingTop: '3px!important',
     paddingBottom: '3px!important',
-    paddingRight: '7px!important',
-    paddingLeft: '7px!important', 
+    paddingRight: '5px!important',
+    paddingLeft: '5px!important', 
     borderBottom: '5px solid #FFFF!important',
     borderRight: '5px solid #FFFF!important',
     Padding:"0pxIimportant"
