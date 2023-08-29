@@ -53,6 +53,7 @@ const NewOrderForm: React.FC = () => {
       ],
       orderStatus: "done",
       companyId: { name: "kamatek" },
+      currency: "SHEKEL",
       creditCardNumber: "1111222233334444",
       expireOn: new Date,
       cvc: 123,
@@ -139,7 +140,7 @@ const NewOrderForm: React.FC = () => {
                   <FormHelperText>Currency</FormHelperText>
                   <Autocomplete
                     fullWidth
-                    value={currency}
+                    value={currectOrder.currency}
                     defaultValue={currency}
                     options={listOfCurrencies.map((c: string) => c)}
                     inputValue={currency}
@@ -193,8 +194,6 @@ const NewOrderForm: React.FC = () => {
 
           <div>
             <div>
-
-
               <Button sx={{ color: PALLETE.ORANGE }} startIcon={<ArrowCircleUpSharp />} onClick={toggleOpen}>{isOpen ? 'Close' : ' change credit card details'}
               </Button>
               {isOpen && <div>
