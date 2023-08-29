@@ -68,6 +68,3 @@ const GlobalAutoComplete = (props: any) => {
 
 export default GlobalAutoComplete;
 
-// getOptionSelected={(option, value) => option.id === value.id}
-// isOptionEqualToValue={}
-//  isOptionEqualToValue={(option, value) => option.name === value.name}
