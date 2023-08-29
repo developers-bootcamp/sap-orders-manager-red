@@ -11,9 +11,10 @@ export default interface IOrder {
     orderItemsList?: Array<IOrderItem>,
     orderStatus?: string,
     companyId?: ICompany,
-    creditCardNumber?: number,
-    expireOn?: string,
+    creditCardNumber?: string,
+    expireOn?: Date,
     cvc?: number,
     notificationFlag?: boolean,
     auditData?: IAuditData,
+    currency?: string,
 }

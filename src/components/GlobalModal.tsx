@@ -3,9 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import { Link, Button, DialogTitle, DialogContent } from '@mui/material';
 import { MyDetailsDiv, MyGiftImg, MyOpenDialog, MySideBackImg, MyTxtSide } from './GlobalModal.style';
 import { PALLETE } from '../config/config';
-
 const GlobalModel = (props: any) => {
-
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -42,7 +40,8 @@ const GlobalModel = (props: any) => {
               </MyTxtSide>
             </MySideBackImg>
           </DialogContent>
-        </Dialog>
+
+        </Dialog>            
     </>
   );
 };

@@ -3,6 +3,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const GET_ALL_ORDERS_URL = `${BASE_URL}/orders`;
 const LOG_IN = `${BASE_URL}/user/logIn`
 const GET_CURRENCIES = `${BASE_URL}/global/getCurrencies`
+const UPDATE_ORDER = `${BASE_URL}/order/updateOrder`
 const GET_ALL_USER=`${BASE_URL}/user`
 const SIGN_UP = `${BASE_URL}/user/signUp` 
 const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
@@ -52,6 +53,7 @@ export {
     TOP_EMPLOYEE,
     TOP_PRODUCTS,
     DYNAMIC_GRAPH,
-    GET_STATUS
+    GET_STATUS,
+    UPDATE_ORDER
 };
 
