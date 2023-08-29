@@ -6,13 +6,15 @@ import IProduct from "../../interfaces/IProduct";
 import { getAllCategory } from "../../axios/productCategoryAxios";
 
 const ProductTable: React.FC = () => {
-    const [allProduct, setAllProduct] = useState<IProduct[]>()
-    const [allCategories, setAllCategories] = useState<IProductCategory[]>()
+    const [allProduct, setAllProduct] = useState<IProduct[]>();
+    const [allCategories, setAllCategories] = useState<IProductCategory[]>();
+    const [change, setChange] = useState(false);
 
     useEffect(() => {
         getAllProductAsync();
         getAllCategoryAsync();
-    }, []);
+        setChange(false)
+    }, [change]);
 
     const getAllProductAsync = async () => {
         await getAllProduct().then(res => setAllProduct(res.data));
@@ -22,41 +24,53 @@ const ProductTable: React.FC = () => {
     }
 
     const goToAddProduct = async (product: { Name: string, Description: string, Inventory: number, Discount: number, Type: { name: string }, Category: IProductCategory, Price: number }) => {
-        const newProduct: IProduct = {
-            name: product.Name,
-            desc: product.Description,
-            inventory : product.Inventory,
-            discount:product.Discount,
-            discountType:product.Type.name,
-            productCategoryId:product.Category,
-            price:product.Price
-        }
-        await addProduct(newProduct)
+         if(product.Name.length>20){
+             return <h1>השם ארוך מדי</h1>
+         }
+         const newProduct: IProduct = {
+             name: product.Name,
+             desc: product.Description,
+             inventory: product.Inventory,
+             discount: product.Discount,
+             discountType: product.Type.name,
+             productCategoryId: product.Category,
+             price: product.Price
+         }
+         await addProduct(newProduct)
+         setChange(true)
     }
-    const goToEditProduct=async(id:string,product: {id:string, Name: string, Description: string, Inventory: number, Discount: number, Type: { name: string }, Category: IProductCategory, Price: number })=>{
-        const newProduct: IProduct = {
-            id:product.id,
-            name: product.Name,
-            desc: product.Description,
-            inventory : product.Inventory,
-            discount:product.Discount,
-            discountType:product.Type.name,
-            productCategoryId:product.Category,
-            price:product.Price
-        }
-        await editProduct(id,newProduct)
+    const goToEditProduct = async (product: {
+        id: string, Name?: string, Description?: string, Inventory?: number, Discount?: number, Type?: { name: string }, Category?: IProductCategory, Price?: number
+            , name: string, dest: string, inventory: number, discount: number, discountType: { name: string }, productCategoryId: IProductCategory, price: number
+    }) => {
 
+        const newProduct: IProduct = {
+            id: product.id,
+            name: product.Name || product.name,
+            desc: product.Description || product.dest,
+            inventory: product.Inventory || product.inventory,
+            discount: product.Discount || product.inventory,
+            discountType: product.Type?.name || product.discountType.name,
+            productCategoryId: product.Category || product.productCategoryId,
+            price: product.Price || product.price
+        }
+        await editProduct(newProduct);
+        setChange(true);
+    }
+    const goToDeleteProduct = async(id:string)=>{
+        deleteProduct(id);
+        setChange(true);
     }
     const head =
         [{ name: "Name", type: "text" },
-         { name: "Description", type: "text" },
-         { name: "Inventory", type: "number" },
-         { name: "Discount", type: "number" },
-         { name: "Type", type: "autocompletet", options: [{ name: "PERCENTAGE" }, { name: "FIXED_AMOUNT" }] },
-         { name: "Category", type: "autocompletet", options: allCategories }, { name: "Price", type: "number" }]
+        { name: "Description", type: "text" },
+        { name: "Inventory", type: "number" },
+        { name: "Discount", type: "number" },
+        { name: "Type", type: "autocompletet", options: [{ name: "PERCENTAGE" }, { name: "FIXED_AMOUNT" }] },
+        { name: "Category", type: "autocompletet", options: allCategories }, { name: "Price", type: "number" }]
     return (
         <>
-            {allProduct != null ? <GlobalTable head={head} rows={allProduct} whatToAdd="item" delete={deleteProduct} add={goToAddProduct} edit={goToEditProduct}></GlobalTable> : ""}
+            {allProduct != null ? <GlobalTable head={head} rows={allProduct} whatToAdd="item" delete={goToDeleteProduct} add={goToAddProduct} edit={goToEditProduct}></GlobalTable> : ""}
         </>
     );
 };

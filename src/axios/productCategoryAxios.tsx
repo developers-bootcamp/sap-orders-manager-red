@@ -11,8 +11,8 @@ export const deleteCategory = async (id: string) => {
     return await axios.delete(`${DELETE_CATEGORY}/${id}`)
 }
 
-export const editCategory = async (id: string, productCategory: IProductCategory) => {
-    return await axios.put(`${EDIT_CATEGORY}/${id}`, productCategory)
+export const editCategory = async (productCategory: IProductCategory) => {
+    return await axios.put(`${EDIT_CATEGORY}`, productCategory)
 }
 
 export const addCategory = async (productCategory: IProductCategory) => {

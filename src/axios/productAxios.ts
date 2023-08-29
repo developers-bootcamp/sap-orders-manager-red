@@ -9,8 +9,8 @@ export const deleteProduct = async (id:string) => {
     return await axios.delete(`${DELETE_PRODUCT}/${id}`)
 }
 
-export const editProduct = async (id: string, product:IProduct) => {
-    return await axios.put(`${EDIT_PRODUCT}/${id}`,product)
+export const editProduct = async (product:IProduct) => {
+    return await axios.put(`${EDIT_PRODUCT}`,product)
 }
 
 export const addProduct = async (product: IProduct) => {
