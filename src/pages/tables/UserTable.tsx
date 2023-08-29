@@ -15,6 +15,8 @@ const UserTable = () => {
     const [isOpenAdmin, setIsOpenAdmin] = useState(true);
     const [isOpenEmp, setIsOpenEmp] = useState(true);
     const [isOpenCustomer, setIsOpenCustomer] = useState(true);
+    const[change,setChange]=useState(false);
+
 
     const getAllUserAsync = async (pageNumber: number) => {
         await getAllUser(pageNumber).then(res =>{ setAllUser(res.data);console.log(res.data)});
@@ -22,19 +24,21 @@ const UserTable = () => {
 
 
     useEffect(() => {
-        getAllUserAsync(0);        
-    },[]);
+        getAllUserAsync(0); 
+        setChange(false);       
+    },[change]);
 
-    const goToEditUser = async (id: string, user: {FullName: string,Password: string, Phone:string,Email:string,Address:string,RoleId:string }) => {
+    const goToEditUser = async (id: string, user: {FullName?: string,Password?: string, Phone?:string,Email?:string,Address?:string,RoleId?:string ,fullName:string,password:string,phone:string,email:string,address:string,roleId:string}) => {
         const editUser1: IUserDTO = {
-            fullName:user.FullName,
-            password:user.Password,
-            phone:user.Phone,
-            address:user.Address,
-            email:user.Email,
-            roleId:user.RoleId
+            fullName:user.FullName || user.fullName,
+            password:user.Password ||user.password,
+            phone:user.Phone ||user.phone,
+            address:user.Address || user.address,
+            email:user.Email ||user.email,
+            roleId:user.RoleId ||user.roleId
         }
-        editUser(id, editUser1)
+        editUser(id, editUser1);
+        setChange(true);
     }
 
 
@@ -50,6 +54,8 @@ const UserTable = () => {
         }
         console.log(addUser1)
         await addUser(addUser1)
+        setChange(true);
+
     }
   
 
@@ -65,6 +71,7 @@ const UserTable = () => {
         }
         console.log(addUser2)
         await addUser(addUser2)
+        setChange(true);
     }
     const goToAddCust = async (user: { FullName: string, Password: string,Phone:string,Email:string,Address:string }) => {
         const addUser3: IUserDTO = {
@@ -78,7 +85,15 @@ const UserTable = () => {
         }
         console.log(addUser3)
         await addUser(addUser3)
+        setChange(true);
     }
+
+    const goToDeleteUser=async(id:string)=>{
+        deleteUser(id);
+        setChange(true);
+    }
+
+
     const head =
     [{ name: "FullName", type: "text" },
      { name: "Password", type: "text" },
@@ -108,7 +123,7 @@ const UserTable = () => {
         }))
         
         
-        } whatToAdd="Administrator" delete={deleteUser} add={goToAddAdmin} edit={goToEditUser}></GlobalTable> : ""}
+        } whatToAdd="Administrator" delete={goToDeleteUser} add={goToAddAdmin} edit={goToEditUser}></GlobalTable> : ""}
         </div>    }
             <br></br>
             <Button sx={{ color: PALLETE.YELLOW }} startIcon={<ArrowCircleUpSharp />} onClick={() => setIsOpenEmp(!isOpenEmp)}>{isOpenEmp ? 'Employees' : 'Employees'}
@@ -126,7 +141,7 @@ const UserTable = () => {
     Phone:user.phone
 
 }))
-} whatToAdd="Employee" delete={deleteUser} add={goToAddEmp} edit={goToEditUser}></GlobalTable> : ""}
+} whatToAdd="Employee" delete={goToDeleteUser} add={goToAddEmp} edit={goToEditUser}></GlobalTable> : ""}
 
         </div>    }
             <br></br>
@@ -146,7 +161,7 @@ const UserTable = () => {
     Phone:user.phone
 
 }))
-} whatToAdd="Customer" delete={deleteUser} add={goToAddCust} edit={goToEditUser}></GlobalTable> : ""}
+} whatToAdd="Customer" delete={goToDeleteUser} add={goToAddCust} edit={goToEditUser}></GlobalTable> : ""}
 
         </div>    }
         </>
