@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Autocomplete, Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 import { signUp } from '../../axios/signUpAxios';
@@ -13,7 +14,6 @@ import { useAppDispatch } from '../../redux/store';
 import { saveToLocalStorage } from '../../storageUtils';
 import { useNavigate } from 'react-router';
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
 

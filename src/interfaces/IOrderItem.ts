@@ -1,7 +1,7 @@
 import IProduct from "./IProduct";
 
 export default interface IOrderItem {
-    productId: IProduct,
+    productId?: IProduct,
     amount?: number,
-    quantity: number,
+    quantity?: number,
 }
