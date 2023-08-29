@@ -13,7 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { AddButtons, Head, TableCells, TableRows, Footer, Edit } from './GlobalTable.style'
-import AreYouShore from './areYouShore';
 
 export default function GlobalTable(props: IPropsToGlobalTable) {
   const rows = props.rows;
