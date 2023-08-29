@@ -45,11 +45,22 @@ export const BarChart = () => {
 
   useEffect(() => {
     topProducts(1).then(res => {
+      debugger
       setData([["", ""]])
-      let arr = [...res.data] 
+
+      let arr = [...res.data[0].products]
       console.log(arr);
-           
-      // arr.forEach(element => {
+      debugger
+      let arr1: Array<string> = []
+      arr.forEach(element => {
+        arr1.push(element.productId.Name)
+      })
+      console.log(arr1);
+
+      // setData(arr1)
+
+      // arr[0].products.forEach(element => {
+      //   arr1.push(element.products)
       //   setData(prevData => [...prevData, [element.employee.fullName, element.countOfDeliveredOrders]])
       // });
     }).catch(err => {
