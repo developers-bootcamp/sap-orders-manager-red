@@ -29,7 +29,6 @@ const GlobalAxios: React.FC<GlobalAxiosState> = () => {
       if (config.url.indexOf(LOG_IN) === -1 && config.url.indexOf(SIGN_UP) === -1 && config.url.indexOf(GET_CURRENCIES) === -1) {
         config.headers["token"] = userToken;
       }
-      console.log(config);
       dispatch(startLoading());
       return config;
     },
