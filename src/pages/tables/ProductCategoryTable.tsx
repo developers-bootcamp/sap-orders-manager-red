@@ -10,22 +10,25 @@ const schema = Yup.object().shape({
 });
 const ProductCategoryTable: React.FC = () => {
     const [allCategory, setAllCategory] = useState<IProductCategory[]>()
+    const [change ,setChange] = useState(false);
 
     useEffect(() => {
         getAllCategoryAsync();
-    }, []);
+        setChange(false)        
+    }, [change]);
 
     const getAllCategoryAsync = async () => {
         await getAllCategory().then(res => setAllCategory(res.data));
     }
 
-    const goToEditCategory = async (id: string, category: { id: string, Product: string, Description: string }) => {
-        const newCategory: IProductCategory = {
+    const goToEditCategory = async (category: { id: string, Product?: string, Description?: string,name:string, desc:string }) => {
+        const newCategory: any = {
             id: category.id,
-            name: category.Product,
-            desc: category.Description,
+            name: category.Product||category.name,
+            desc: category.Description||category.desc,
         }
-        editCategory(id, newCategory)
+        editCategory(newCategory)
+        setChange(true)
     }
 
 
@@ -35,13 +38,19 @@ const ProductCategoryTable: React.FC = () => {
             desc: category.Description
         }
         await addCategory(newCategory)
+        setChange(true)
+    }
+
+    const goToDeleteCategory=async(id:string)=>{
+        deleteCategory(id)
+        setChange(true);
     }
     const head =
         [{ "name": "Product", "type": "text" },
         { "name": "Description", "type": "text" }]
     return (
         <>
-            {allCategory != null ? <GlobalTable head={head} rows={allCategory} whatToAdd="item" delete={deleteCategory} add={goToAddCategory} edit={goToEditCategory}></GlobalTable> : ""}
+            {allCategory != null ? <GlobalTable head={head} rows={allCategory} whatToAdd="item" delete={goToDeleteCategory} add={goToAddCategory} edit={goToEditCategory}></GlobalTable> : ""}
         </>
     );
 };
