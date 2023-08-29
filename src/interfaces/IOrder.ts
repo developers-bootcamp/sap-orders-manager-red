@@ -16,4 +16,5 @@ export default interface IOrder {
     cvc?: number,
     notificationFlag?: boolean,
     auditData?: IAuditData,
+    currency?: string,
 }
