@@ -6,15 +6,15 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Autocomplete, Checkbox, FormControlLabel, Grid, IconButton, InputAdornment, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { FormHelperText } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { MyMsdError, MyTxtField } from './SignUpForm.styles';
 import { PALLETE } from '../../config/config';
 import { signUp } from '../../axios/signUpAxios';
+import { useAppDispatch } from '../../redux/store';
 import { saveToLocalStorage } from '../../storageUtils';
 import { useNavigate } from 'react-router';
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { useAppDispatch } from "../../redux/store";
 
 
 const schema = Yup.object().shape({
@@ -31,7 +31,7 @@ const SingUpForm: React.FC = () => {
 
     const [currency, setCurrency] = React.useState("DOLLAR");
     const [showPassword, setShowPassword] = React.useState(false);
-    const [register, setRegistre] = React.useState(false);
+    const [register, setRegister] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
     const [errorMessage,setErrorMessage] = React.useState('')
     const navigate = useNavigate()
@@ -46,7 +46,7 @@ const SingUpForm: React.FC = () => {
             .then(res => {
                 saveToLocalStorage("userToken", res.data)
                 navigate("/")
-                setRegistre(true);
+                setRegister(true);
                 setErrorRegistre(false);
             })
             .catch(error => {
@@ -60,6 +60,11 @@ const SingUpForm: React.FC = () => {
                 }
 
             })
+
+            for (let index = 0; index < [1, 2, 3].length; index++) {
+                
+                
+            }
     };
     
     return (

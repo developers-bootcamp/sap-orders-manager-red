@@ -6,7 +6,8 @@ import { PALLETE } from "../../../../config/config";
 import { BarChart } from "./BarChart";
 import { LineChart } from "./LineChart";
 import { PieChart } from "./PieChart";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { DashboardGenerator } from "../../../DashboardGenerator";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: `${PALLETE.GRAY}`,
@@ -15,6 +16,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Dashboard: React.FC = () => {
+
+  const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Grid xs={12} md={6}>
@@ -34,7 +42,9 @@ const Dashboard: React.FC = () => {
       </Grid>
       <Grid xs={12} md={6}>
         <Item>
-          <Typography variant="h5">+ create new board</Typography>
+          <Typography sx={{ pt: 16 }} variant="h5">
+            <DashboardGenerator></DashboardGenerator>
+          </Typography>
         </Item>
       </Grid>
     </Grid>

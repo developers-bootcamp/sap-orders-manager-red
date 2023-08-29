@@ -2,11 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useAppDispatch } from "../redux/store";
 
 const GlobalAutoComplete = (props: any) => {
   const [data, setData] = useState([{ id: "", name: "" }]);
   let requestTimeout: NodeJS.Timeout | null = null;
-  const { whatChoose } = props;
+  const { path,whatChoose } = props;
+  const widthInput =props.width!==undefined? props.width:300
+  const heightInput =props.height!==undefined? props.height:50
   const getOptionsByProfix = async (
     event: any,
     value: string,
@@ -34,15 +37,13 @@ const GlobalAutoComplete = (props: any) => {
             console.log(`http://localhost:8080${path}/${value}`);
             console.log(error);
           });
-        // data=fetch...
-        // set data according to the type;
       }, 1000);
     }
   };
 
   const handleClickShowPassword = (event: any) => {
     console.log("event", event);
-    if (whatChoose) {
+    if (whatChoose!==undefined ) {
       whatChoose(event);
       console.log(event);
     }
@@ -50,16 +51,16 @@ const GlobalAutoComplete = (props: any) => {
   return (
     <>
       <Autocomplete
-        disablePortal
+        // disablePortal
         id="Autocomplete"
         options={data}
-        sx={{ width: 300 }}
+        sx={{height: heightInput, width: widthInput}}
         onInputChange={(event: any, value: string) =>
           getOptionsByProfix(event, value, props.path)
         }
         getOptionLabel={(option) => option.name}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        onChange={(e, value) => handleClickShowPassword(value?.id)}
+        onChange={(e, value) => handleClickShowPassword(value)}
         renderInput={(params) => <TextField {...params} />}
       />
     </>
@@ -68,6 +69,3 @@ const GlobalAutoComplete = (props: any) => {
 
 export default GlobalAutoComplete;
 
-// getOptionSelected={(option, value) => option.id === value.id}
-// isOptionEqualToValue={}
-//  isOptionEqualToValue={(option, value) => option.name === value.name}
