@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <GlobalAxios />
+      <GlobalAxios showError={false} />
       <GlobalLoader />
       <Routes>
         <Route path="/" element={<LandingPage />} />
