@@ -67,7 +67,7 @@ const LandingPage = () => {
           <Tab label="pending Orders" {...a11yProps(0)} />
           <Tab label="dashboard" {...a11yProps(1)} />
           <Tab label="catalog Manager" {...a11yProps(2)} />
-          <Tab label="users Managementr" {...a11yProps(3)} />
+          <Tab label="users Management" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
