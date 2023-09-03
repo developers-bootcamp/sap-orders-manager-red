@@ -10,6 +10,7 @@ const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
 const GET_ALL_PRODUCT = `${BASE_URL}/product`
 const TOP_EMPLOYEE = `${BASE_URL}/graph/topEmployee`
 const TOP_PRODUCTS = `${BASE_URL}/graph`
+const GET_STATUS = `${BASE_URL}/graph/status`
 const DELETE_CATEGORY = `${BASE_URL}/productCategory`
 const EDIT_CATEGORY = `${BASE_URL}/productCategory`
 const ADD_CATEGORY = `${BASE_URL}/productCategory`
@@ -52,6 +53,7 @@ export {
     TOP_EMPLOYEE,
     TOP_PRODUCTS,
     DYNAMIC_GRAPH,
+    GET_STATUS,
     UPDATE_ORDER
 };
 
