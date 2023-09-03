@@ -15,6 +15,7 @@ import { saveToLocalStorage } from '../../storageUtils';
 import { useNavigate } from 'react-router';
 import { ICurrencyState } from "../../redux/slices/sliceCurrency";
 import { RootState } from '../../redux/store';
+import { setRole } from '../../redux/slices/sliceUser';
 
 
 const schema = Yup.object().shape({
@@ -33,7 +34,7 @@ const SingUpForm: React.FC = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [register, setRegister] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
-    const [errorMessage,setErrorMessage] = React.useState('')
+    const [errorMessage, setErrorMessage] = React.useState('')
     const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,10 +42,13 @@ const SingUpForm: React.FC = () => {
         event.preventDefault();
     };
 
+    const dispatch = useAppDispatch()
+
     const handleSignUp = (values: any) => {
         signUp(values.fullName, values.companyName, currency, values.email, values.password)
             .then(res => {
-                saveToLocalStorage("userToken", res.data)
+                saveToLocalStorage("userToken", res.data.token)
+                dispatch(setRole(res.data.role));
                 navigate("/")
                 setRegister(true);
                 setErrorRegistre(false);
@@ -61,12 +65,12 @@ const SingUpForm: React.FC = () => {
 
             })
 
-            for (let index = 0; index < [1, 2, 3].length; index++) {
-                
-                
-            }
+        for (let index = 0; index < [1, 2, 3].length; index++) {
+
+
+        }
     };
-    
+
     return (
         <div>
             <Formik

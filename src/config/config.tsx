@@ -22,6 +22,7 @@ const DYNAMIC_GRAPH = `${BASE_URL}/graph/dynamicGraph`
 const DELETE_USER = `${BASE_URL}/user`
 const EDIT_USER = `${BASE_URL}/user`
 const ADD_USER = `${BASE_URL}/user`
+const GET_ROLE_FROM_TOKEN = `${BASE_URL}/user/getRoleFromToken`
 
 const PALLETE = {
     BLUE: '#6794CF',
@@ -54,6 +55,7 @@ export {
     TOP_PRODUCTS,
     DYNAMIC_GRAPH,
     GET_STATUS,
-    UPDATE_ORDER
+    UPDATE_ORDER,
+    GET_ROLE_FROM_TOKEN
 };
 

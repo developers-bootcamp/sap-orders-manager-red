@@ -4,10 +4,12 @@ import IUser from '../../interfaces/IUser';
 
 interface IUserState {
     users: Array<IUser>,
+    role: string,
 }
 
 const initialState: IUserState = {
     users: [],
+    role: "",
 }
 
 export const userSlice = createSlice({
@@ -17,8 +19,11 @@ export const userSlice = createSlice({
         setUsers: (state, action: PayloadAction<Array<IUser>>) => {
             state.users = action.payload;
         },
+        setRole: (state, action: PayloadAction<string>) => {
+            state.role = action.payload;
+        },
     },
 })
 
-export const { setUsers } = userSlice.actions
+export const { setUsers, setRole } = userSlice.actions
 export default userSlice.reducer
