@@ -11,6 +11,9 @@ import filterImg from "../../../img/filter.png";
 import AllFilter from '../../../pages/filterPop/AllFilter';
 import GlobalPopOver from '../../../components/GlobalPopOver';
 
+import WebSocketComponent from "../../../components/WebSocketComponent";
+
+
 const PendingOrders: React.FC = () => {
   const filterTables = (filters: any) => {
     console.log(filters)
@@ -27,6 +30,7 @@ const PendingOrders: React.FC = () => {
         <NewOrderForm></NewOrderForm>
       </GlobalModel>
 
+
       <div style={{ marginLeft: "3%" }}>
         <GlobalPopOver
           name={"filter"}
@@ -34,6 +38,17 @@ const PendingOrders: React.FC = () => {
           image={filterImg}
           filterTables={filterTables}
         ></GlobalPopOver>
+
+        <div style={{ marginLeft: "3%" }}>
+          <GlobalPopOver
+            name={"filter"}
+            Pop={AllFilter}
+            image={filterImg}
+            filterTables={filterTables}
+          ></GlobalPopOver>
+        </div>
+        {/* <WebSocketComponent></WebSocketComponent> */}
+
       </div>
 
       <div style={{ marginLeft: "3%" }}>
