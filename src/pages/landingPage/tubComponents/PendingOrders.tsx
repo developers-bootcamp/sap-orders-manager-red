@@ -3,7 +3,7 @@ import GlobalModel from '../../../components/GlobalModal';
 import NewOrderForm from '../../newOrderForm/NewOrderForm';
 import giftsImg from '../../../img/giftsWithBaloons.png'
 import OrderDetailForm from '../../orderDetailForm/OrderDetailForm';
-
+import TableSort from '../../TableSort'
 
 // import GlobalPopOver from "../../../components/GlobalPopOver";
 // import FilterPop from "../../../pages/filterPop/FilterPop";
@@ -11,6 +11,7 @@ import filterImg from "../../../img/filter.png";
 import AllFilter from '../../../pages/filterPop/AllFilter';
 import GlobalPopOver from '../../../components/GlobalPopOver';
 
+import sortImg from "../../../img/sort.png"
 import WebSocketComponent from "../../../components/WebSocketComponent";
 
 
@@ -41,9 +42,9 @@ const PendingOrders: React.FC = () => {
 
         <div style={{ marginLeft: "3%" }}>
           <GlobalPopOver
-            name={"filter"}
-            Pop={AllFilter}
-            image={filterImg}
+            name={"sort"}
+            Pop={TableSort}
+            image={sortImg}
             filterTables={filterTables}
           ></GlobalPopOver>
         </div>
