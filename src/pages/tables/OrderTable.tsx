@@ -56,17 +56,21 @@ const OrderTable: React.FC = (props: any) => {
     // }
     const [isLoading, setIsLoading] = useState(true);
     const getAllOrdersAsync = async () => {
+        console.log('start first')
         await getOrders(firstPaginationModel.page, emptyMap)
             .then((res) => { dispatch(setStatusOrders(res.data)) })
             .finally(() => {
                 setAllRows(getRows(listOfOrders));
                 setIsLoading(false); // Set loading state to false
             });
+        console.log('end second')
     }
 
     const getAllFailedOrdersAsync = async () => {
+        console.log('start second')
         await getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => { dispatch(setFailedOrders(res.data)) })
             .finally(() => setAllFaildRows(getRows(listOfFailedOrders)))
+        console.log("end second"+{listOfFailedOrders})
     }
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
@@ -80,20 +84,33 @@ const OrderTable: React.FC = (props: any) => {
         pageSize: 3,
     });
 
-    /*useEffect(() => {
+    useEffect(() => {
         getAllOrdersAsync()
         console.log(firstPaginationModel.page)
-    }, [firstPaginationModel, listOfOrders]);
+    }, [firstPaginationModel]);
 
     useEffect(() => {
         getAllFailedOrdersAsync()
-    },[secondPaginationModel, listOfFailedOrders]);*/
+    },[secondPaginationModel]);
 
     useEffect(() => {
         getAllFailedOrdersAsync()
+        console.log('been')
         getAllOrdersAsync()
-        console.log("QQQQQQQQQQQQQQQQQQQQ")
     }, []);
+    useEffect(() => {
+  const fetchData = async () => {
+    try {
+      await getAllFailedOrdersAsync();
+      console.log('been');
+      await getAllOrdersAsync();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchData();
+}, []);
 
     const getRows = (orders: IOrder[]) => {
         let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string }[] = [
@@ -118,15 +135,15 @@ const OrderTable: React.FC = (props: any) => {
 
     return (
         <>
-           { isLoading?<>fyuy</>:<DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
-                rowCount={100}
+            {isLoading ? <>fyuy</> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+                rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setfirstPaginationModel}
                 style={{ backgroundColor: "#F2F2F2", height: 267, margin: 10 }}></DataGrid>}
             <br />
             <DataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
-                rowCount={10}
+                rowCount={8}
                 paginationModel={secondPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setSecondPaginationModel}
