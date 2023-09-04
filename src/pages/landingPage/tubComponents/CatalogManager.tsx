@@ -6,6 +6,7 @@ const CatalogManager: React.FC = () => {
   return (
     <>
       <ProductCategoryTable></ProductCategoryTable>
+      <br />
       <ProductTable></ProductTable>
     </>
   )

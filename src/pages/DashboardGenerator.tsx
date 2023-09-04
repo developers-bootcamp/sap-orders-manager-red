@@ -11,24 +11,24 @@ export const DashboardGenerator: React.FC = () => {
     const COLLECTION = ["Order", "Product", "User"]
 
     const ordersList = [
-        ["auditData.createDate", "month-year"],
+        ["month-year", "month-year"],
         ["employeeId", "employee"],
         ["customerId", "customer"]
     ]
 
     const productsList = [
-        ["auditData.createDate", "month-year"],
+        ["month-year", "month-year"],
         ["productCategoryId", "category"]
     ]
 
     const usersList = [
-        ["auditData.createDate", "month-year"],
+        ["month-year", "month-year"],
         ["roleId", "role"]
     ]
 
     const [open, setOpen] = React.useState(false)
     const [collection, setCollection] = React.useState("Order")
-    const [field, setField] = React.useState("auditData.createDate")
+    const [field, setField] = React.useState("month-year")
     const [listFields, setListFields] = React.useState(ordersList)
 
     const options = {
@@ -62,7 +62,7 @@ export const DashboardGenerator: React.FC = () => {
             setListFields(productsList)
         else
             setListFields(usersList)
-        setField("auditData.createDate")
+        setField("month-year")
     }
 
     const handleChangeItem = (event: SelectChangeEvent) => {
@@ -79,8 +79,8 @@ export const DashboardGenerator: React.FC = () => {
                     if (element.obj !== null)
                         if (field === "roleId" || field === "productCategoryId")
                             setData(prevData => [...prevData, [element.obj.name, element.count]])
-                        else if (field === "auditData.createDate")
-                            setData(prevData => [...prevData, [element.obj.substring(0, 10), element.count]])
+                        else if (field === "month-year")
+                            setData(prevData => [...prevData, [element.obj, element.count]])
                         else
                             setData(prevData => [...prevData, [element.obj.fullName, element.count]])
                 })

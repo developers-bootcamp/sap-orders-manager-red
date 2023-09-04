@@ -3,32 +3,8 @@ import { PALLETE } from "../../../../config/config";
 import Loader from "../../../../components/loading/Loader";
 import React, { useEffect, useState } from "react";
 import { topProducts } from "../../../../axios/graphAxios";
-
-
-// export const data = [
-//   [
-//     "Month",
-//     "Bolivia",
-//     "Ecuador",
-//     "Madagascar",
-//     "Papua New Guinea",
-//     "Rwanda",
-//   ],
-//   ["2004/05", 165, 938, 522, 998, 450],
-//   ["2005/06", 135, 1120, 599, 1268, 288],
-//   ["2006/07", 157, 1167, 587, 807, 397],
-//   ["2007/08", 139, 1110, 615, 968, 215],
-//   ["2008/09", 136, 691, 629, 1026, 366],
-// ];
-
-// export const options = {
-//   isStacked: true,
-//   title: "Monthly Coffee Production by Country",
-//   vAxis: { title: "Cups" },
-//   hAxis: { title: "Month" },
-//   seriesType: "bars",
-//   backgroundColor: `${PALLETE.GRAY}`,
-// };
+import IProduct from "../../../../interfaces/IProduct";
+import { number } from "yup";
 
 export const BarChart = () => {
 
@@ -41,21 +17,57 @@ export const BarChart = () => {
     backgroundColor: `${PALLETE.GRAY}`,
   }
 
-  const [data, setData] = useState([["", ""]])
+  interface IProductQuantity {
+    productId: IProduct;
+    totalQuantity: number;
+  }
 
-  useEffect(() => {
-    topProducts(1).then(res => {
-      setData([["", ""]])
-      let arr = [...res.data] 
-      console.log(arr);
-           
-      // arr.forEach(element => {
-      //   setData(prevData => [...prevData, [element.employee.fullName, element.countOfDeliveredOrders]])
-      // });
+  interface ITopProduct {
+    month: number;
+    products: Array<IProductQuantity>;
+  }
+
+  const [topProduct, setTopProduct] = useState<Array<ITopProduct>>([]);
+
+  const setTopProducts = () => {
+    topProducts(7).then(res => {
+      setTopProduct([...res.data])
     }).catch(err => {
       console.error(err)
     })
+  }
+
+  useEffect(() => {
+    setTopProducts()
   }, [])
+
+  let namesProducts: Array<string> = ["Month"];
+
+  topProduct.forEach((item) => {
+    item.products.forEach((product) => {
+      namesProducts.push(product.productId.name);
+    });
+  });
+
+  const getLastDateOfMonth = (month: number): string => {
+    const now = new Date();
+    let currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    if (month > currentMonth)
+      currentYear -= 1
+    const formattedDate = `${month.toString().padStart(2, '0')}/${currentYear}`;
+    return formattedDate;
+  }
+
+  let data: Array<Array<any>> = [namesProducts]
+
+  if (topProduct.length !== 0)
+    for (let i = 0; i < topProduct.length; i++) {
+      let arr: Array<any> = [getLastDateOfMonth(topProduct[i].month)]
+      for (let j = 0; j < namesProducts.length - 1; j++)
+        arr.push(topProduct[i].products[j]?.totalQuantity || 0)
+      data.push(arr)
+    }
 
   return (
     <Chart
