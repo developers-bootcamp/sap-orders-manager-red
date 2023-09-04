@@ -10,6 +10,7 @@ const GET_ALL_CATEGORY = `${BASE_URL}/productCategory`
 const GET_ALL_PRODUCT = `${BASE_URL}/product`
 const TOP_EMPLOYEE = `${BASE_URL}/graph/topEmployee`
 const TOP_PRODUCTS = `${BASE_URL}/graph`
+const GET_STATUS = `${BASE_URL}/graph/status`
 const DELETE_CATEGORY = `${BASE_URL}/productCategory`
 const EDIT_CATEGORY = `${BASE_URL}/productCategory`
 const ADD_CATEGORY = `${BASE_URL}/productCategory`
@@ -21,6 +22,7 @@ const DYNAMIC_GRAPH = `${BASE_URL}/graph/dynamicGraph`
 const DELETE_USER = `${BASE_URL}/user`
 const EDIT_USER = `${BASE_URL}/user`
 const ADD_USER = `${BASE_URL}/user`
+const GET_ROLE_FROM_TOKEN = `${BASE_URL}/user/getRoleFromToken`
 
 const PALLETE = {
     BLUE: '#6794CF',
@@ -52,6 +54,8 @@ export {
     TOP_EMPLOYEE,
     TOP_PRODUCTS,
     DYNAMIC_GRAPH,
-    UPDATE_ORDER
+    GET_STATUS,
+    UPDATE_ORDER,
+    GET_ROLE_FROM_TOKEN
 };
 

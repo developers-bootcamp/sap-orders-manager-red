@@ -7,6 +7,9 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { getFromLocalStorage } from "../../storageUtils";
+import { getRoleFromToken } from "../../axios/userAxios";
+import { useAppDispatch } from "../../redux/store";
+import { setRole } from "../../redux/slices/sliceUser";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -50,11 +53,18 @@ const LandingPage = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {    
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
     if (getFromLocalStorage("userToken") === null)
       navigate("/login")
+    else
+      getRoleFromToken()
+        .then(res => {
+          dispatch(setRole(res.data));
+        })
   }, [])
-  
+
   return (
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -67,7 +77,7 @@ const LandingPage = () => {
           <Tab label="pending Orders" {...a11yProps(0)} />
           <Tab label="dashboard" {...a11yProps(1)} />
           <Tab label="catalog Manager" {...a11yProps(2)} />
-          <Tab label="users Managementr" {...a11yProps(3)} />
+          <Tab label="users Management" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
