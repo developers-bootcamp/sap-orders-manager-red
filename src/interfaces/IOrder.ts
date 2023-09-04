@@ -12,7 +12,7 @@ export default interface IOrder {
     orderStatus?: string,
     companyId?: ICompany,
     creditCardNumber?: string,
-    expireOn?: Date,
+    expireOn?: string,
     cvc?: number,
     notificationFlag?: boolean,
     auditData?: IAuditData,

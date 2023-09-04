@@ -55,7 +55,7 @@ const NewOrderForm: React.FC = () => {
       companyId: { name: "kamatek" },
       currency: "SHEKEL",
       creditCardNumber: "1111222233334444",
-      expireOn: new Date,
+      expireOn: "",//new Date,
       cvc: 123,
     }
     dispatch(setOrder(order))
