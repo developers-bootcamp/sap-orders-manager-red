@@ -5,9 +5,7 @@ import IOrder from "../../interfaces/IOrder";
 import IOrderItem from "../../interfaces/IOrderItem";
 import { getFailedOrders, getOrders } from "../../axios/orderAxios";
 import { setOrders, setFailedOrders, IOrderState, setStatusOrders } from "../../redux/slices/sliceOrder";
-import { AddButtons, Head, TableCells, TableRows, Footer, Edit } from "../../components/GlobalTable.style"
 import { useSelector } from "react-redux";
-import { Console } from "console";
 
 
 const columns: GridColDef[] = [
@@ -36,51 +34,43 @@ const columns: GridColDef[] = [
     { field: 'price', headerName: 'Price', width: 100, cellClassName: 'regularCell' },
     { field: 'createDate', headerName: 'Create Date', width: 300, cellClassName: 'regularCell' },
 ];
-
 const emptyMap: Map<string, object> = new Map();
 
-
 const OrderTable: React.FC = (props: any) => {
-
-
-
 
     const dispatch = useAppDispatch();
     const listOfOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
     const listOfFailedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
-
-    // const getAllOrdersAsync = async () => {
-    //     console.log(firstPaginationModel.page)
-    //     await getOrders(firstPaginationModel.page, props).then((res) => { dispatch(setStatusOrders(res.data)) })
-    //         .finally(() => setAllRows(getRows(listOfOrders)))
-    // }
     const [isLoading, setIsLoading] = useState(true);
-    const getAllOrdersAsync = async () => {
+
+    const getAllOrdersAsync = () => {
         console.log('start first')
-        await getOrders(firstPaginationModel.page, emptyMap)
-            .then((res) => { dispatch(setStatusOrders(res.data)) })
-            .finally(() => {
-                setAllRows(getRows(listOfOrders));
-                setIsLoading(false); // Set loading state to false
-            });
-        console.log('end second')
+        getOrders(firstPaginationModel.page, emptyMap)
+            .then((res) => {
+                dispatch(setStatusOrders(res.data));
+                setAllRows(getRows(res.data));
+                setIsLoading(false);
+             })
+        console.log('end first')
     }
 
-    const getAllFailedOrdersAsync = async () => {
+    const getAllFailedOrdersAsync = () => {
         console.log('start second')
-        await getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => { dispatch(setFailedOrders(res.data)) })
-            .finally(() => setAllFaildRows(getRows(listOfFailedOrders)))
-        console.log("end second"+{listOfFailedOrders})
+        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => { 
+            dispatch(setFailedOrders(res.data));
+            setAllFaildRows(getRows(res.data));
+         })
+        console.log("end second" + { listOfFailedOrders })
     }
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
     const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
     const [firstPaginationModel, setfirstPaginationModel] = useState({
-        page: 0,
+        page: 1,
         pageSize: 3,
     });
     const [secondPaginationModel, setSecondPaginationModel] = useState({
-        page: 0,
+        page: 1,
         pageSize: 3,
     });
 
@@ -91,26 +81,21 @@ const OrderTable: React.FC = (props: any) => {
 
     useEffect(() => {
         getAllFailedOrdersAsync()
-    },[secondPaginationModel]);
+        console.log(secondPaginationModel.page)
+    }, [secondPaginationModel]);
 
-    useEffect(() => {
-        getAllFailedOrdersAsync()
-        console.log('been')
-        getAllOrdersAsync()
-    }, []);
-    useEffect(() => {
-  const fetchData = async () => {
-    try {
-      await getAllFailedOrdersAsync();
-      console.log('been');
-      await getAllOrdersAsync();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchData();
-}, []);
+    // useEffect(() => {
+    //     const fetchData = () => {
+    //         try {
+    //             getAllFailedOrdersAsync();
+    //             console.log('been');
+    //             getAllOrdersAsync();
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
 
     const getRows = (orders: IOrder[]) => {
         let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string }[] = [
@@ -135,7 +120,7 @@ const OrderTable: React.FC = (props: any) => {
 
     return (
         <>
-            {isLoading ? <>fyuy</> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            {isLoading ? <>loading...</> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
