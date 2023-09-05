@@ -47,6 +47,7 @@ const OrderTable: React.FC = (props: any) => {
         console.log('start first')
         getOrders(firstPaginationModel.page, emptyMap)
             .then((res) => {
+                console.log(res);
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(res.data));
                 setIsLoading(false);

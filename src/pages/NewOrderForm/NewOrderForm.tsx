@@ -50,6 +50,7 @@ const NewOrderForm = () => {
     companyId: {
       id: "string",
     },
+    paymentType:"credit",
     currency: currency,
     creditCardNumber: "0",
     expireOn: "",
@@ -120,12 +121,39 @@ const NewOrderForm = () => {
           id: "string",
           name: "string",
           desc: "string",
+          companyId: {
+            id: "string",
+            name: "string",
+            currency: "€",
+            auditData: {
+              createDate: "2023-08-11",
+              updateDate: "2023-08-11",
+            },
+          },
+          auditData: {
+            createDate: "2023-08-11",
+            updateDate: "2023-08-11",
+          },
         },
         inventory: 0,
+        companyId: {
+          id: "string",
+          name: "string",
+          currency: "€",
+          auditData: {
+            createDate: "2023-08-11",
+            updateDate: "2023-08-11",
+          },
+        },
+        auditData: {
+          createDate: "2023-08-11",
+          updateDate: "2023-08-11",
+        },
       },
       amount: 0,
       quantity: quantity,
     };
+
     if (updatedProductList.orderItemsList == undefined) {
       updatedProductList.orderItemsList = [];
     }
