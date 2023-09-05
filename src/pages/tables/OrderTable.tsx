@@ -39,16 +39,17 @@ const emptyMap: Map<string, object> = new Map();
 const OrderTable: React.FC = (props: any) => {
 
     const dispatch = useAppDispatch();
-    const listOfOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
-    const listOfFailedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
+    const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
+    const failedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
     const [isLoading, setIsLoading] = useState(true);
+   
 
     const getAllOrdersAsync = () => {
         console.log('start first')
         getOrders(firstPaginationModel.page, emptyMap)
             .then((res) => {
                 dispatch(setStatusOrders(res.data));
-                setAllRows(getRows(res.data));
+                setAllRows(getRows(orders));
                 setIsLoading(false);
              })
         console.log('end first')
@@ -60,7 +61,7 @@ const OrderTable: React.FC = (props: any) => {
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
          })
-        console.log("end second" + { listOfFailedOrders })
+        console.log("end second" + { failedOrders })
     }
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
@@ -78,6 +79,15 @@ const OrderTable: React.FC = (props: any) => {
         getAllOrdersAsync()
         console.log(firstPaginationModel.page)
     }, [firstPaginationModel]);
+
+    //for socket io
+    useEffect(() => {
+        setAllRows(getRows(orders));
+    }, [orders]);
+
+    useEffect(() => {
+        setAllFaildRows(getRows(failedOrders));
+    }, [failedOrders]);
 
     useEffect(() => {
         getAllFailedOrdersAsync()
@@ -133,6 +143,7 @@ const OrderTable: React.FC = (props: any) => {
                 paginationMode="server"
                 onPaginationModelChange={setSecondPaginationModel}
                 style={{ backgroundColor: "#F2F2F2", height: 267 }}></DataGrid>
+               
         </>
     );
 }

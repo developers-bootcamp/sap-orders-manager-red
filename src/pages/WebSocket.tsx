@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Client, Message } from '@stomp/stompjs'; // Import Client and Message
+import { Client, Message } from '@stomp/stompjs';
 import IOrder from '../interfaces/IOrder';
 import { RootState, useAppDispatch } from "../redux/store"
 import { IOrderState, addOrder,} from "../redux/slices/sliceOrder";
-
+import { useSelector } from "react-redux";
 const WebSocket: React.FC = () => {
     const [socket, setSocket] = useState<Client | null>(null);
+    const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
+
     const dispatch = useAppDispatch();
    const handleWebSocketMessage = (message: Message) => {
         const order: IOrder = JSON.parse(message.body);
-        console.log(order);
+        console.log(order,"order");
 
         dispatch(addOrder(order));
         
