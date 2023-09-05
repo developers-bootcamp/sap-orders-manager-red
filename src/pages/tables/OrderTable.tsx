@@ -4,7 +4,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import IOrder from "../../interfaces/IOrder";
 import IOrderItem from "../../interfaces/IOrderItem";
 import { getFailedOrders, getOrders } from "../../axios/orderAxios";
-import { setOrders, setFailedOrders, IOrderState, setStatusOrders } from "../../redux/slices/sliceOrder";
+import { setOrders, setFailedOrders, IOrderState, setStatusOrders , setFilter} from "../../redux/slices/sliceOrder";
 import { useSelector } from "react-redux";
 
 
@@ -34,21 +34,20 @@ const columns: GridColDef[] = [
     { field: 'price', headerName: 'Price', width: 100, cellClassName: 'regularCell' },
     { field: 'createDate', headerName: 'Create Date', width: 300, cellClassName: 'regularCell' },
 ];
-// const emptyMap: Map<string, object> = new Map();
-type Props = {
-    filter: Map<string, object>;
-  };
+ const emptyMap: Map<string, object> = new Map();
 
-const OrderTable: React.FC<Props> = ({filter}) => {
+
+const OrderTable: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const listOfOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
     const listOfFailedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
+    const Mapper: Map<string, object>= useSelector<RootState, IOrderState>(state => state.orderReducer).filter;
     const [isLoading, setIsLoading] = useState(true);
 
     const getAllOrdersAsync = () => {
         console.log('start first')
-        getOrders(firstPaginationModel.page, filter)
+        getOrders(firstPaginationModel.page, Mapper)
             .then((res) => {
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(res.data));
@@ -59,7 +58,7 @@ const OrderTable: React.FC<Props> = ({filter}) => {
 
     const getAllFailedOrdersAsync = () => {
         console.log('start second')
-        getFailedOrders(secondPaginationModel.page, filter).then((res) => { 
+        getFailedOrders(secondPaginationModel.page, Mapper).then((res) => { 
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
          })
