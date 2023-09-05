@@ -10,6 +10,7 @@ import OrderDetailForm from '../../orderDetailForm/OrderDetailForm';
 import filterImg from "../../../img/filter.png";
 import AllFilter from '../../../pages/filterPop/AllFilter';
 import GlobalPopOver from '../../../components/GlobalPopOver';
+import OrderTable from '../../tables/OrderTable';
 
 import WebSocketComponent from "../../../components/WebSocketComponent";
 
@@ -19,6 +20,7 @@ const PendingOrders: React.FC = () => {
     console.log(filters)
   }
   return (
+    <>
     <div style={{ display: "flex" }}>
       <GlobalModel
         btnOpen={"New Order"}
@@ -63,6 +65,9 @@ const PendingOrders: React.FC = () => {
         </GlobalModel>
       </div>
     </div>
+    <br/>
+    <OrderTable></OrderTable>
+    </>
   );
 };
 

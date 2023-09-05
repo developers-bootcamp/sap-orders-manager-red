@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_USER, DELETE_USER, EDIT_USER, LOG_IN } from "../config/config"
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_ROLE_FROM_TOKEN, LOG_IN } from "../config/config"
 import { GET_ALL_USER } from "../config/config"
 
 import IUser from "../interfaces/IUser"
@@ -25,5 +25,7 @@ export const addUser = async (user: IUserDTO) => {
     return await axios.post(`${ADD_USER}`, user)
 }
 
-
+export const getRoleFromToken = async () => {
+    return await axios.get(`${GET_ROLE_FROM_TOKEN}`)
+}
 

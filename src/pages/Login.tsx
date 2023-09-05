@@ -15,6 +15,8 @@ import giftsImg from "../img/gifts.png"
 import { saveToLocalStorage } from '../storageUtils';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { MyMsdError } from '../components/GlobalModal.style';
+import { setRole } from '../redux/slices/sliceUser';
+import { useAppDispatch } from '../redux/store';
 
 export const LogIn: React.FC = () => {
 
@@ -39,12 +41,16 @@ export const LogIn: React.FC = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+    
+    const dispatch = useAppDispatch()
 
     const handleLogIn = (values: any) => {
         console.log(values);
         logIn(values.email, values.password)
             .then(res => {
-                saveToLocalStorage("userToken", res.data)
+                debugger
+                saveToLocalStorage("userToken", res.data.token)
+                dispatch(setRole(res.data.role));
                 setIsShowError(false)
                 navigate("/")
             })
