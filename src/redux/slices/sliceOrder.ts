@@ -25,6 +25,13 @@ export const orderSlice = createSlice({
         setOrders: (state, action: PayloadAction<Array<IOrder>>) => {
             state.orders = action.payload;
         },
+        addOrder: (state, action) => {
+            if(action.payload.orderStatus=="CANCELLED")
+                state.failedOrders.unshift(action.payload);
+            else
+                state.statusOrders.unshift(action.payload);
+
+          },
         setStatusOrders:(state, action: PayloadAction<Array<IOrder>>) => {
             state.statusOrders = action.payload;
         },
@@ -43,6 +50,6 @@ export const orderSlice = createSlice({
     },
 })
 
-export const { setOrders, insertProductsToOrder, insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders } = orderSlice.actions
+export const { setOrders, insertProductsToOrder, addOrder,insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders } = orderSlice.actions
 export default orderSlice.reducer;
 

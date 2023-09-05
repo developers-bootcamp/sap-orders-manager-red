@@ -120,7 +120,7 @@ const OrderTable: React.FC = (props: any) => {
 
     return (
         <>
-            {isLoading ? <>loading...</> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            {isLoading ? <></> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
