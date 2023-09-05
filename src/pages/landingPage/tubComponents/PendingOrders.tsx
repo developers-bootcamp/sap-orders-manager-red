@@ -12,6 +12,7 @@ import AllFilter from '../../../pages/filterPop/AllFilter';
 import GlobalPopOver from '../../../components/GlobalPopOver';
 import OrderTable from '../../tables/OrderTable';
 
+const map:Map<string,object>=new Map;
 const PendingOrders: React.FC = () => {
   const filterTables = (filters: any) => {
     console.log(filters)
@@ -51,7 +52,7 @@ const PendingOrders: React.FC = () => {
       </div>
     </div>
     <br/>
-    <OrderTable></OrderTable>
+    <OrderTable filter={map} ></OrderTable>
     </>
   );
 };

@@ -34,9 +34,12 @@ const columns: GridColDef[] = [
     { field: 'price', headerName: 'Price', width: 100, cellClassName: 'regularCell' },
     { field: 'createDate', headerName: 'Create Date', width: 300, cellClassName: 'regularCell' },
 ];
-const emptyMap: Map<string, object> = new Map();
+// const emptyMap: Map<string, object> = new Map();
+type Props = {
+    filter: Map<string, object>;
+  };
 
-const OrderTable: React.FC = (props: any) => {
+const OrderTable: React.FC<Props> = ({filter}) => {
 
     const dispatch = useAppDispatch();
     const listOfOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
@@ -45,7 +48,7 @@ const OrderTable: React.FC = (props: any) => {
 
     const getAllOrdersAsync = () => {
         console.log('start first')
-        getOrders(firstPaginationModel.page, emptyMap)
+        getOrders(firstPaginationModel.page, filter)
             .then((res) => {
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(res.data));
@@ -56,7 +59,7 @@ const OrderTable: React.FC = (props: any) => {
 
     const getAllFailedOrdersAsync = () => {
         console.log('start second')
-        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => { 
+        getFailedOrders(secondPaginationModel.page, filter).then((res) => { 
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
          })
@@ -101,7 +104,7 @@ const OrderTable: React.FC = (props: any) => {
         let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string }[] = [
         ]
         orders.forEach((e, index) => {
-            if (e.customerId?.fullName == null || e.orderItemsList == null || e.orderStatus == null || e.auditData?.createDate == null || e.id == null)
+            if (e.customerId?.fullName == null || e.orderItemsList == null || e.orderStatus == null || e.auditData?.createDate == null||e.currency==null )
                 currentRows.push({ 'id': 'null', 'price': e.totalAmount + '$', 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null' })
             else {
                 let p = ""
@@ -112,7 +115,7 @@ const OrderTable: React.FC = (props: any) => {
                         p += `...`;
                     }
                 })
-                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount + "$", 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString() })
+                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount + e.currency , 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString() })
             }
         })
         return currentRows
