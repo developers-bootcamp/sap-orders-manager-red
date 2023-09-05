@@ -51,6 +51,7 @@ const GlobalAutoComplete = (props: any) => {
   return (
     <>
       <Autocomplete
+        inputValue={props.value}
         // disablePortal
         id="Autocomplete"
         options={data}

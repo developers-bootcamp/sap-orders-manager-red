@@ -4,9 +4,27 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import IOrder from "../../interfaces/IOrder";
 import IOrderItem from "../../interfaces/IOrderItem";
 import { getFailedOrders, getOrders } from "../../axios/orderAxios";
-import { setOrders, setFailedOrders, IOrderState, setStatusOrders } from "../../redux/slices/sliceOrder";
+import { setOrders, setFailedOrders, IOrderState, setStatusOrders, setOrder } from "../../redux/slices/sliceOrder";
 import { useSelector } from "react-redux";
+import GlobalModel from "../../components/GlobalModal";
+import giftsImg from '../../img/giftsWithBaloons.png'
+import OrderDetailForm from '../../pages/orderDetailForm/OrderDetailForm';
+import { async } from "q";
 
+const OrderDetails = (params: any) => {
+
+    return (
+        <GlobalModel
+            btnOpen={"Edit Details"}
+            isButton={false}
+            title={"Order Detail"}
+            img={giftsImg}
+            txtSide={"we are almost done"}
+        >
+            <OrderDetailForm order={params.row.order}></OrderDetailForm>
+        </GlobalModel>
+    )
+}
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100, cellClassName: 'regularCell' },
@@ -31,8 +49,9 @@ const columns: GridColDef[] = [
         },
     },
     { field: 'products', headerName: 'Products', width: 400, cellClassName: 'regularCell' },
-    { field: 'price', headerName: 'Price', width: 100, cellClassName: 'regularCell' },
-    { field: 'createDate', headerName: 'Create Date', width: 300, cellClassName: 'regularCell' },
+    { field: 'price', headerName: 'Price', width: 150, cellClassName: 'regularCell' },
+    { field: 'createDate', headerName: 'Create Date', width: 200, cellClassName: 'regularCell' },
+    { field: 'details', headerName: 'Details', width: 100, renderCell: OrderDetails },
 ];
 const emptyMap: Map<string, object> = new Map();
 
@@ -42,7 +61,7 @@ const OrderTable: React.FC = (props: any) => {
     const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
     const failedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
     const [isLoading, setIsLoading] = useState(true);
-   
+
 
     const getAllOrdersAsync = () => {
         console.log('start first')
@@ -51,21 +70,21 @@ const OrderTable: React.FC = (props: any) => {
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(orders));
                 setIsLoading(false);
-             })
+            })
         console.log('end first')
     }
 
     const getAllFailedOrdersAsync = () => {
         console.log('start second')
-        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => { 
+        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => {
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
-         })
+        })
         console.log("end second" + { failedOrders })
     }
 
-    const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
-    const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
+    const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
+    const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
     const [firstPaginationModel, setfirstPaginationModel] = useState({
         page: 0,
         pageSize: 3,
@@ -94,25 +113,13 @@ const OrderTable: React.FC = (props: any) => {
         console.log(secondPaginationModel.page)
     }, [secondPaginationModel]);
 
-    // useEffect(() => {
-    //     const fetchData = () => {
-    //         try {
-    //             getAllFailedOrdersAsync();
-    //             console.log('been');
-    //             getAllOrdersAsync();
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, []);
 
     const getRows = (orders: IOrder[]) => {
-        let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string }[] = [
-        ]
+        let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder}[] = []
+        
         orders.forEach((e, index) => {
             if (e.customerId?.fullName == null || e.orderItemsList == null || e.orderStatus == null || e.auditData?.createDate == null || e.id == null)
-                currentRows.push({ 'id': 'null', 'price': e.totalAmount + '$', 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null' })
+                currentRows.push({ 'id': 'null', 'price': e.totalAmount + '' + e.currency, 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null', 'order': e })
             else {
                 let p = ""
                 e.orderItemsList.forEach((prod: IOrderItem) => {
@@ -122,7 +129,7 @@ const OrderTable: React.FC = (props: any) => {
                         p += `...`;
                     }
                 })
-                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount + "$", 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString() })
+                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount + '' + e.currency, 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString(), 'order': e })
             }
         })
         return currentRows
@@ -135,7 +142,7 @@ const OrderTable: React.FC = (props: any) => {
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setfirstPaginationModel}
-                style={{ backgroundColor: "#F2F2F2", height: 267, margin: 10 }}></DataGrid>}
+                style={{ backgroundColor: "#F2F2F2", height: 267 }}></DataGrid>}
             <br />
             <DataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
@@ -143,7 +150,7 @@ const OrderTable: React.FC = (props: any) => {
                 paginationMode="server"
                 onPaginationModelChange={setSecondPaginationModel}
                 style={{ backgroundColor: "#F2F2F2", height: 267 }}></DataGrid>
-               
+
         </>
     );
 }

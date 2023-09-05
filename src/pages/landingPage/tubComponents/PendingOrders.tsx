@@ -21,45 +21,32 @@ const PendingOrders: React.FC = () => {
   }
   return (
     <>
-    <div style={{ display: "flex" }}>
-      <GlobalModel
-        btnOpen={"New Order"}
-        isButton={true}
-        title={"new order"}
-        img={giftsImg}
-        txtSide={" we are almost done"}
-      >
-        <NewOrderForm></NewOrderForm>
-      </GlobalModel>
-
-
-      <div style={{ marginLeft: "3%" }}>
-        <GlobalPopOver
-          name={"filter"}
-          Pop={AllFilter}
-          image={filterImg}
-          filterTables={filterTables}
-        ></GlobalPopOver>
-
-    
-        <WebSocket></WebSocket>
-
-      </div>
-
-      <div style={{ marginLeft: "3%" }}>
+      <div style={{ display: "flex" }}>
         <GlobalModel
-          btnOpen={"Order Detail"}
+          btnOpen={"New Order"}
           isButton={true}
-          title={"Order Detail"}
+          title={"new order"}
           img={giftsImg}
-          txtSide={"we are almost done"}
+          txtSide={" we are almost done"}
         >
-          <OrderDetailForm></OrderDetailForm>
+          <NewOrderForm></NewOrderForm>
         </GlobalModel>
+
+
+        <div style={{ marginLeft: "3%" }}>
+          <GlobalPopOver
+            name={"filter"}
+            Pop={AllFilter}
+            image={filterImg}
+            filterTables={filterTables}
+          ></GlobalPopOver>
+
+          <WebSocket></WebSocket>
+
+        </div>
       </div>
-    </div>
-    <br/>
-    <OrderTable></OrderTable>
+      <br />
+      <OrderTable></OrderTable>
     </>
   );
 };
