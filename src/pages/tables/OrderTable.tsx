@@ -66,11 +66,11 @@ const OrderTable: React.FC = (props: any) => {
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
     const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string }[])
     const [firstPaginationModel, setfirstPaginationModel] = useState({
-        page: 1,
+        page: 0,
         pageSize: 3,
     });
     const [secondPaginationModel, setSecondPaginationModel] = useState({
-        page: 1,
+        page: 0,
         pageSize: 3,
     });
 
