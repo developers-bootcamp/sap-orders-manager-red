@@ -64,7 +64,7 @@ const ProductCategoryTable: React.FC = () => {
         setChange(true);
     }
     const head =
-        [{ "name": "Product", "type": "text" },
+        [{ "name": "Category", "type": "text" },
         { "name": "Description", "type": "text" }]
     return (
         <>

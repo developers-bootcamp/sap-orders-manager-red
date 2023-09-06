@@ -9,10 +9,9 @@ import { useSelector } from "react-redux";
 import GlobalModel from "../../components/GlobalModal";
 import giftsImg from '../../img/giftsWithBaloons.png'
 import OrderDetailForm from '../../pages/orderDetailForm/OrderDetailForm';
-import { async } from "q";
+import { StyledDataGrid } from "./OrderTable.styles";
 
 const OrderDetails = (params: any) => {
-
     return (
         <GlobalModel
             btnOpen={"Edit Details"}
@@ -26,32 +25,59 @@ const OrderDetails = (params: any) => {
     )
 }
 
+const boldheader: any = (params: any) => {
+    return (
+        <strong style={{ color: "grey" }}>{params.field}</strong>
+    )
+}
+
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100, cellClassName: 'regularCell' },
-    { field: 'customer', headerName: 'Customer', width: 250, cellClassName: 'regularCell' },
+    {
+        field: 'id', headerName: 'ID', width: 85, cellClassName: (params: GridCellParams<any, string>) => {
+            switch (params.row.status) {
+                case 'NEW':
+                    return 'green-border';
+                case 'APPROVED':
+                    return 'blue-border';
+                case 'PACKING':
+                    return 'yellow-border';
+                case 'CANCELLED':
+                    return 'red-border';
+                case 'DELIVERED':
+                    return 'orang-border';
+                case 'CHARGING':
+                    return 'yellow-border';
+                default:
+                    return '';
+            }
+        }, renderHeader: boldheader
+    },
+    { field: 'customer', headerName: 'Customer', width: 300, cellClassName: 'regularCell', renderHeader: boldheader },
     {
         field: 'status', type: 'string', headerName: 'Status', width: 150,
         cellClassName: (params: GridCellParams<any, string>) => {
             switch (params.value) {
-                case 'CREATED':
+                case 'NEW':
                     return 'green';
                 case 'APPROVED':
                     return 'blue';
                 case 'PACKING':
                     return 'yellow';
-                case 'PAYMENT_FAILED':
+                case 'CANCELLED':
                     return 'red';
-                case 'PROSSES_FAILED':
+                case 'DELIVERED':
                     return 'orang';
+                case 'CHARGING':
+                    return 'yellow';
                 default:
                     return '';
             }
-        },
+        }, renderHeader: boldheader
     },
-    { field: 'products', headerName: 'Products', width: 400, cellClassName: 'regularCell' },
-    { field: 'price', headerName: 'Price', width: 150, cellClassName: 'regularCell' },
-    { field: 'createDate', headerName: 'Create Date', width: 200, cellClassName: 'regularCell' },
-    { field: 'details', headerName: 'Details', width: 100, renderCell: OrderDetails },
+    { field: 'products', headerName: 'Products', width: 450, cellClassName: 'regularCell', renderHeader: boldheader },
+    { field: 'price', headerName: 'Price', width: 150, cellClassName: 'regularCell', renderHeader: boldheader },
+    { field: 'createDate', headerName: 'Create Date', width: 200, cellClassName: 'regularCell', renderHeader: boldheader },
+    { field: 'details', headerName: 'Details', width: 150, renderCell: OrderDetails, renderHeader: boldheader },
 ];
 const emptyMap: Map<string, object> = new Map();
 
@@ -115,8 +141,8 @@ const OrderTable: React.FC = (props: any) => {
 
 
     const getRows = (orders: IOrder[]) => {
-        let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder}[] = []
-        
+        let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[] = []
+
         orders.forEach((e, index) => {
             if (e.customerId?.fullName == null || e.orderItemsList == null || e.orderStatus == null || e.auditData?.createDate == null || e.id == null)
                 currentRows.push({ 'id': 'null', 'price': e.totalAmount?.toFixed(2) + '' + e.currency, 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null', 'order': e })
@@ -137,19 +163,19 @@ const OrderTable: React.FC = (props: any) => {
 
     return (
         <>
-            {isLoading ? <></> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            {isLoading ? <></> : <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setfirstPaginationModel}
-                style={{ backgroundColor: "#F2F2F2", height: 267 }}></DataGrid>}
+            ></StyledDataGrid>}
             <br />
-            <DataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
                 paginationModel={secondPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setSecondPaginationModel}
-                style={{ backgroundColor: "#F2F2F2", height: 267 }}></DataGrid>
+            ></StyledDataGrid>
 
         </>
     );
