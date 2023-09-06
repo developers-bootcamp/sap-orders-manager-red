@@ -10,4 +10,5 @@ export default interface IProduct {
     discountType?: string,
     productCategoryId?: IProductCategory,
     price?: number,
+    productCategoryName?:string,
 }

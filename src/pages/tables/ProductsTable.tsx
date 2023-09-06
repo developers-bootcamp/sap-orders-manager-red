@@ -33,7 +33,7 @@ const ProductTable: React.FC = () => {
              inventory: product.Inventory,
              discount: product.Discount,
              discountType: product.Type.name,
-             productCategoryId: product.Category,
+             productCategoryName: product.Category.name,
              price: product.Price
          }
          await addProduct(newProduct)
@@ -51,10 +51,10 @@ const ProductTable: React.FC = () => {
             inventory: product.Inventory || product.inventory,
             discount: product.Discount || product.inventory,
             discountType: product.Type?.name || product.discountType.name,
-            productCategoryId: product.Category || product.productCategoryId,
+            productCategoryName: product.Category?.name || product.productCategoryId.name,
             price: product.Price || product.price
         }
-        await editProduct(newProduct);
+        await editProduct(newProduct).then(() => {console.log(newProduct); })
         setChange(true);
     }
     const goToDeleteProduct = async(id:string)=>{
