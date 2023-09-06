@@ -4,11 +4,15 @@ import GlobalTable from "../../components/GlobalTable";
 import IProductCategory from "../../interfaces/IProductCategory";
 import IProduct from "../../interfaces/IProduct";
 import { getAllCategory } from "../../axios/productCategoryAxios";
+import { PALLETE } from "../../config/config";
+import { ArrowCircleUpSharp } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 const ProductTable: React.FC = () => {
     const [allProduct, setAllProduct] = useState<IProduct[]>();
     const [allCategories, setAllCategories] = useState<IProductCategory[]>();
     const [change, setChange] = useState(false);
+    const [openTable, setOpenTable] = useState(true);
 
     useEffect(() => {
         getAllProductAsync();
@@ -24,16 +28,13 @@ const ProductTable: React.FC = () => {
     }
 
     const goToAddProduct = async (product: { Name: string, Description: string, Inventory: number, Discount: number, Type: { name: string }, Category: IProductCategory, Price: number }) => {
-         if(product.Name.length>20){
-             return <h1>השם ארוך מדי</h1>
-         }
          const newProduct: IProduct = {
              name: product.Name,
              desc: product.Description,
              inventory: product.Inventory,
              discount: product.Discount,
              discountType: product.Type.name,
-             productCategoryId: product.Category,
+             productCategoryName: product.Category.name,
              price: product.Price
          }
          await addProduct(newProduct)
@@ -41,7 +42,7 @@ const ProductTable: React.FC = () => {
     }
     const goToEditProduct = async (product: {
         id: string, Name?: string, Description?: string, Inventory?: number, Discount?: number, Type?: { name: string }, Category?: IProductCategory, Price?: number
-            , name: string, dest: string, inventory: number, discount: number, discountType: { name: string }, productCategoryId: IProductCategory, price: number
+        , name: string, dest: string, inventory: number, discount: number, discountType: { name: string }, productCategoryId: IProductCategory, price: number
     }) => {
 
         const newProduct: IProduct = {
@@ -51,13 +52,13 @@ const ProductTable: React.FC = () => {
             inventory: product.Inventory || product.inventory,
             discount: product.Discount || product.inventory,
             discountType: product.Type?.name || product.discountType.name,
-            productCategoryId: product.Category || product.productCategoryId,
+            productCategoryName: product.Category?.name || product.productCategoryId.name,
             price: product.Price || product.price
         }
-        await editProduct(newProduct);
+        await editProduct(newProduct).then(() => {console.log(newProduct); })
         setChange(true);
     }
-    const goToDeleteProduct = async(id:string)=>{
+    const goToDeleteProduct = async (id: string) => {
         deleteProduct(id);
         setChange(true);
     }
@@ -70,7 +71,8 @@ const ProductTable: React.FC = () => {
         { name: "Category", type: "autocompletet", options: allCategories }, { name: "Price", type: "number" }]
     return (
         <>
-            {allProduct != null ? <GlobalTable head={head} rows={allProduct} whatToAdd="item" delete={goToDeleteProduct} add={goToAddProduct} edit={goToEditProduct}></GlobalTable> : ""}
+            <Button sx={{ color: PALLETE.BLUE }} startIcon={<ArrowCircleUpSharp />} onClick={() => setOpenTable(!openTable)}>product</Button>
+            {allProduct != null&&openTable ? <GlobalTable howCanChnge="ADMIN" head={head} rows={allProduct} whatToAdd="item" delete={goToDeleteProduct} add={goToAddProduct} edit={goToEditProduct}></GlobalTable> : ""}
         </>
     );
 };
