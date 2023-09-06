@@ -228,7 +228,7 @@ const OrderDetailForm = (props: any) => {
                 renderInput={(params: any) => <TextField {...params} />}
               />
               <h3>
-                price: <span>{price}{currency}</span>
+                price: <span>{price.toFixed(2)}{currency}</span>
               </h3>
               <div>
                 <Grid container rowSpacing={3}>
@@ -238,7 +238,7 @@ const OrderDetailForm = (props: any) => {
                   currectOrder.orderItemsList.map((item, index) => (
                     <Grid key={index} container rowSpacing={2} sx={{ mb: 2 }}>
                       <Typography sx={{ mr: 1 }}>{item.productId?.name}</Typography>
-                      <Typography sx={{ mr: 1 }}>{item.amount}</Typography>
+                      <Typography sx={{ mr: 1 }}>{item.amount?.toFixed(2)}</Typography>
                       <Typography sx={{ mr: 0 }}>{item.quantity}</Typography>
                       <Button sx={{ mt: 0, p: 0 }} onClick={() => delProd(index)}>X</Button>
                     </Grid>

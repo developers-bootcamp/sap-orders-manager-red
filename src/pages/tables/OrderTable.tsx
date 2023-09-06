@@ -119,7 +119,7 @@ const OrderTable: React.FC = (props: any) => {
         
         orders.forEach((e, index) => {
             if (e.customerId?.fullName == null || e.orderItemsList == null || e.orderStatus == null || e.auditData?.createDate == null || e.id == null)
-                currentRows.push({ 'id': 'null', 'price': e.totalAmount + '' + e.currency, 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null', 'order': e })
+                currentRows.push({ 'id': 'null', 'price': e.totalAmount?.toFixed(2) + '' + e.currency, 'status': 'null', 'customer': "null", 'products': 'null', 'createDate': 'null', 'order': e })
             else {
                 let p = ""
                 e.orderItemsList.forEach((prod: IOrderItem) => {
@@ -129,7 +129,7 @@ const OrderTable: React.FC = (props: any) => {
                         p += `...`;
                     }
                 })
-                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount + '' + e.currency, 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString(), 'order': e })
+                currentRows.push({ 'id': index.toString(), 'price': e.totalAmount?.toFixed(2) + '' + e.currency, 'status': e.orderStatus, 'customer': e.customerId.fullName.toString(), 'products': p, 'createDate': e.auditData?.createDate.toString(), 'order': e })
             }
         })
         return currentRows
