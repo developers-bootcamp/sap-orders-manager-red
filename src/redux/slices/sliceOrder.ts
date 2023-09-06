@@ -8,14 +8,16 @@ export interface IOrderState {
     orders: Array<IOrder>,
     statusOrders: Array<IOrder>
     failedOrders: Array<IOrder>,
-    order: IOrder
+    order: IOrder,
+    filter: Map<string,object>,
 }
 
 const initialState: IOrderState = {
     orders: [],
     statusOrders: [],
     failedOrders: [],
-    order: {}
+    order: {},
+    filter:new Map(),
 }
 
 export const orderSlice = createSlice({
@@ -47,9 +49,12 @@ export const orderSlice = createSlice({
         insertCustomerToOrder: (state, action: PayloadAction<string>) => {
             state.order.customerId = { id: action.payload }
         },
+        setFilter: (state, action: PayloadAction<Map<string,object>>) => {
+            state.filter = action.payload;
+        },
     },
 })
 
-export const { setOrders, insertProductsToOrder, addOrder,insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders } = orderSlice.actions
+export const { setOrders, insertProductsToOrder, addOrder,insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders, setFilter } = orderSlice.actions
 export default orderSlice.reducer;
 

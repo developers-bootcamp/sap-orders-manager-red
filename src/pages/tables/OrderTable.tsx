@@ -41,6 +41,7 @@ const OrderTable: React.FC = (props: any) => {
     const dispatch = useAppDispatch();
     const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
     const failedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
+    const filter:Map<string,object>=useSelector<RootState, IOrderState>(state => state.orderReducer).filter;
     const [isLoading, setIsLoading] = useState(true);
    
 
@@ -94,6 +95,10 @@ const OrderTable: React.FC = (props: any) => {
         console.log(secondPaginationModel.page)
     }, [secondPaginationModel]);
 
+    useEffect(()=>{
+
+    })
+
     // useEffect(() => {
     //     const fetchData = () => {
     //         try {
@@ -130,13 +135,13 @@ const OrderTable: React.FC = (props: any) => {
 
     return (
         <>
-            {isLoading ? <></> : <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            <DataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setfirstPaginationModel}
-                style={{ backgroundColor: "#F2F2F2", height: 267, margin: 10 }}></DataGrid>}
-            <br />
+                style={{ backgroundColor: "#F2F2F2", height: 267, margin: 10 }}></DataGrid>
+                
             <DataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
                 paginationModel={secondPaginationModel}
