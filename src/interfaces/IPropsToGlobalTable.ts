@@ -5,4 +5,5 @@ export default interface IPropsToGlobalTable{
     delete: any,
     add:any,
     edit:any,
+    howCanChnge:string,
 }
