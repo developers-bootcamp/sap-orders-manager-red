@@ -29,21 +29,17 @@ const schema = Yup.object().shape({
 const SingUpForm: React.FC = () => {
 
     const listOfCurrencies: string[] = useSelector<RootState, ICurrencyState>(state => state.currencyReducer).listOfCurrencies;
-
-    const [currency, setCurrency] = React.useState("DOLLAR");
+    const [currency, setCurrency] = React.useState("$");
     const [showPassword, setShowPassword] = React.useState(false);
     const [register, setRegister] = React.useState(false);
     const [errorRegister, setErrorRegistre] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState('')
     const navigate = useNavigate()
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-
     const dispatch = useAppDispatch()
-
     const handleSignUp = (values: any) => {
         signUp(values.fullName, values.companyName, currency, values.email, values.password)
             .then(res => {
@@ -55,21 +51,13 @@ const SingUpForm: React.FC = () => {
             })
             .catch(error => {
                 setErrorRegistre(true);
-
                 if (error.code == 'ERR_BAD_REQUEST') {
                     setErrorMessage('email or company name already exists')
                 }
                 else {
                     setErrorMessage('the request could not be completed, please try again')
-                }
-
-            })
-
-        for (let index = 0; index < [1, 2, 3].length; index++) {
-
-
-        }
-    };
+                }})
+            };
 
     return (
         <div>
