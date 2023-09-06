@@ -33,7 +33,7 @@ const boldheader: any = (params: any) => {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID', width: 85, cellClassName: (params: GridCellParams<any, string>) => {
+        field: 'id', headerName: 'ID', width: 75, cellClassName: (params: GridCellParams<any, string>) => {
             switch (params.row.status) {
                 case 'NEW':
                     return 'green-border';
