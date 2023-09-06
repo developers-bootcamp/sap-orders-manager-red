@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import IUser from '../../interfaces/IUser';
 
-interface IUserState {
+export interface IUserState {
     users: Array<IUser>,
     role: string,
 }

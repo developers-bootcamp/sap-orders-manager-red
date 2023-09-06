@@ -5,16 +5,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Autocomplete, IconButton, TableHead, TextField } from '@mui/material';
-import IPropsToGlobalTable from '../interfaces/IPropsToGlobalModel';
+import { Autocomplete, IconButton, TableHead, TextField, FormHelperText } from '@mui/material';
+import IPropsToGlobalTable from '../interfaces/IPropsToGlobalTable';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { AddButtons, Head, TableCells, TableRows, Footer, Edit } from './GlobalTable.style'
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { IUserState } from '../redux/slices/sliceUser';
 
 export default function GlobalTable(props: IPropsToGlobalTable) {
+  const [errorMessages, setErrorMessages] = React.useState<{ [key: string]: string }>({});
   const rows = props.rows;
   const [newRowValues, setNewRowValues] = React.useState<any>({});
   const [editRowValues, setEditRowValues] = React.useState<any>({});
@@ -23,6 +27,8 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
   const [add, setAdd] = React.useState(false);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   const [editingRowId, setEditingRowId] = React.useState<string | null>(null);
+  const role: string = useSelector<RootState, IUserState>(state => state.userReducer).role;
+
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -40,7 +46,9 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
     await props.delete(id)
   }
   const openAdd = () => { setAdd(true) };
-  const closeAdd = () => { setNewRowValues({});setAdd(false) };
+  const closeAdd = () => {
+    setNewRowValues({}); setAdd(false); setErrorMessages({});
+  };
   const handleAdd = async () => {
     const newObject = {
       ...newRowValues
@@ -56,15 +64,49 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (value != null || value != undefined) {
-      <p style={{ color: 'red' }}>Invalid input for someField</p>
-      console.log({ value });
-    } setNewRowValues((prevValues: any) => ({
+    let max60: string = ""
+    let required: string = ""
+    let tooLarge: string = ""
+
+    if (typeof value === "string") {
+      if (value.length > 60) {
+        max60 = 'You cannot enter more than 60 letters'
+      }
+      else {
+        max60 = ""
+      }
+    }
+    if (typeof value === "number") {
+      if (value > 99999999) {
+        tooLarge = 'You entered a number that is too large'
+      }
+      else {
+        tooLarge = ""
+      }
+    }
+    if (!value) {
+      required = 'This field is required'
+    }
+    else {
+      required = ''
+    }
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      [name]: max60 + required + tooLarge,
+    }));
+
+    setNewRowValues((prevValues: any) => ({
       ...prevValues,
       [name]: value,
     }));
   };
   const handleAutocompleteChange = (fieldName: string, selectedValue: any) => {
+    if (!selectedValue) {
+      errorMessages[fieldName] = 'This field is required'
+    }
+    else {
+      errorMessages[fieldName] = ''
+    }
     setNewRowValues((prevValues: any) => ({
       ...prevValues,
       [fieldName]: selectedValue,
@@ -81,11 +123,14 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
       closeEdit();
     } catch (error) {
       console.error('Error saving new object:', error);
+      closeEdit();
     }
   };
   const handleEditClick = (rowId: string) => {
     setEditingRowId(rowId);
     const row = rows.find((row: any) => row.id === rowId);
+    console.log({ row });
+
     setEditRowValues(row);
   };
   const handleInputChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,13 +163,12 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row: any) => (
-            <TableRows key={row.id} style={{borderLeftColor:"green!important"}}>
+            <TableRows key={row.id} style={{ borderLeftColor: "green!important" }}>
               {Object.keys(row).map((key, indexs) => (
                 key !== "id" ? (
                   <TableCells style={{ padding: "0px!important" }} key={key} component="th" scope="row">
                     {editingRowId === row.id ? (
                       console.log({ editRowValues }),
-
                       <TableCells key={key}>
                         {props.head[indexs - 1].type === "text" ?
                           <TextField
@@ -168,11 +212,17 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
                   </IconButton>
                 </Edit>
               ) : (
-                <Edit>
-                  <IconButton onClick={() => handleEditClick(row.id)}>
-                    <EditIcon />
-                  </IconButton>
-                </Edit>
+                role == props.howCanChnge || role == 'ADMIN' && props.howCanChnge == 'EMPLOYEE' ?
+
+                  <Edit>
+                    <IconButton onClick={() => handleEditClick(row.id)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Edit> : <Edit>
+                    <IconButton disabled>
+                      <EditIcon />
+                    </IconButton>
+                  </Edit>
               )}
               {editingRowId === row.id ? (
                 <Edit>
@@ -181,9 +231,12 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
                   </IconButton>
                 </Edit>
               ) : (
-                <Edit><IconButton onClick={() => deleteItem(row.id)}>
-                  <DeleteIcon />
-                </IconButton></Edit>
+                role == props.howCanChnge || role == 'ADMIN' && props.howCanChnge == 'EMPLOYEE' ?
+                  <Edit><IconButton onClick={() => deleteItem(row.id)}>
+                    <DeleteIcon />
+                  </IconButton></Edit> : <Edit><IconButton disabled>
+                    <DeleteIcon />
+                  </IconButton></Edit>
               )}
             </TableRows>
           ))}
@@ -196,24 +249,30 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
                     name={e.name}
                     value={newRowValues[e.name] || ''}
                     onChange={handleInputChange}
-                  /> : e.type === "number" ? <TextField
+                    helperText={errorMessages[e.name] && <p style={{ color: 'red' }}>{errorMessages[e.name]}</p>}
+                  />
+                  : e.type === "number" ? <TextField
                     size="small"
                     type='number'
                     name={e.name}
                     value={newRowValues[e.name] || ''}
+
                     onChange={handleInputChange}
+                    helperText={errorMessages[e.name] && <FormHelperText style={{ color: 'red' }}>{errorMessages[e.name]}</FormHelperText>}
                   /> : e.type === 'autocompletet' && e.options ? (
-                    <Autocomplete
-                      size="small"
-                      options={e.options}
-                      getOptionLabel={(option: any) => option.name}
-                      value={newRowValues[e.name] || null}
-                      onChange={(_, newValue) =>
-                        handleAutocompleteChange(e.name, newValue)
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  ) : ""}
+                    <div>
+                      <Autocomplete
+                        size="small"
+                        options={e.options}
+                        getOptionLabel={(option: any) => option.name}
+                        value={newRowValues[e.name] || null}
+                        onChange={(_, newValue) =>
+                          handleAutocompleteChange(e.name, newValue)
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                      {errorMessages[e.name] && <FormHelperText style={{ color: 'red' }}>{errorMessages[e.name]}</FormHelperText>}
+                    </div>) : ""}
               </TableCells>
             )}
             <TableCells>
@@ -234,12 +293,15 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
         {/* Footer */}
         <Footer>
           <TableRow>
+            {
+          role == props.howCanChnge || role == 'ADMIN' && props.howCanChnge == 'EMPLOYEE' ?
+
             <AddButtons>
               <IconButton aria-label="add an alarm" onClick={openAdd}>
                 <AddIcon />
               </IconButton>
               {`add ${props.whatToAdd}`}
-            </AddButtons>
+            </AddButtons>:""}
             <TablePagination
               rowsPerPageOptions={[4, 8, 10, { label: 'All', value: -1 }]}
               count={rows.length}

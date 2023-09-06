@@ -113,7 +113,7 @@ const UserTable = () => {
         {isOpenAdmin &&
 
             <div>
-                {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user => user.roleId === "1")
+                {allUser != null ? <GlobalTable howCanChnge="noOne" head={head} rows={allUser.filter(user => user.roleId === "1")
                     .map(user => ({
                         id: user.id,
                         FullName: user.fullName,
@@ -132,7 +132,7 @@ const UserTable = () => {
         <br></br>
         {isOpenEmp &&
 
-            <div>            {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user => user.roleId === "2")
+            <div>            {allUser != null ? <GlobalTable howCanChnge="ADMIN" head={head} rows={allUser.filter(user => user.roleId === "2")
                 .map(user => ({
                     id: user.id,
                     FullName: user.fullName,
@@ -152,7 +152,7 @@ const UserTable = () => {
         {isOpenCustomer &&
 
             <div>
-                {allUser != null ? <GlobalTable head={head} rows={allUser.filter(user => user.roleId === "3")
+                {allUser != null ? <GlobalTable howCanChnge="EMPLOYEE" head={head} rows={allUser.filter(user => user.roleId === "3")
                     .map(user => ({
                         id: user.id,
                         FullName: user.fullName,

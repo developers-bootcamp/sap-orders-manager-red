@@ -2,30 +2,32 @@ import { useEffect, useState } from "react";
 import { deleteCategory, getAllCategory, addCategory, editCategory } from "../../axios/productCategoryAxios";
 import GlobalTable from "../../components/GlobalTable";
 import IProductCategory from "../../interfaces/IProductCategory";
-import * as Yup from 'yup';
+import { Alert, Button } from "@mui/material";
+import { PALLETE } from "../../config/config";
+import { ArrowCircleUpSharp } from "@mui/icons-material";
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 
-const schema = Yup.object().shape({
-    name: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
-    desc: Yup.string().required('Name is a required field').max(20, 'You cannot enter more than 20 letters'),
-});
 const ProductCategoryTable: React.FC = () => {
     const [allCategory, setAllCategory] = useState<IProductCategory[]>()
-    const [change ,setChange] = useState(false);
+    const [change, setChange] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
+    const [openTable, setOpenTable] = useState(true);
 
     useEffect(() => {
         getAllCategoryAsync();
-        setChange(false)        
+        setChange(false)
     }, [change]);
 
     const getAllCategoryAsync = async () => {
         await getAllCategory().then(res => setAllCategory(res.data));
     }
 
-    const goToEditCategory = async (category: { id: string, Product?: string, Description?: string,name:string, desc:string }) => {
+    const goToEditCategory = async (category: { id: string, Product?: string, Description?: string, name: string, desc: string }) => {
         const newCategory: any = {
             id: category.id,
-            name: category.Product||category.name,
-            desc: category.Description||category.desc,
+            name: category.Product || category.name,
+            desc: category.Description || category.desc,
         }
         editCategory(newCategory)
         setChange(true)
@@ -37,12 +39,28 @@ const ProductCategoryTable: React.FC = () => {
             name: category.Product,
             desc: category.Description
         }
-        await addCategory(newCategory)
+        await addCategory(newCategory).catch(error => {
+            setError(true);
+            if (error.response.status == 409) {
+                setErrorMessage('an existing category cannot be added')
+            }
+            else {
+                setErrorMessage('the request could not be completed, please try again')
+            }
+        })
         setChange(true)
     }
 
-    const goToDeleteCategory=async(id:string)=>{
+    const goToDeleteCategory = async (id: string) => {
         deleteCategory(id)
+        .catch(error => {
+            setError(true);
+            if (error.response.status == 'ERR_BAD_REQUEST') {
+                setErrorMessage('an existing category cannot be added')
+            }
+            else {
+                setErrorMessage('the request could not be completed, please try again')
+            }});
         setChange(true);
     }
     const head =
@@ -50,7 +68,11 @@ const ProductCategoryTable: React.FC = () => {
         { "name": "Description", "type": "text" }]
     return (
         <>
-            {allCategory != null ? <GlobalTable head={head} rows={allCategory} whatToAdd="item" delete={goToDeleteCategory} add={goToAddCategory} edit={goToEditCategory}></GlobalTable> : ""}
+           <div> <Button sx={{ color: PALLETE.RED }} startIcon={<ArrowCircleUpSharp />} onClick={() => setOpenTable(!openTable)}>product category</Button></div>
+            {allCategory != null && openTable ? <GlobalTable howCanChnge="ADMIN" head={head} rows={allCategory} whatToAdd="item" delete={goToDeleteCategory} add={goToAddCategory} edit={goToEditCategory}></GlobalTable> : ""}
+            {error ? <Alert severity="error" sx={{ mt: 3 }}>
+                {`Oops... ${errorMessage}`}
+            </Alert> : ""}
         </>
     );
 };
