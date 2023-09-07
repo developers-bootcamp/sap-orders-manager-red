@@ -81,7 +81,7 @@ const columns: GridColDef[] = [
 ];
 const emptyMap: Map<string, object> = new Map();
 
-const OrderTable: React.FC = (props: any) => {
+const OrderTable = (props: any) => {
 
     const dispatch = useAppDispatch();
     const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
@@ -111,22 +111,12 @@ const OrderTable: React.FC = (props: any) => {
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
     const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
-    // const [firstPaginationModel, setfirstPaginationModel] = useState({
-    //     page: 0,
-    //     pageSize: 3,
-    // });
-    // const [secondPaginationModel, setSecondPaginationModel] = useState({
-    //     page: 0,
-    //     pageSize: 3,
-    // });
-
     const firstPaginationModel  = useSelector<RootState, IOrderState>(
       (state) => state.orderReducer
     ).firstPaginationModel;
     const secondPaginationModel  = useSelector<RootState, IOrderState>(
       (state) => state.orderReducer
-    ).secondPaginationModel;
-  
+    ).secondPaginationModel;  
 
     useEffect(() => {
         getAllOrdersAsync()
@@ -169,20 +159,28 @@ const OrderTable: React.FC = (props: any) => {
         return currentRows
     }
 
+    const disSetFirstModel=()=>{
+      dispatch(setfirstPaginationModel())
+    }
+    const disSetSecondModel=()=>{
+      console.log("disSetSecondModel ")
+      dispatch(setSecondPaginationModel())
+    }
     return (
         <>
-            {isLoading ? <></> : <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            {isLoading ? <></> :
+             <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
-                onPaginationModelChange={()=> dispatch(setfirstPaginationModel())}
+                onPaginationModelChange={disSetFirstModel}
             ></StyledDataGrid>}
             <br />
             <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
                 paginationModel={secondPaginationModel}
                 paginationMode="server"
-                onPaginationModelChange={()=> dispatch(setSecondPaginationModel())}
+                onPaginationModelChange={disSetSecondModel}
             ></StyledDataGrid>
 
         </>

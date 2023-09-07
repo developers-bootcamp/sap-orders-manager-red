@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import IOrder from "../../interfaces/IOrder"
 import IOrderItem from "../../interfaces/IOrderItem"
-import IUser from "../../interfaces/IUser"
-import { first } from 'rxjs'
+
 
 export interface IOrderState {
     orders: Array<IOrder>,
@@ -49,9 +48,11 @@ export const orderSlice = createSlice({
             state.order = action.payload;
         },
         setfirstPaginationModel: (state) => {
+            console.log("message in first page")
             state.firstPaginationModel.page+=1;
         },
-        setSecondPaginationModel: (state) => {
+        setSecondPaginationModel: (state) => {          
+            console.log("message in first page")
             state.secondPaginationModel.page+=1;
         },
         setFilters: (state, action: PayloadAction<IOrder>) => {

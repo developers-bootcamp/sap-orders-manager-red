@@ -1,10 +1,6 @@
 import axios from "axios"
 import { UPDATE_ORDER, GET_ALL_ORDERS_URL, GET_ORDERS_FILTERING_URL, GET_FAILED_ORDERS_FILTERING_URL } from "../config/config"
 import IOrder from "../interfaces/IOrder"
-import { mainModule } from "process"
-import { useSelector } from "react-redux"
-import { RootState } from "../redux/store"
-import { IOrderState } from "../redux/slices/sliceOrder"
 
 export const updateOrder = async (order: IOrder) => {
     return await axios.put(`${UPDATE_ORDER}`, order)
