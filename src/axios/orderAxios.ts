@@ -1,8 +1,6 @@
 import axios from "axios"
 import { UPDATE_ORDER, GET_ALL_ORDERS_URL, GET_ORDERS_FILTERING_URL, GET_FAILED_ORDERS_FILTERING_URL } from "../config/config"
 import IOrder from "../interfaces/IOrder"
-import { mainModule } from "process"
-import { Map } from "@mui/icons-material"
 
 export const updateOrder = async (order: IOrder) => {
     return await axios.put(`${UPDATE_ORDER}`, order)
