@@ -3,19 +3,26 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import IOrder from "../../interfaces/IOrder"
 import IOrderItem from "../../interfaces/IOrderItem"
 import IUser from "../../interfaces/IUser"
+import { first } from 'rxjs'
 
 export interface IOrderState {
     orders: Array<IOrder>,
     statusOrders: Array<IOrder>
     failedOrders: Array<IOrder>,
-    order: IOrder
+    order: IOrder,
+    firstPaginationModel:{pageSize: number, page: number}
+    secondPaginationModel:{pageSize: number, page: number}
+    filters:any,
 }
 
 const initialState: IOrderState = {
     orders: [],
     statusOrders: [],
     failedOrders: [],
-    order: {}
+    order: {},
+    firstPaginationModel:{pageSize: 3, page: 0},
+    secondPaginationModel:{pageSize: 3, page: 0},
+    filters:{}
 }
 
 export const orderSlice = createSlice({
@@ -41,6 +48,15 @@ export const orderSlice = createSlice({
         setOrder: (state, action: PayloadAction<IOrder>) => {
             state.order = action.payload;
         },
+        setfirstPaginationModel: (state) => {
+            state.firstPaginationModel.page+=1;
+        },
+        setSecondPaginationModel: (state) => {
+            state.secondPaginationModel.page+=1;
+        },
+        setFilters: (state, action: PayloadAction<IOrder>) => {
+            state.filters = action.payload;
+        },
         insertProductsToOrder: (state, action: PayloadAction<Array<IOrderItem>>) => {
             state.order.orderItemsList = action.payload
         },
@@ -50,6 +66,6 @@ export const orderSlice = createSlice({
     },
 })
 
-export const { setOrders, insertProductsToOrder, addOrder,insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders } = orderSlice.actions
+export const { setOrders, insertProductsToOrder, addOrder,insertCustomerToOrder, setOrder, setFailedOrders, setStatusOrders,setSecondPaginationModel,setfirstPaginationModel,setFilters } = orderSlice.actions
 export default orderSlice.reducer;
 

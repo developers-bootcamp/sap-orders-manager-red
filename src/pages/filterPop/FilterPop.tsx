@@ -21,7 +21,7 @@ const FilterPop = (props: any) => {
   const [fieldToFilter, setFieldToFilter] = useState<string>();
 
   const handleChangeValue = (event:any) => {
-    if((dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "price") || (dataToShow?.fieldName === "priority")){
+    if((dataToShow?.fieldName === "orderStatus") || (dataToShow?.fieldName === "price") || (dataToShow?.fieldName === "priority")){
       const selectedIndex = parseInt(event.target.value);
       changeFilterValue(DataToFilter[indexData].value[event.target.value],keyIndex);
       return;
@@ -82,7 +82,7 @@ const FilterPop = (props: any) => {
           <Box>
             <FormControl fullWidth> 
               <InputLabel id="filter" classes={InputLabel}></InputLabel>
-              {(indexData==0||(dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "priority")) && (
+              {(indexData==0||(dataToShow?.fieldName === "orderStatus") || (dataToShow?.fieldName === "priority")) && (
                 <Select
                   labelId="filter"
                   id="filter"

@@ -42,7 +42,7 @@ const GlobalAxios: React.FC<GlobalAxiosState> = () => {
       return response;
     },
     (error: any) => {
-      if (error.response.status == 500)
+      if (error.response?.status == 500)
         setShowError(true);
       return Promise.reject(error);
     }

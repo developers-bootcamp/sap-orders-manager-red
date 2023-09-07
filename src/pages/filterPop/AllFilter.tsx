@@ -5,12 +5,12 @@ import { PALLETE } from "../../config/config";
 import FilterPop from "./FilterPop";
 
 const AllFilter = (props: any) => {
-  const [filters, setFilters] = useState([{ fieldName: "status", filterValue: "DONE" },]);
+  const [filters, setFilters] = useState([{ fieldName: "orderStatus", filterValue: "DONE" },]);
   const { filterTables } = props;
   const addFilter = () => {
     setFilters((prevFilters) => [
       ...prevFilters,
-      { fieldName: "status", filterValue: "DONE" },
+      { fieldName: "orderStatus", filterValue: "DONE" },
     ]);
   };
   const changeFieldName = async (filter: string, index: number) => {
@@ -25,8 +25,8 @@ const AllFilter = (props: any) => {
   };
 
   const arrayToDictionary = () => {
-    return filters.reduce((dictionary: any, item) => {
-      dictionary[item.fieldName] = item.filterValue;
+    return filters.reduce((dictionary:any, item) => {
+      dictionary[item.fieldName.toString()] = item.filterValue;
       return dictionary;
     }, {});
   }
