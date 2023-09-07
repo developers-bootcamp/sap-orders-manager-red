@@ -29,7 +29,7 @@ const UserTable = () => {
     }, [change]);
 
 
-    const goToEditUser = async (user: { FullName: string, Password: string, Phone: string, Email: string, Address: string, id: string}) => {
+    const goToEditUser = async (user: { FullName: string, Password: string, Phone: string, Email: string, Address: string, id: string }) => {
         debugger
         const editUser1: IUserDTO = {
             fullName: user.FullName,
@@ -95,15 +95,20 @@ const UserTable = () => {
     }
 
 
-    const head =
-        [{ name: "FullName", type: "text" },
+    const head = [
+        { name: "FullName", type: "text" },
         { name: "Password", type: "text" },
         { name: "Email", type: "text" },
         { name: "Address", type: "text" },
         { name: "Phone", type: "number" },
-            //  { name: "RoleId", type: "number" }
+    ]
 
-        ]
+    const headCust = [
+        { name: "FullName", type: "text" },
+        { name: "Email", type: "text" },
+        { name: "Address", type: "text" },
+        { name: "Phone", type: "number" },
+    ]
 
     return (<>
 
@@ -152,15 +157,13 @@ const UserTable = () => {
         {isOpenCustomer &&
 
             <div>
-                {allUser != null ? <GlobalTable howCanChnge="EMPLOYEE" head={head} rows={allUser.filter(user => user.roleId === "3")
+                {allUser != null ? <GlobalTable howCanChnge="EMPLOYEE" head={headCust} rows={allUser.filter(user => user.roleId === "3")
                     .map(user => ({
                         id: user.id,
                         FullName: user.fullName,
-                        Password: "*********",
                         Email: user.email,
                         Address: user.address,
                         Phone: user.phone
-
                     }))
                 } whatToAdd="Customer" delete={goToDeleteUser} add={goToAddCust} edit={goToEditUser}></GlobalTable> : ""}
 

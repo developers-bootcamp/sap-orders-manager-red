@@ -9,7 +9,7 @@ const initialState: ICurrencyState = {
     listOfCurrencies: [],
 }
 
-export const currencySlice= createSlice({
+export const currencySlice = createSlice({
     name: 'currencyReducer',
     initialState,
     reducers: {
