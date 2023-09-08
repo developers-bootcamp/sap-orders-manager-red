@@ -52,7 +52,7 @@ export const orderSlice = createSlice({
             state.firstPaginationModel.page+=1;
         },
         setSecondPaginationModel: (state) => {          
-            console.log("message in first page")
+            console.log("message in second page")
             state.secondPaginationModel.page+=1;
         },
         setFilters: (state, action: PayloadAction<IOrder>) => {

@@ -164,8 +164,9 @@ const OrderTable = (props: any) => {
     }
     const disSetSecondModel=()=>{
       console.log("disSetSecondModel ")
-      dispatch(setSecondPaginationModel())
+      dispatch(()=>{setSecondPaginationModel()})
     }
+      
     return (
         <>
             {isLoading ? <></> :
@@ -175,7 +176,7 @@ const OrderTable = (props: any) => {
                 paginationMode="server"
                 onPaginationModelChange={disSetFirstModel}
             ></StyledDataGrid>}
-            <br />
+            <br/>
             <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
                 paginationModel={secondPaginationModel}
