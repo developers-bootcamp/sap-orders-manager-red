@@ -55,8 +55,10 @@ const LandingPage = () => {
 
   const dispatch = useAppDispatch()
 
+  const [isToken, setIsToken] = React.useState(getFromLocalStorage("userToken") !== null)
+
   useEffect(() => {
-    if (getFromLocalStorage("userToken") === null)
+    if (!isToken)
       navigate("/login")
     else
       getRoleFromToken()
@@ -82,7 +84,7 @@ const LandingPage = () => {
       </Box>
 
       <TabPanel>
-        <SelectedComponent />
+        {isToken && <SelectedComponent />}
       </TabPanel>
     </Box>
   );

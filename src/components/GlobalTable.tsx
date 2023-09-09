@@ -50,6 +50,7 @@ export default function GlobalTable(props: IPropsToGlobalTable) {
     setNewRowValues({}); setAdd(false); setErrorMessages({});
   };
   const handleAdd = async () => {
+    debugger
     const newObject = {
       ...newRowValues
     };
