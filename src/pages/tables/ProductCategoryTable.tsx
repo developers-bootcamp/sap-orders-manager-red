@@ -23,10 +23,10 @@ const ProductCategoryTable: React.FC = () => {
         await getAllCategory().then(res => setAllCategory(res.data));
     }
 
-    const goToEditCategory = async (category: { id: string, Product?: string, Description?: string, name: string, desc: string }) => {
+    const goToEditCategory = async (category: { id: string, Name?: string, Description?: string, name: string, desc: string }) => {
         const newCategory: any = {
             id: category.id,
-            name: category.Product || category.name,
+            name: category.Name || category.name,
             desc: category.Description || category.desc,
         }
         editCategory(newCategory)
@@ -34,9 +34,10 @@ const ProductCategoryTable: React.FC = () => {
     }
 
 
-    const goToAddCategory = async (category: { Product: string, Description: string }) => {
+    const goToAddCategory = async (category: { Name: string, Description: string }) => {
+        debugger
         const newCategory: IProductCategory = {
-            name: category.Product,
+            name: category.Name,
             desc: category.Description
         }
         await addCategory(newCategory).catch(error => {
@@ -64,7 +65,7 @@ const ProductCategoryTable: React.FC = () => {
         setChange(true);
     }
     const head =
-        [{ "name": "Category", "type": "text" },
+        [{ "name": "Name", "type": "text" },
         { "name": "Description", "type": "text" }]
     return (
         <>
