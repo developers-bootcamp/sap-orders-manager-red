@@ -42,7 +42,7 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 75,
+    width: 65,
     cellClassName: (params: GridCellParams<any, string>) => {
       switch (params.row.status) {
         case "NEW":
@@ -181,11 +181,11 @@ const OrderTable = (props: any) => {
   );
   const [firstPaginationModel, setfirstPaginationModel] = useState({
     page: 0,
-    pageSize: 3,
+    pageSize: 5,
   });
   const [secondPaginationModel, setSecondPaginationModel] = useState({
     page: 0,
-    pageSize: 3,
+    pageSize: 5,
   });
   const filters = useSelector<RootState, IOrderState>(
     (state) => state.orderReducer
@@ -194,7 +194,7 @@ const OrderTable = (props: any) => {
   useEffect(() => {
     getAllOrdersAsync();
     console.log(firstPaginationModel.page);
-  }, [setfirstPaginationModel]);
+  }, [firstPaginationModel]);
 
   //for socket io
   useEffect(() => {
@@ -208,7 +208,18 @@ const OrderTable = (props: any) => {
   useEffect(() => {
     getAllFailedOrdersAsync();
     console.log(secondPaginationModel.page);
-  }, [setSecondPaginationModel]);
+  }, [secondPaginationModel]);
+
+  useEffect(() => {
+    setfirstPaginationModel({
+        ...firstPaginationModel,
+        page: 0,
+      });
+      setSecondPaginationModel({
+        ...secondPaginationModel,
+        page: 0,
+      });
+  },[filters])
 
   useEffect(() => {
     getCountOfOrders().then((res) => {
