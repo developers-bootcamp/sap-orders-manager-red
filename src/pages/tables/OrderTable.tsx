@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { GridColDef, GridCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef, GridCellParams } from '@mui/x-data-grid';
 import { RootState, useAppDispatch } from "../../redux/store";
 import IOrder from "../../interfaces/IOrder";
 import IOrderItem from "../../interfaces/IOrderItem";
-import { getFailedOrders, getOrders } from "../../axios/orderAxios";
-import { setFailedOrders, IOrderState, setStatusOrders} from "../../redux/slices/sliceOrder";
+import { getCountOfOrders, getCountOfOrdersByFailed, getFailedOrders, getOrders } from "../../axios/orderAxios";
+import { setOrders, setFailedOrders, IOrderState, setStatusOrders, setOrder } from "../../redux/slices/sliceOrder";
 import { useSelector } from "react-redux";
 import GlobalModel from "../../components/GlobalModal";
 import giftsImg from '../../img/giftsWithBaloons.png'
 import OrderDetailForm from '../../pages/orderDetailForm/OrderDetailForm';
 import { StyledDataGrid } from "./OrderTable.styles";
+import { getFromLocalStorage } from "../../storageUtils";
 
 const OrderDetails = (params: any) => {
     return (
@@ -33,20 +34,20 @@ const boldheader: any = (params: any) => {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID', width: 75, cellClassName: (params: GridCellParams<any, string>) => {
+        field: 'id', headerName: 'ID', width: 60, cellClassName: (params: GridCellParams<any, string>) => {
             switch (params.row.status) {
                 case 'NEW':
-                    return 'green-border';
+                    return 'yellow-border';
                 case 'APPROVED':
-                    return 'blue-border';
+                    return 'green-border';
                 case 'PACKING':
                     return 'yellow-border';
                 case 'CANCELLED':
                     return 'red-border';
                 case 'DELIVERED':
-                    return 'orang-border';
+                    return 'blue-border';
                 case 'CHARGING':
-                    return 'yellow-border';
+                    return 'orang-border';
                 default:
                     return '';
             }
@@ -58,17 +59,17 @@ const columns: GridColDef[] = [
         cellClassName: (params: GridCellParams<any, string>) => {
             switch (params.value) {
                 case 'NEW':
-                    return 'green';
+                    return 'yellow';
                 case 'APPROVED':
-                    return 'blue';
+                    return 'green';
                 case 'PACKING':
                     return 'yellow';
                 case 'CANCELLED':
                     return 'red';
                 case 'DELIVERED':
-                    return 'orang';
+                    return 'blue';
                 case 'CHARGING':
-                    return 'yellow';
+                    return 'orang';
                 default:
                     return '';
             }
@@ -81,45 +82,42 @@ const columns: GridColDef[] = [
 ];
 const emptyMap: Map<string, object> = new Map();
 
-const OrderTable = (props: any) => {
+const OrderTable: React.FC = (props: any) => {
 
     const dispatch = useAppDispatch();
     const orders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).statusOrders;
     const failedOrders: IOrder[] = useSelector<RootState, IOrderState>(state => state.orderReducer).failedOrders;
     const [isLoading, setIsLoading] = useState(true);
-
+    const [countOfOrders, setCountOfOrders] = useState(0)
+    const [countOfOrdersByFailed, setCountOfOrdersByFailed] = useState(0)
 
     const getAllOrdersAsync = () => {
-        console.log('start first')
-        getOrders(firstPaginationModel.page, filters)
+        getOrders(firstPaginationModel.page, emptyMap)
             .then((res) => {
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(orders));
                 setIsLoading(false);
             })
-        console.log('end first')
     }
 
     const getAllFailedOrdersAsync = () => {
-        console.log('start second')
-        getFailedOrders(secondPaginationModel.page, filters).then((res) => {
+        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => {
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
         })
-        console.log("end second" + { failedOrders })
     }
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
     const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
-    const[firstPaginationModel,setfirstPaginationModel]=useState({
-        page:0,
-        pageSize:3,
-      });
-    const [secondPaginationModel,setSecondPaginationModel]=useState({
-        page:0,
-        pageSize:3,
-      });
-    const filters=useSelector<RootState, IOrderState>(state => state.orderReducer).filters;
+    const [firstPaginationModel, setfirstPaginationModel] = useState({
+        page: 0,
+        pageSize: 5,
+    });
+    const [secondPaginationModel, setSecondPaginationModel] = useState({
+        page: 0,
+        pageSize: 5,
+    });
+
     useEffect(() => {
         getAllOrdersAsync()
     }, [firstPaginationModel]);
@@ -138,15 +136,15 @@ const OrderTable = (props: any) => {
     }, [secondPaginationModel]);
 
     useEffect(() => {
-        setSecondPaginationModel({
-            ...secondPaginationModel,
-            page: 0,
-          });
-          setfirstPaginationModel({
-            ...firstPaginationModel,
-            page: 0,
-          });
-    }, [filters]);
+        getCountOfOrders().then(res => {
+            setCountOfOrders(res.data)
+        })
+
+        getCountOfOrdersByFailed().then(res => {
+            setCountOfOrdersByFailed(res.data)
+        })
+    }, [])
+
 
     const getRows = (orders: IOrder[]) => {
         let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[] = []
@@ -169,33 +167,21 @@ const OrderTable = (props: any) => {
         return currentRows
     }
 
-    // const disSetFirstModel=(e:any)=>{
-    //     // e.preventDefault();
-    //   dispatch(setfirstPaginationModel())
-    // }
-    // const disSetSecondModel=(e:any)=>{
-    //     // e.preventDefault();
-    //   console.log("disSetSecondModel ")
-    //   dispatch(setSecondPaginationModel())
-    // }
-      
     return (
         <>
-            {isLoading ? <></> :
-            <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
-                rowCount={105}
-                paginationModel={firstPaginationModel}
-                paginationMode="server"
-                onPaginationModelChange={setfirstPaginationModel}
-            ></StyledDataGrid>}
-            <br/>
-            <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
-                rowCount={8}
+            {isLoading ? <></> : <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+                rowCount={countOfOrdersByFailed}
                 paginationModel={secondPaginationModel}
                 paginationMode="server"
                 onPaginationModelChange={setSecondPaginationModel}
+            ></StyledDataGrid>}
+            <br />
+            <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+                rowCount={countOfOrders}
+                paginationModel={firstPaginationModel}
+                paginationMode="server"
+                onPaginationModelChange={setfirstPaginationModel}
             ></StyledDataGrid>
-
         </>
     );
 }

@@ -27,6 +27,9 @@ const EDIT_USER = `${BASE_URL}/user`
 const ADD_USER = `${BASE_URL}/user`
 const GET_ROLE_FROM_TOKEN = `${BASE_URL}/user/getRoleFromToken`
 
+const GET_COUNT_OF_ORDERS = `${BASE_URL}/order/getCountOfOrders`
+const GET_COUNT_OF_ORDERS_BY_FAILED = `${BASE_URL}/order/getCountOfOrdersByFailed`
+
 const PALLETE = {
     BLUE: '#6794CF',
     YELLOW: '#FAE282',
@@ -62,6 +65,8 @@ export {
     DYNAMIC_GRAPH,
     GET_STATUS,
     UPDATE_ORDER,
-    GET_ROLE_FROM_TOKEN
+    GET_ROLE_FROM_TOKEN,
+    GET_COUNT_OF_ORDERS,
+    GET_COUNT_OF_ORDERS_BY_FAILED,
 };
 

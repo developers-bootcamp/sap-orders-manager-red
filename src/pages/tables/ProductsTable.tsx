@@ -28,13 +28,14 @@ const ProductTable: React.FC = () => {
     }
 
     const goToAddProduct = async (product: { Name: string, Description: string, Inventory: number, Discount: number, Type: { name: string }, Category: IProductCategory, Price: number }) => {
-         const newProduct: IProduct = {
+        debugger
+        const newProduct: IProduct = {
              name: product.Name,
              desc: product.Description,
              inventory: product.Inventory,
              discount: product.Discount,
              discountType: product.Type.name,
-             productCategoryName: product.Category.name,
+             productCategoryId: product.Category,
              price: product.Price
          }
          await addProduct(newProduct)
@@ -44,7 +45,6 @@ const ProductTable: React.FC = () => {
         id: string, Name?: string, Description?: string, Inventory?: number, Discount?: number, Type?: { name: string }, Category?: IProductCategory, Price?: number
         , name: string, dest: string, inventory: number, discount: number, discountType: { name: string }, productCategoryId: IProductCategory, price: number
     }) => {
-
         const newProduct: IProduct = {
             id: product.id,
             name: product.Name || product.name,
@@ -52,7 +52,7 @@ const ProductTable: React.FC = () => {
             inventory: product.Inventory || product.inventory,
             discount: product.Discount || product.inventory,
             discountType: product.Type?.name || product.discountType.name,
-            productCategoryName: product.Category?.name || product.productCategoryId.name,
+            productCategoryId: product.Category || product.productCategoryId,
             price: product.Price || product.price
         }
         await editProduct(newProduct).then(() => {console.log(newProduct); })

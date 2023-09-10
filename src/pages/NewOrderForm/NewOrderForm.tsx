@@ -29,7 +29,7 @@ const schema = Yup.object().shape({
   creditCard: Yup.string().required("creditCard is a required field"),
 });
 
-const NewOrderForm = () => {
+const NewOrderForm = (props: any) => {
   const [currencyFlag, setCurrencyFlag] = useState<boolean>(false);
   const [productId, setProductId] = useState<string>("");
   const [customerId, setCustomerId] = useState<string>("");
@@ -71,7 +71,9 @@ const NewOrderForm = () => {
     await axios
       .post(`http://localhost:8080/order/`, updateOrder)
       .then((response) => {
+        debugger
         console.log(response);
+        props.changeIsOpen()
       })
       .catch((error) => {
         console.log(error);
