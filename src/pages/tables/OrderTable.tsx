@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { DataGrid, GridRowsProp, GridColDef, GridCellParams } from '@mui/x-data-grid';
+import { GridColDef, GridCellParams } from '@mui/x-data-grid';
 import { RootState, useAppDispatch } from "../../redux/store";
 import IOrder from "../../interfaces/IOrder";
 import IOrderItem from "../../interfaces/IOrderItem";
 import { getFailedOrders, getOrders } from "../../axios/orderAxios";
-import { setOrders, setFailedOrders, IOrderState, setStatusOrders, setOrder, setfirstPaginationModel, setSecondPaginationModel } from "../../redux/slices/sliceOrder";
+import { setFailedOrders, IOrderState, setStatusOrders} from "../../redux/slices/sliceOrder";
 import { useSelector } from "react-redux";
 import GlobalModel from "../../components/GlobalModal";
 import giftsImg from '../../img/giftsWithBaloons.png'
@@ -91,7 +91,7 @@ const OrderTable = (props: any) => {
 
     const getAllOrdersAsync = () => {
         console.log('start first')
-        getOrders(firstPaginationModel.page, emptyMap)
+        getOrders(firstPaginationModel.page, filters)
             .then((res) => {
                 dispatch(setStatusOrders(res.data));
                 setAllRows(getRows(orders));
@@ -102,7 +102,7 @@ const OrderTable = (props: any) => {
 
     const getAllFailedOrdersAsync = () => {
         console.log('start second')
-        getFailedOrders(secondPaginationModel.page, emptyMap).then((res) => {
+        getFailedOrders(secondPaginationModel.page, filters).then((res) => {
             dispatch(setFailedOrders(res.data));
             setAllFaildRows(getRows(res.data));
         })
@@ -111,16 +111,17 @@ const OrderTable = (props: any) => {
 
     const [allRows, setAllRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
     const [allFaildRows, setAllFaildRows] = useState([] as { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[])
-    const firstPaginationModel  = useSelector<RootState, IOrderState>(
-      (state) => state.orderReducer
-    ).firstPaginationModel;
-    const secondPaginationModel  = useSelector<RootState, IOrderState>(
-      (state) => state.orderReducer
-    ).secondPaginationModel;  
-
+    const[firstPaginationModel,setfirstPaginationModel]=useState({
+        page:0,
+        pageSize:3,
+      });
+    const [secondPaginationModel,setSecondPaginationModel]=useState({
+        page:0,
+        pageSize:3,
+      });
+    const filters=useSelector<RootState, IOrderState>(state => state.orderReducer).filters;
     useEffect(() => {
         getAllOrdersAsync()
-        console.log(firstPaginationModel.page)
     }, [firstPaginationModel]);
 
     //for socket io
@@ -134,9 +135,18 @@ const OrderTable = (props: any) => {
 
     useEffect(() => {
         getAllFailedOrdersAsync()
-        console.log(secondPaginationModel.page)
     }, [secondPaginationModel]);
 
+    useEffect(() => {
+        setSecondPaginationModel({
+            ...secondPaginationModel,
+            page: 0,
+          });
+          setfirstPaginationModel({
+            ...firstPaginationModel,
+            page: 0,
+          });
+    }, [filters]);
 
     const getRows = (orders: IOrder[]) => {
         let currentRows: { id: string, price: string, status: string, customer: string, products: string, createDate: string, order: IOrder }[] = []
@@ -159,29 +169,31 @@ const OrderTable = (props: any) => {
         return currentRows
     }
 
-    const disSetFirstModel=()=>{
-      dispatch(setfirstPaginationModel())
-    }
-    const disSetSecondModel=()=>{
-      console.log("disSetSecondModel ")
-      dispatch(()=>{setSecondPaginationModel()})
-    }
+    // const disSetFirstModel=(e:any)=>{
+    //     // e.preventDefault();
+    //   dispatch(setfirstPaginationModel())
+    // }
+    // const disSetSecondModel=(e:any)=>{
+    //     // e.preventDefault();
+    //   console.log("disSetSecondModel ")
+    //   dispatch(setSecondPaginationModel())
+    // }
       
     return (
         <>
             {isLoading ? <></> :
-             <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
+            <StyledDataGrid rows={allRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={105}
                 paginationModel={firstPaginationModel}
                 paginationMode="server"
-                onPaginationModelChange={disSetFirstModel}
+                onPaginationModelChange={setfirstPaginationModel}
             ></StyledDataGrid>}
             <br/>
             <StyledDataGrid rows={allFaildRows} columns={columns} disableColumnMenu autoPageSize hideFooterSelectedRowCount
                 rowCount={8}
                 paginationModel={secondPaginationModel}
                 paginationMode="server"
-                onPaginationModelChange={disSetSecondModel}
+                onPaginationModelChange={setSecondPaginationModel}
             ></StyledDataGrid>
 
         </>

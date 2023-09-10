@@ -14,9 +14,10 @@ import OrderTable from '../../tables/OrderTable';
 
 import WebSocket from "../../WebSocket";
 import axios from 'axios';
-import { IOrderState, setFailedOrders, setFilters, setOrder, setOrders, setStatusOrders } from '../../../redux/slices/sliceOrder';
+import { IOrderState, setFailedOrders, setFilters, setStatusOrders } from '../../../redux/slices/sliceOrder';
 import { RootState, useAppDispatch } from '../../../redux/store';
 import { useSelector } from 'react-redux';
+import { getFailedOrders, getOrders } from '../../../axios/orderAxios';
 
 
 const PendingOrders: React.FC = () => {
@@ -27,12 +28,14 @@ const PendingOrders: React.FC = () => {
   const filterTables = (filters: any) => {
     console.log(filters)
     dispatch(setFilters({
-      "orderStatus": "CHARGING",
-      // "totalAmount": [ -3, 50000000]
+      ...filters
   }))
-    axios.post("http://localhost:8080/order/statuses/0",filtersState)
-    .then((response) => {console.log(response);dispatch(setStatusOrders(response.data));dispatch(setFailedOrders(response.data))})
-    .catch((error) => {console.log(error)});        
+  getOrders(0,{...filters})
+    .then((response) => {console.log(response);dispatch(setStatusOrders(response.data));})
+    .catch((error) => {console.log(error)});   
+  getFailedOrders(0,{...filters})
+    .then((response) => {console.log(response);dispatch(setFailedOrders(response.data))})
+    .catch((error) => {console.log(error)});       
   }
   return (
     <>

@@ -5,7 +5,11 @@ import { PALLETE } from "../../config/config";
 import FilterPop from "./FilterPop";
 
 const AllFilter = (props: any) => {
-  const [filters, setFilters] = useState([{ fieldName: "orderStatus", filterValue: "DONE" },]);
+  type Filter = {
+    fieldName: string;
+    filterValue: any;
+};
+  const [filters, setFilters] = useState<Filter[]>([{ fieldName: "orderStatus", filterValue: "DONE" },]);
   const { filterTables } = props;
   const addFilter = () => {
     setFilters((prevFilters) => [
@@ -18,15 +22,20 @@ const AllFilter = (props: any) => {
     updatedFilters[index] = { ...updatedFilters[index], fieldName: filter };
     setFilters(updatedFilters); console.log("f", filters);
   };
-  const changeFilterValue = async (filter: string, index: number) => {
+  const changeFilterValue = async (filter: any, index: number) => {
     const updatedFilters = [...filters];
-    updatedFilters[index] = { ...updatedFilters[index], filterValue: filter };
+debugger
+    if((filters[index]).fieldName !=="price")
+      updatedFilters[index] = { ...updatedFilters[index], filterValue: filter };
+    else
+      updatedFilters[index] = { ...updatedFilters[index], filterValue: [...filter] };
     setFilters(updatedFilters);
   };
 
   const arrayToDictionary = () => {
     return filters.reduce((dictionary:any, item) => {
-      dictionary[item.fieldName.toString()] = item.filterValue;
+      const filtered=`${item.fieldName.toString()}`;
+      dictionary[filtered] = item.filterValue;
       return dictionary;
     }, {});
   }

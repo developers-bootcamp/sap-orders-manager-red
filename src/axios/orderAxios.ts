@@ -10,12 +10,12 @@ export const getAllOrders = async () => {
     return await axios.get(`${GET_ALL_ORDERS_URL}`)
 }
 
-export const getOrders = async (pageSize: number, map: Map<string, object>) => {
+export const getOrders = async (pageSize: number, map:{}) => {
     console.log('sf ax');
     return await axios.post(`${GET_ORDERS_FILTERING_URL}/${pageSize}`,map)
 }
 
-export const getFailedOrders = async (pageSize: number, map: Map<string, object>) => {
+export const getFailedOrders = async (pageSize: number, map:{}) => {
     console.log('ss axios')
     return await axios.post(`${GET_FAILED_ORDERS_FILTERING_URL}/${pageSize}`,map)
 }
