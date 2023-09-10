@@ -19,9 +19,11 @@ const FilterPop = (props: any) => {
   const { keyIndex , changeFieldName,changeFilterValue} = props;
   const [dataToShow, setDataToShow] = useState<FilterItem | undefined>(undefined);
   const [fieldToFilter, setFieldToFilter] = useState<string>();
+  const [p1, setP1] = useState<number>();
+  const [p2, setP2] = useState<number>();
 
   const handleChangeValue = (event:any) => {
-    if((dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "price") || (dataToShow?.fieldName === "priority")){
+    if((dataToShow?.fieldName === "orderStatus") || (dataToShow?.fieldName === "priority")){
       const selectedIndex = parseInt(event.target.value);
       changeFilterValue(DataToFilter[indexData].value[event.target.value],keyIndex);
       return;
@@ -34,7 +36,12 @@ const FilterPop = (props: any) => {
    // changeFilterValue(event.target.value, keyIndex);
     // setValue(event.target.value);
   };
-
+  const handleChangeP1=(event:any)=>{
+    changeFilterValue([parseInt(event.target.value),p2],keyIndex);
+  }
+  const handleChangeP2=(event:any)=>{
+    changeFilterValue([p1,parseInt(event.target.value)],keyIndex);
+  }
   const handleChangeFieldToFilter =  (event: SelectChangeEvent) => {
     const selectedIndex = parseInt(event.target.value);
     setIndexData(parseInt(event.target.value))
@@ -82,7 +89,7 @@ const FilterPop = (props: any) => {
           <Box>
             <FormControl fullWidth> 
               <InputLabel id="filter" classes={InputLabel}></InputLabel>
-              {(indexData==0||(dataToShow?.fieldName === "status") || (dataToShow?.fieldName === "priority")) && (
+              {(indexData==0||(dataToShow?.fieldName === "orderStatus") || (dataToShow?.fieldName === "priority")) && (
                 <Select
                   labelId="filter"
                   id="filter"
@@ -99,10 +106,10 @@ const FilterPop = (props: any) => {
                     ))}
                 </Select>
               )}
-              {dataToShow?.fieldName === "price"&&
+              {dataToShow?.fieldName === "totalAmount"&&
                 <div>
-                  <input type="number" style={{height:30,width:60,margin:8}}></input>
-                  <input type="number" style={{height:30,width:60}}></input>
+                  <input type="number"  onChange={(event)=>{setP1(parseInt(event.target.value));handleChangeP1(event)}} style={{height:30,width:60,margin:8}}></input>
+                  <input type="number"  onChange={(event)=>{setP2(parseInt(event.target.value));handleChangeP2(event)}} style={{height:30,width:60}}></input>
                 </div>
               }
               {dataToShow?.fieldName === "customer"  && (

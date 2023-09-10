@@ -13,11 +13,29 @@ import GlobalPopOver from '../../../components/GlobalPopOver';
 import OrderTable from '../../tables/OrderTable';
 
 import WebSocket from "../../WebSocket";
+import axios from 'axios';
+import { IOrderState, setFailedOrders, setFilters, setStatusOrders } from '../../../redux/slices/sliceOrder';
+import { RootState, useAppDispatch } from '../../../redux/store';
+import { useSelector } from 'react-redux';
+import { getFailedOrders, getOrders } from '../../../axios/orderAxios';
 
 
 const PendingOrders: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const filtersState= useSelector<RootState, IOrderState>(
+    (state) => state.orderReducer
+  ).filters;
   const filterTables = (filters: any) => {
     console.log(filters)
+    dispatch(setFilters({
+      ...filters
+  }))
+  getOrders(0,{...filters})
+    .then((response) => {console.log(response);dispatch(setStatusOrders(response.data));})
+    .catch((error) => {console.log(error)});   
+  getFailedOrders(0,{...filters})
+    .then((response) => {console.log(response);dispatch(setFailedOrders(response.data))})
+    .catch((error) => {console.log(error)});       
   }
   return (
     <>
